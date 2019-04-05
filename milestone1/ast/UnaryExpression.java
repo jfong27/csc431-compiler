@@ -37,4 +37,17 @@ public class UnaryExpression
    {
       NOT, MINUS
    }
+
+   public Type typeCheck() {
+      Type operandType = operand.typeCheck();
+
+      if (this.operator == Operator.NOT && (operandType instanceof BoolType)) {
+         return new BoolType();
+      } else if (this.operator == Operator.MINUS && (operandType instanceof IntType)) {
+         return new IntType();
+      } else {
+         System.out.println("! requires bool and - requires int");
+         System.exit(-1);
+      }
+   }
 }
