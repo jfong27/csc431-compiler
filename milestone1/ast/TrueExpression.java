@@ -7,4 +7,8 @@ public class TrueExpression
    {
       super(lineNum);
    }
+
+   public Type typeCheck() {
+      return new BoolType();
+   }
 }

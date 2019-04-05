@@ -39,7 +39,7 @@ public class UnaryExpression
    }
 
    public Type typeCheck() {
-      Type operandType = operand.typeCheck();
+      Type operandType = this.operand.typeCheck();
 
       if (this.operator == Operator.NOT && (operandType instanceof BoolType)) {
          return new BoolType();

@@ -15,4 +15,7 @@ public class Program
       this.decls = decls;
       this.funcs = funcs;
    }
+
+   public void typeCheck() {
+   }
 }
