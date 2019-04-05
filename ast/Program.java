@@ -15,4 +15,11 @@ public class Program
       this.decls = decls;
       this.funcs = funcs;
    }
+
+   public void typeCheck() {
+      Map<String, IdProperties> symTable = new HashMap<>();
+
+      //TODO: Add all declarations to symbol table
+
+   }
 }
