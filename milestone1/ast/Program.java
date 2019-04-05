@@ -17,5 +17,9 @@ public class Program
    }
 
    public void typeCheck() {
+      Map<String, IdProperties> symTable = new HashMap<>();
+
+      //TODO: Add all declarations to symbol table
+
    }
 }
