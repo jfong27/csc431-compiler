@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.List;
+import java.util.*;
 
 public class Program
 {
@@ -18,7 +18,10 @@ public class Program
 
    public void typeCheck() {
       Map<String, IdProperties> symTable = new HashMap<>();
-
+      for (int i = 0; i < decls.size(); i++) {
+          System.out.println("it is typechecking all global decls");
+          decls.get(i).typeCheck();
+      }
       //TODO: Add all declarations to symbol table
 
    }

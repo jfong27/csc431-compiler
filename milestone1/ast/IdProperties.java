@@ -1,11 +1,8 @@
 package ast;
-
-/*
- * Symbol Table value. 
+/* Symbol Table value. 
+ *Scope level is probably not an integer.
+ * Just a placeholder */
 public class IdProperties {
-
-   /* Scope level is probably not an integer.
-    * Just a placeholder */
    private final Integer scopeLevel;
    private final Type type;
 
