@@ -21,4 +21,13 @@ public class Function
       this.locals = locals;
       this.body = body;
    }
+
+   public Type typeCheck() {
+
+      /*TODO: Makei & populate symbol table for local scope */
+
+      body.typeCheck();
+
+      return retType;
+   }
 }

@@ -13,6 +13,14 @@ public class Declaration
       this.name = name;
    }
 
+   public Type getType() {
+      return type;
+   }
+
+   public String getName() {
+      return name;
+   }
+
    public Type typeCheck() {
        return type;
    }
