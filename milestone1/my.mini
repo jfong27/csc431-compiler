@@ -1,6 +1,0 @@
-int i;
-bool j;
-fun main() int {
-    int i;
-    return true;
-}
