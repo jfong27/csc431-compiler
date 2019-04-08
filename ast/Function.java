@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.List;
+import java.util.*;
 
 public class Function
 {

@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.*;
+
 public class PrintLnStatement
    extends AbstractStatement
 {

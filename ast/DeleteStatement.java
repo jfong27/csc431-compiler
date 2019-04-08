@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.*;
+
 public class DeleteStatement
    extends AbstractStatement
 {

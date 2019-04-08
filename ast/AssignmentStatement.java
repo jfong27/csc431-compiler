@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.*;
+
 public class AssignmentStatement
    extends AbstractStatement
 {
@@ -17,7 +19,7 @@ public class AssignmentStatement
       Type lValueType = target.typeCheck(symTable);
       Type sourceType = source.typeCheck(symTable);
 
-      if !sourceType.canConvertTo(lValueType) {
+      if (!sourceType.canConvertTo(lValueType)) {
          System.out.println("Assignment statement error");
          System.exit(-1);
       } 
