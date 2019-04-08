@@ -12,4 +12,18 @@ public class AssignmentStatement
       this.target = target;
       this.source = source;
    }
+
+   public Type typeCheck(Map<String, IdProperties> symTable) {
+      Type lValueType = target.typeCheck(symTable);
+      Type sourceType = source.typeCheck(symTable);
+
+      if !sourceType.canConvertTo(lValueType) {
+         System.out.println("Assignment statement error");
+         System.exit(-1);
+      } 
+
+      return sourceType;
+
+   }
+
 }

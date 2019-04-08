@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 public class Program
@@ -19,7 +21,21 @@ public class Program
    public void typeCheck() {
       Map<String, IdProperties> symTable = new HashMap<>();
 
-      //TODO: Add all declarations to symbol table
+      for (Declaration currDecl : decls) {
+         symTable.put(currDecl.getName(), 
+                      new IdProperties(currDecl.getType()));
+      }
+
+      /*
+      for (TypeDeclaration typeDecl : types) {
+         symTable.put(typeDecl.getName(),
+                      new IdProperties(typeDecl.
+      }*/
+
+      for (Function func : funcs) {
+         func.typeCheck(symTable);
+      }
 
    }
+
 }

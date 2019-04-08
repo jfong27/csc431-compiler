@@ -1,17 +1,10 @@
 package ast;
 
-/*
- * Symbol Table value. 
 public class IdProperties {
-
-   /* Scope level is probably not an integer.
-    * Just a placeholder */
-   private final Integer scopeLevel;
    private final Type type;
 
-   public IdProperties(Type type, Integer scopeLevel) {
+   public IdProperties(Type type) {
       this.type = type;
-      this.scopeLevel = scopeLevel;
    }
 
 }

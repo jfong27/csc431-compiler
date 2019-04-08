@@ -7,4 +7,8 @@ public class FalseExpression
    {
       super(lineNum);
    }
+
+   public Type typeCheck() {
+      return new BoolType();
+   }
 }
