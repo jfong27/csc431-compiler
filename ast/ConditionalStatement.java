@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
 
 public class ConditionalStatement
    extends AbstractStatement
@@ -17,4 +17,18 @@ public class ConditionalStatement
       this.thenBlock = thenBlock;
       this.elseBlock = elseBlock;
    }
+
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable) {
+      if !(guard.typeCheck(symTable, structTable).equals(new BoolType())) {
+         System.out.println("conditional requires boolean guard");
+         System.exit(-1);
+      }
+
+      thenBlock.typeCheck(symTable, structTable);
+      elseBlock.typeCheck(symTable, structTable);
+
+      return new BoolType();
+   }
+
 }

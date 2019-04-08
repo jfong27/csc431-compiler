@@ -26,9 +26,16 @@ public class Function
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
 
-      /*TODO: Makei & populate symbol table for local scope */
+      Map<String, IdProperties> symTableClone = symTable.clone();
 
-      body.typeCheck(symTable);
+      for (Declaration decl : params) {
+         symTableClone.put(decl.getName(), decl.getType());
+      }
+      for (Declaration decl : locals) {
+         symTableClone.put(decl.getName(), decl.getType());
+      }
+
+      body.typeCheck(symTableClone, structTable);
 
       return retType;
    }

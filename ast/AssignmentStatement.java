@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
 
 public class AssignmentStatement
    extends AbstractStatement
@@ -15,9 +15,11 @@ public class AssignmentStatement
       this.source = source;
    }
 
-   public Type typeCheck(Map<String, IdProperties> symTable) {
-      Type lValueType = target.typeCheck(symTable);
-      Type sourceType = source.typeCheck(symTable);
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable) {
+
+      Type lValueType = target.typeCheck(symTable, structTable);
+      Type sourceType = source.typeCheck(symTable, structTable);
 
       if (!sourceType.canConvertTo(lValueType)) {
          System.out.println("Assignment statement error");

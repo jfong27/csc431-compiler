@@ -1,6 +1,7 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
+import java.util.List;
 
 public class BlockStatement
    extends AbstractStatement
@@ -16,5 +17,16 @@ public class BlockStatement
    public static BlockStatement emptyBlock()
    {
       return new BlockStatement(-1, new ArrayList<>());
+   }
+
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable) {
+      for (Statement stmnt : statements) {
+         stmnt.typeCheck(symTable, structTable);
+      }
+
+      //TODO: Should statements return a type? 
+      //Consider return statements
+      return new BoolType();
    }
 }
