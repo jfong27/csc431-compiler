@@ -10,7 +10,7 @@ public class TrueExpression
       super(lineNum);
    }
 
-   public Type typeCheck() {
+   public Type typeCheck(Map<String, IdProperties> symTable) {
       return new BoolType();
    }
 }

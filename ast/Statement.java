@@ -1,6 +1,8 @@
 package ast;
 
+import java.util.Map;
+
 public interface Statement
 {
-   public Type typeCheck();
+   public Type typeCheck(Map<String, IdProperties> symTable);
 }

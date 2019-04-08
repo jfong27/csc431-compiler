@@ -19,20 +19,25 @@ public class Program
 
    public void typeCheck() {
       Map<String, IdProperties> symTable = new HashMap<>();
+      Map<String, Map<String, Type>> structTable = new HashMap<>();
 
       for (Declaration currDecl : decls) {
          symTable.put(currDecl.getName(), 
                       new IdProperties(currDecl.getType()));
       }
 
-      /*
       for (TypeDeclaration typeDecl : types) {
-         symTable.put(typeDecl.getName(),
-                      new IdProperties(typeDecl.
-      }*/
+         Map<String, Type> fieldsTable = new HashMap<>();
+
+         for (Declaration field : typeDecl.getFields()) {
+            fieldsTable.put(field.getName(), field.getType());
+         }
+
+         structTable.put(tpeDecl.getName(), fieldsTable);
+      }
 
       for (Function func : funcs) {
-         func.typeCheck(symTable);
+         func.typeCheck(symTable, structTable);
       }
 
    }

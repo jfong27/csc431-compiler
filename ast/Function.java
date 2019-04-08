@@ -1,6 +1,7 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
+import java.util.List;
 
 public class Function
 {
@@ -22,7 +23,8 @@ public class Function
       this.body = body;
    }
 
-   public Type typeCheck(Map<String, IdProperties> symTable) {
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable) {
 
       /*TODO: Makei & populate symbol table for local scope */
 

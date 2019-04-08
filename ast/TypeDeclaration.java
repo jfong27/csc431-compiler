@@ -14,4 +14,13 @@ public class TypeDeclaration
       this.name = name;
       this.fields = fields;
    }
+
+   public String getName() {
+      return name;
+   }
+
+   public List<Declaration> getFields() {
+      return fields;
+   }
+
 }

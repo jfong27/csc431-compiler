@@ -18,6 +18,10 @@ public class BinaryExpression
       this.right = right;
    }
 
+   public Type typeCheck(Map<String,IdProperties> symTable) {
+      return null;
+   }
+
    public static BinaryExpression create(int lineNum, String opStr,
       Expression left, Expression right)
    {
