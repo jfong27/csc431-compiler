@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
 
 public class ReturnStatement
    extends AbstractStatement
@@ -11,5 +11,18 @@ public class ReturnStatement
    {
       super(lineNum);
       this.expression = expression;
+   }
+
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable,
+                         Type retType) {
+      Type exprType = expression.typeCheck(symTable, structTable);
+      if exprType.equals(retType) {
+         return retType;
+      } else {
+         System.out.println("wrong return type");
+         System.exit(-1);
+      }
+
    }
 }

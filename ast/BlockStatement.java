@@ -20,9 +20,10 @@ public class BlockStatement
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,
-                         Map<String, Map<String, Type>> structTable) {
+                         Map<String, Map<String, Type>> structTable, 
+                         Type retType) {
       for (Statement stmnt : statements) {
-         stmnt.typeCheck(symTable, structTable);
+         stmnt.typeCheck(symTable, structTable, retType);
       }
 
       //TODO: Should statements return a type? 

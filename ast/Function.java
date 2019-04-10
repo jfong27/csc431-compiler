@@ -35,7 +35,7 @@ public class Function
          symTableClone.put(decl.getName(), decl.getType());
       }
 
-      body.typeCheck(symTableClone, structTable);
+      body.typeCheck(symTableClone, structTable, retType);
 
       return retType;
    }
