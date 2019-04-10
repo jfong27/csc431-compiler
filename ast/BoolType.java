@@ -10,4 +10,9 @@ public class BoolType
             return false;
         }
     }
+
+   //TODO: IMPLEMENT
+    public boolean canConvertTo(Type t) {
+       return false;
+    }
 }

@@ -19,14 +19,16 @@ public class ConditionalStatement
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,
-                         Map<String, Map<String, Type>> structTable) {
-      if !(guard.typeCheck(symTable, structTable).equals(new BoolType())) {
+                         Map<String, Map<String, Type>> structTable,
+                         Type retType) {
+
+      if (!(guard.typeCheck(symTable, structTable).equals(new BoolType()))) {
          System.out.println("conditional requires boolean guard");
          System.exit(-1);
       }
 
-      thenBlock.typeCheck(symTable, structTable);
-      elseBlock.typeCheck(symTable, structTable);
+      thenBlock.typeCheck(symTable, structTable, retType);
+      elseBlock.typeCheck(symTable, structTable, retType);
 
       return new BoolType();
    }

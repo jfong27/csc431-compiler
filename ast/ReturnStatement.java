@@ -17,7 +17,7 @@ public class ReturnStatement
                          Map<String, Map<String, Type>> structTable,
                          Type retType) {
       Type exprType = expression.typeCheck(symTable, structTable);
-      if exprType.equals(retType) {
+      if (exprType.equals(retType)) {
          return retType;
       } else {
          System.out.println("wrong return type");

@@ -4,5 +4,6 @@ import java.util.Map;
 
 public interface Expression
 {
-   public Type typeCheck(Map<String, IdProperties> symTable);
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable);
 }

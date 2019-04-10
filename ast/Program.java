@@ -1,6 +1,8 @@
 package ast;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 
 public class Program
@@ -18,7 +20,7 @@ public class Program
    }
 
    public void typeCheck() {
-      Map<String, IdProperties> symTable = new HashMap<>();
+      HashMap<String, IdProperties> symTable = new HashMap<>();
       Map<String, Map<String, Type>> structTable = new HashMap<>();
 
       for (Declaration currDecl : decls) {
@@ -33,7 +35,7 @@ public class Program
             fieldsTable.put(field.getName(), field.getType());
          }
 
-         structTable.put(tpeDecl.getName(), fieldsTable);
+         structTable.put(typeDecl.getName(), fieldsTable);
       }
 
       for (Function func : funcs) {

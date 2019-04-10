@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
 
 public class BinaryExpression
    extends AbstractExpression
@@ -18,7 +18,8 @@ public class BinaryExpression
       this.right = right;
    }
 
-   public Type typeCheck(Map<String,IdProperties> symTable) {
+   public Type typeCheck(Map<String,IdProperties> symTable, 
+                         Map<String, Map<String, Type>> structTable) {
       return null;
    }
 

@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
@@ -23,16 +24,16 @@ public class Function
       this.body = body;
    }
 
-   public Type typeCheck(Map<String, IdProperties> symTable,
+   public Type typeCheck(HashMap<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
 
-      Map<String, IdProperties> symTableClone = symTable.clone();
+      Map<String, IdProperties> symTableClone = (Map)symTable.clone();
 
       for (Declaration decl : params) {
-         symTableClone.put(decl.getName(), decl.getType());
+         symTableClone.put(decl.getName(), new IdProperties(decl.getType()));
       }
       for (Declaration decl : locals) {
-         symTableClone.put(decl.getName(), decl.getType());
+         symTableClone.put(decl.getName(), new IdProperties(decl.getType()));
       }
 
       body.typeCheck(symTableClone, structTable, retType);
