@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
 
 public class DeleteStatement
    extends AbstractStatement
@@ -11,5 +11,15 @@ public class DeleteStatement
    {
       super(lineNum);
       this.expression = expression;
+   }
+
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable,
+                         Type retType) {
+
+      Type exprType = expression.typeCheck(symTable, structTable);
+
+      return retType;
+
    }
 }

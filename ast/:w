@@ -1,17 +1,18 @@
 package ast;
 
-import java.util.*;
-
-public class FalseExpression
+public class IntegerExpression
    extends AbstractExpression
 {
-   public FalseExpression(int lineNum)
+   private final String value;
+
+   public IntegerExpression(int lineNum, String value)
    {
       super(lineNum);
+      this.value = value;
    }
-
+   
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
-      return new BoolType();
+      return new IntType();
    }
 }

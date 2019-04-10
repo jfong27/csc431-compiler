@@ -7,4 +7,8 @@ public class IdProperties {
       this.type = type;
    }
 
+   public Type getType() {
+      return type;
+   }
+
 }

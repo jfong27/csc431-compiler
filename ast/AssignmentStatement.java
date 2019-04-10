@@ -16,7 +16,8 @@ public class AssignmentStatement
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,
-                         Map<String, Map<String, Type>> structTable) {
+                         Map<String, Map<String, Type>> structTable,
+                         Type retType) {
 
       Type lValueType = target.typeCheck(symTable, structTable);
       Type sourceType = source.typeCheck(symTable, structTable);

@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
 
 public class InvocationStatement
    extends AbstractStatement
@@ -11,5 +11,12 @@ public class InvocationStatement
    {
       super(lineNum);
       this.expression = expression;
+   }
+
+   //TODO: IMPLEMENT
+   public Type typeCheck(Map<String, IdProperties> symTable, 
+                         Map<String, Map<String, Type>> structTable,
+                         Type retType) {
+      return new VoidType();
    }
 }

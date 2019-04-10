@@ -38,6 +38,10 @@ public class Program
          structTable.put(typeDecl.getName(), fieldsTable);
       }
 
+      //TODO: Invocation expression needs to return the retType of
+      // the function being invoked. So we need to add function retTypes
+      // to the symTable?? 
+
       for (Function func : funcs) {
          func.typeCheck(symTable, structTable);
       }

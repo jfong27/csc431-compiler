@@ -1,6 +1,7 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
+import java.util.List;
 
 public class InvocationExpression
    extends AbstractExpression
@@ -15,4 +16,11 @@ public class InvocationExpression
       this.name = name;
       this.arguments = arguments;
    }
+
+   //TODO: IMPLEMENT
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable) {
+      return new VoidType();
+   }
+
 }

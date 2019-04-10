@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
 
 public class IdentifierExpression
    extends AbstractExpression
@@ -12,4 +12,10 @@ public class IdentifierExpression
       super(lineNum);
       this.id = id;
    }
+
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable) {
+      return symTable.get(id).getType();
+   }
+
 }

@@ -12,4 +12,14 @@ public class NewExpression
       super(lineNum);
       this.id = id;
    }
+
+   //TODO: Get struct from structTable using id,
+   // error if invalid structID, return new StructType
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable) {
+
+      return new StructType(this.getLineNum(), id);
+
+
+   }
 }

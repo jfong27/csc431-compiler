@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
 
 public class PrintLnStatement
    extends AbstractStatement
@@ -12,4 +12,15 @@ public class PrintLnStatement
       super(lineNum);
       this.expression = expression;
    }
+
+   //TODO: Correct to return voidType???
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable,
+                         Type retType) {
+
+      expression.typeCheck(symTable, structTable);
+
+      return new VoidType();
+   }
+
 }

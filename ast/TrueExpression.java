@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
 
 public class TrueExpression
    extends AbstractExpression
@@ -10,7 +10,9 @@ public class TrueExpression
       super(lineNum);
    }
 
-   public Type typeCheck(Map<String, IdProperties> symTable) {
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable) {
       return new BoolType();
    }
+
 }

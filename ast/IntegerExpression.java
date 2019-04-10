@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
 
 public class IntegerExpression
    extends AbstractExpression
@@ -13,7 +13,8 @@ public class IntegerExpression
       this.value = value;
    }
    
-   public Type typeCheck() {
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable) {
       return new IntType();
    }
 }

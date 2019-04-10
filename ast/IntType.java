@@ -10,4 +10,11 @@ public class IntType
             return false;
         }
     }
+    
+    public boolean canConvertTo(Type t) {
+       if (t instanceof IntType) {
+          return true;
+       } 
+       return false;
+    }
 }
