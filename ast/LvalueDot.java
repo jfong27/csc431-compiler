@@ -19,8 +19,22 @@ public class LvalueDot
    //TODO: Implement
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
-      System.out.println("it getsfsdfdsfsfhsdbfjdsbfhsdf");
-      return new VoidType();
+      Type leftType = left.typeCheck(symTable, structTable);
+      if (!(leftType instanceof StructType)) {
+         System.out.println("Accessing field from a non-struct type");
+         System.exit(-1);
+      }
+      String leftName = ((StructType)leftType).getName();
+      if (!(structTable.containsKey(leftName))) {
+         System.out.println("there is no struct named '" + leftName + "'");
+         System.exit(-1);
+      }
+      if (!((structTable.get(leftName)).containsKey(id))) {
+         System.out.println("'"+id+"' is not a field of struct '"+leftName+"'");
+         System.exit(-1);
+      }
+      //Map<String,Type> structFields = structTable.get(leftName);
+      return structTable.get(leftName).get(id);
 
    }
 }

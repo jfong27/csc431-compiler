@@ -33,7 +33,6 @@ public class DotExpression
          System.exit(-1);
       }
       //Map<String,Type> structFields = structTable.get(leftName);
-      System.out.println("the type is: " + structTable.get(leftName).get(id).getTypeString());
       return structTable.get(leftName).get(id);
    }
 }
