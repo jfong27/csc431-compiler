@@ -12,7 +12,8 @@ public class ReturnEmptyStatement
 
    //TODO: Correct?? Do we even need to return? 
    public Type typeCheck(Map<String, IdProperties> symTable,
-                         Map<String, Map<String, Type>> structTable) {
+                         Map<String, Map<String, Type>> structTable,
+                         Type retType) {
       return new VoidType();
    }
 }

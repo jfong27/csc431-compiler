@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
 
 public class LvalueId
    implements Lvalue
@@ -13,4 +13,11 @@ public class LvalueId
       this.lineNum = lineNum;
       this.id = id;
    }
+
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable) {
+      return symTable.get(id).getType();
+
+   }
+
 }

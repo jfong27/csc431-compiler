@@ -23,6 +23,7 @@ public class ReturnStatement
          System.out.println("wrong return type");
          System.exit(-1);
       }
-
+      return exprType;
    }
+
 }

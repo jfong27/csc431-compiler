@@ -1,6 +1,6 @@
 package ast;
 
-import java.util.*;
+import java.util.Map;
 
 public class LvalueDot
    implements Lvalue
@@ -14,5 +14,12 @@ public class LvalueDot
       this.lineNum = lineNum;
       this.left = left;
       this.id = id;
+   }
+
+   //TODO: Implement
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable) {
+      return new VoidType();
+
    }
 }
