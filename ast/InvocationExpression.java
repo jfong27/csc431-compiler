@@ -20,6 +20,11 @@ public class InvocationExpression
    //TODO: IMPLEMENT
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
+      if (structTable.containsKey(this.name)) {
+         System.out.println(this.name+" is a struct");
+      } else {
+         System.out.println(this.name+" is not a struct");
+      }
       return new VoidType();
    }
 

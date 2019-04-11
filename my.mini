@@ -1,6 +1,9 @@
-int i;
-bool j;
+struct B
+{
+   int i;
+};
+
 fun main() int {
-    int i;
-    return true;
+    struct Brent b;
+    return i;
 }
