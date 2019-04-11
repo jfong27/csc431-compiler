@@ -19,6 +19,7 @@ public class LvalueDot
    //TODO: Implement
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
+      System.out.println("it getsfsdfdsfsfhsdbfjdsbfhsdf");
       return new VoidType();
 
    }

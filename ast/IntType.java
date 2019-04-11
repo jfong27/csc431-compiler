@@ -17,4 +17,8 @@ public class IntType
        } 
        return false;
     }
+
+    public String getTypeString() {
+      return "int";
+    }
 }

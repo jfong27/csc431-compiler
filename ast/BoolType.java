@@ -15,4 +15,9 @@ public class BoolType
     public boolean canConvertTo(Type t) {
        return false;
     }
+
+    public String getTypeString() {
+      return "bool";
+    }
+
 }

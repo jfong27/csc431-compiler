@@ -28,4 +28,8 @@ public class StructType
       return name;
    }
 
+   public String getTypeString() {
+      return "struct";
+   }
+
 }

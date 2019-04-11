@@ -18,16 +18,22 @@ public class DotExpression
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
 
-      Type leftType = left.typeCheck(symTable, structTable); 
+      Type leftType = left.typeCheck(symTable, structTable);
       if (!(leftType instanceof StructType)) {
-         System.out.println("Accessing field of field that isn't struct");
+         System.out.println("Accessing field from a non-struct type");
          System.exit(-1);
       }
-
-      Map<String,Type> structFields = structTable.get(((StructType)leftType).getName());
-
-      return structFields.get(id);
-      
+      String leftName = ((StructType)leftType).getName();
+      if (!(structTable.containsKey(leftName))) {
+         System.out.println("there is no struct named '" + leftName + "'");
+         System.exit(-1);
+      }
+      if (!((structTable.get(leftName)).containsKey(id))) {
+         System.out.println("'"+id+"' is not a field of struct '"+leftName+"'");
+         System.exit(-1);
+      }
+      //Map<String,Type> structFields = structTable.get(leftName);
+      System.out.println("the type is: " + structTable.get(leftName).get(id).getTypeString());
+      return structTable.get(leftName).get(id);
    }
-
 }
