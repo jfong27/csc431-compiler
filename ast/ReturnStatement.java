@@ -13,11 +13,9 @@ public class ReturnStatement
       this.expression = expression;
    }
 
-   public Type typeCheck(Map<String, IdProperties> symTable,
-                         Map<String, Map<String, Type>> structTable,
-                         Type retType) {
+   public Type typeCheck(Map<String, IdProperties> symTable, Map<String, Map<String, Type>> structTable, Type retType) {
       Type exprType = expression.typeCheck(symTable, structTable);
-      if (exprType.equals(retType)) {
+      if (exprType.getClass()==retType.getClass()) {
          return retType;
       } else {
          System.out.println("wrong return type");

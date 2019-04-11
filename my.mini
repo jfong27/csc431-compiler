@@ -5,5 +5,5 @@ struct B
 
 fun main() int {
     struct Brent b;
-    return i;
+    return 3;
 }
