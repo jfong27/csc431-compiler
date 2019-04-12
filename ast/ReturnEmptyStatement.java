@@ -10,10 +10,16 @@ public class ReturnEmptyStatement
       super(lineNum);
    }
 
-   //TODO: Correct?? Do we even need to return? 
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable,
                          Type retType) {
+
+      if (retType instanceof VoidType) {
+         return new VoidType();
+      } 
+      System.out.printf("%d: Expected return type of %s, found void\n",
+                        this.getLineNum(), retType.getTypeString());
+      System.exit(-1);
       return new VoidType();
    }
 }
