@@ -57,7 +57,7 @@ public class Program
 
       for (Function func : funcs) {
          func.typeCheck(symTable, structTable);
-         if (!func.doesReturn()) {
+         if (!(func.doesReturn() || func.getRetType() instanceof VoidType)) {
             System.out.printf("Function %s is not guaranteed to return\n",
                               func.getName());
             System.exit(-1);

@@ -3,10 +3,9 @@ struct Brent
    int i;
 };
 
-fun main() int {
+fun main() void {
     struct Brent b;
     int c;
     c = 3;
     b.i = c;
-    return 3;
 }
