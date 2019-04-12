@@ -22,7 +22,7 @@ public class ConditionalStatement
                          Map<String, Map<String, Type>> structTable,
                          Type retType) {
 
-      if (!(guard.typeCheck(symTable, structTable).equals(new BoolType()))) {
+      if (!(guard.typeCheck(symTable, structTable) instanceof BoolType)) {
          System.out.println("conditional requires boolean guard");
          System.exit(-1);
       }

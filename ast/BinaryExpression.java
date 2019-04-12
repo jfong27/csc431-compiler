@@ -20,7 +20,39 @@ public class BinaryExpression
 
    public Type typeCheck(Map<String,IdProperties> symTable, 
                          Map<String, Map<String, Type>> structTable) {
-      return null;
+
+      Type leftType = left.typeCheck(symTable, structTable);
+      Type rightType = right.typeCheck(symTable, structTable);
+
+      if (operator == Operator.AND || operator == Operator.OR) {
+         if (leftType instanceof BoolType && rightType instanceof BoolType) {
+            return new BoolType();
+         } else {
+            System.out.println("Expected two bools");
+            System.exit(-1);
+         }
+      } else if (operator == Operator.TIMES ||
+                 operator == Operator.DIVIDE ||
+                 operator == Operator.PLUS || 
+                 operator == Operator.MINUS) {
+         //If operator is <>, ==, !=, etc. then return BoolType()
+         if (leftType instanceof IntType && rightType instanceof IntType) {
+            return new IntType();
+         } else {
+            System.out.println("Expected two ints");
+            System.exit(-1);
+         }
+      } else {
+         if (leftType instanceof IntType && rightType instanceof IntType) {
+            return new BoolType();
+         } else {
+            System.out.println("expected two ints for comparing");
+            System.exit(-1);
+         }
+      }
+
+      return new VoidType();
+
    }
 
    public static BinaryExpression create(int lineNum, String opStr,
