@@ -23,7 +23,8 @@ public class AssignmentStatement
       Type sourceType = source.typeCheck(symTable, structTable);
 
       if (!sourceType.canConvertTo(lValueType)) {
-         System.out.println("Assignment statement error");
+         System.out.println(getLineNum() + ": cannot assign "+sourceType.getTypeString()+
+                            " to "+lValueType.getTypeString());
          System.exit(-1);
       } 
 

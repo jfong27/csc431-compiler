@@ -30,7 +30,8 @@ public class DotExpression
          System.exit(-1);
       }
       if (!((structTable.get(leftName)).containsKey(id))) {
-         System.out.println("'"+id+"' is not a field of struct '"+leftName+"'");
+         System.out.printf("%d: %s is not a field of struct '%s'\n",
+                             this.getLineNum(), id, leftName);
          System.exit(-1);
       }
       //Map<String,Type> structFields = structTable.get(leftName);

@@ -11,7 +11,7 @@ public abstract class AbstractExpression
    }
 
    public int getLineNum() {
-      return lineNum;
+      return this.lineNum;
    }
 
 }

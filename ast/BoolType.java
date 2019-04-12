@@ -13,6 +13,9 @@ public class BoolType
 
    //TODO: IMPLEMENT
     public boolean canConvertTo(Type t) {
+       if (t instanceof BoolType) {
+         return true;
+       }
        return false;
     }
 

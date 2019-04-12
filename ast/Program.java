@@ -22,7 +22,16 @@ public class Program
    public void typeCheck() {
       HashMap<String, IdProperties> symTable = new HashMap<>();
       Map<String, Map<String, Type>> structTable = new HashMap<>();
-
+      boolean mainFlag = false;
+      for (Function func : funcs) {
+         if (func.getName().equals("main")) {
+            mainFlag = true;
+         }
+      }
+      if (!mainFlag) {
+         System.out.println("There is no main function");
+         System.exit(-1);
+      }
       for (Declaration currDecl : decls) {
          symTable.put(currDecl.getName(), 
                       new IdProperties(currDecl.getType(), false));
@@ -41,7 +50,6 @@ public class Program
       //TODO: Invocation expression needs to return the retType of
       // the function being invoked. So we need to add function retTypes
       // to the symTable?? 
-
       for (Function func : funcs) {
          symTable.put(func.getName(), 
                       new IdProperties(func.getRetType(), true));
@@ -50,7 +58,6 @@ public class Program
       for (Function func : funcs) {
          func.typeCheck(symTable, structTable);
       }
-
    }
 
 }

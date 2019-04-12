@@ -13,13 +13,11 @@ public class ReturnEmptyStatement
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable,
                          Type retType) {
-
-      if (retType instanceof VoidType) {
-         return new VoidType();
-      } 
-      System.out.printf("%d: Expected return type of %s, found void\n",
-                        this.getLineNum(), retType.getTypeString());
-      System.exit(-1);
+      if (!(retType instanceof VoidType)) {
+         System.out.println(getLineNum() + ": expected to return " + retType.getTypeString() +
+                            " but returned nothing");
+         System.exit(-1);
+      }
       return new VoidType();
    }
 }
