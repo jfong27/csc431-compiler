@@ -21,10 +21,10 @@ public class InvocationExpression
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
 
+      IdProperties func = symTable.get(this.name);
+
       if (symTable.containsKey(this.name) && 
-          symTable.get(this.name).isFunction()) {
-         IdProperties func = symTable.get(this.name);
-         //System.out.printf("%d: %s is a function\n", this.getLineNum(), this.name);
+          func.isFunction()) {
          if (this.arguments.size() > func.getParams().size()) {
             System.out.printf("%d: Too many arguments provided to function %s\n", 
                               getLineNum(), this.name);
@@ -33,12 +33,26 @@ public class InvocationExpression
             System.out.println(getLineNum() + ": Too few arguments");
             System.exit(-1);
          }
+
+         List<Declaration> params = func.getParams();
+
+         for (int i = 0; i < func.getParams().size(); i++) {
+            Type argType = arguments.get(i).typeCheck(symTable, structTable);
+            Type paramType = params.get(i).getType();
+            if (!(paramType.canConvertTo(argType))) {
+               System.out.printf("%d: Invalid argument type. Expected %s, found %s\n",
+                                 getLineNum(), paramType.getTypeString(), argType.getTypeString() );
+               System.exit(-1);
+            }
+         }
+
+
          return symTable.get(this.name).getType();
       } else {
          System.out.println(getLineNum()+": "+this.name+" is not a struct");
          System.exit(-1);
       }
-      System.out.println("yay for line " + getLineNum());
+
       return new VoidType();
    }
 

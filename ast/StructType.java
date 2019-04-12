@@ -20,6 +20,8 @@ public class StructType
          if (structT.getName().equals(name)) {
             return true;
          }
+      } else if (t instanceof VoidType) {
+         return true;
       }
       return false;
    }
