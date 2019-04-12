@@ -21,4 +21,5 @@ public class IntType
     public String getTypeString() {
       return "int";
     }
+
 }

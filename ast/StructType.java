@@ -29,7 +29,7 @@ public class StructType
    }
 
    public String getTypeString() {
-      return "struct";
+      return "struct " + name;
    }
 
 }

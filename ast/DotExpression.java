@@ -17,7 +17,8 @@ public class DotExpression
 
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
-
+      
+      
       Type leftType = left.typeCheck(symTable, structTable);
       if (!(leftType instanceof StructType)) {
          System.out.println("Accessing field from a non-struct type");

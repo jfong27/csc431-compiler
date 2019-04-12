@@ -13,12 +13,16 @@ public class ReturnStatement
       this.expression = expression;
    }
 
-   public Type typeCheck(Map<String, IdProperties> symTable, Map<String, Map<String, Type>> structTable, Type retType) {
+   public Type typeCheck(Map<String, IdProperties> symTable,
+                         Map<String, Map<String, Type>> structTable,
+                         Type retType) {
+
       Type exprType = expression.typeCheck(symTable, structTable);
-      if (exprType.getClass()==retType.getClass()) {
+      if (exprType.canConvertTo(retType)) {
          return retType;
       } else {
-         System.out.println("wrong return type");
+         System.out.printf("wrong return type: expected %s, returned %s\n",
+                            retType.getTypeString(), exprType.getTypeString());
          System.exit(-1);
       }
       return exprType;
