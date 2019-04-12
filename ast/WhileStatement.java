@@ -20,8 +20,9 @@ public class WhileStatement
                          Type retType) {
       Type guardType = guard.typeCheck(symTable, structTable);
       
-      if (!(guardType.equals(new BoolType()))) {
-         System.out.println("while statement requires bool");
+      if (!(guardType instanceof BoolType)) {
+         System.out.printf("%d: while statement requires bool\n",
+                           this.getLineNum());
          System.exit(-1);
       }
 

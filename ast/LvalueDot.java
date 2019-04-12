@@ -21,16 +21,19 @@ public class LvalueDot
                          Map<String, Map<String, Type>> structTable) {
       Type leftType = left.typeCheck(symTable, structTable);
       if (!(leftType instanceof StructType)) {
-         System.out.println("Accessing field from a non-struct type");
+         System.out.printf("%d: Accessing field from a non-struct type",
+                           lineNum);
          System.exit(-1);
       }
       String leftName = ((StructType)leftType).getName();
       if (!(structTable.containsKey(leftName))) {
-         System.out.println("there is no struct named '" + leftName + "'");
+         System.out.printf("%d: There is no struct named '%s'",
+                            lineNum, leftName);
          System.exit(-1);
       }
       if (!((structTable.get(leftName)).containsKey(id))) {
-         System.out.println("'"+id+"' is not a field of struct '"+leftName+"'");
+         System.out.printf("%d: %s is not a field of struct '%s'",
+                            lineNum, id, leftName);
          System.exit(-1);
       }
       //Map<String,Type> structFields = structTable.get(leftName);
