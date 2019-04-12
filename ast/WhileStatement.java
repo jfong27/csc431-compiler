@@ -28,4 +28,8 @@ public class WhileStatement
 
       return body.typeCheck(symTable, structTable, retType);
    }
+
+   public boolean doesReturn() {
+      return false;
+   }
 }

@@ -20,4 +20,9 @@ public class ReturnEmptyStatement
       }
       return new VoidType();
    }
+
+   public boolean doesReturn() {
+      return true;
+   }
+
 }

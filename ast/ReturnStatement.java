@@ -28,4 +28,7 @@ public class ReturnStatement
       return exprType;
    }
 
+   public boolean doesReturn() {
+      return true;
+   }
 }

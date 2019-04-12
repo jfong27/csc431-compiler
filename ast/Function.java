@@ -56,4 +56,9 @@ public class Function
 
       return retType;
    }
+
+   public boolean doesReturn() {
+      return body.doesReturn();
+   }
+
 }

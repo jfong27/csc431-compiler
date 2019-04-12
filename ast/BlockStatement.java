@@ -31,4 +31,12 @@ public class BlockStatement
       //Consider return statements
       return new BoolType();
    }
+
+   public boolean doesReturn() {
+      for (Statement s : statements) {
+         if (s.doesReturn())
+            return true;
+      }
+      return false;
+   }
 }

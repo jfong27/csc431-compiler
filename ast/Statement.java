@@ -8,4 +8,6 @@ public interface Statement
                          Map<String, Map<String, Type>> structTable,
                          Type retType);
 
+   public boolean doesReturn();
+
 }

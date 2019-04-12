@@ -22,4 +22,9 @@ public class DeleteStatement
       return retType;
 
    }
+
+   public boolean doesReturn() {
+      return false;
+   }
+
 }

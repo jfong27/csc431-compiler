@@ -32,4 +32,8 @@ public class AssignmentStatement
 
    }
 
+   public boolean doesReturn() {
+      return false;
+   }
+
 }

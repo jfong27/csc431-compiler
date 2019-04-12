@@ -22,4 +22,8 @@ public class PrintStatement
       return new VoidType();
    }
 
+   public boolean doesReturn() {
+      return false;
+   }
+
 }

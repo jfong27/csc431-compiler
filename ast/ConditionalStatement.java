@@ -36,4 +36,8 @@ public class ConditionalStatement
       return new BoolType();
    }
 
+   public boolean doesReturn() {
+      return (thenBlock.doesReturn() && elseBlock.doesReturn());
+   }
+
 }

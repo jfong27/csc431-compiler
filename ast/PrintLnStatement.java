@@ -23,4 +23,8 @@ public class PrintLnStatement
       return new VoidType();
    }
 
+   public boolean doesReturn() {
+      return false;
+   }
+
 }

@@ -13,10 +13,13 @@ public class InvocationStatement
       this.expression = expression;
    }
 
-   //TODO: IMPLEMENT
    public Type typeCheck(Map<String, IdProperties> symTable, 
                          Map<String, Map<String, Type>> structTable,
                          Type retType) {
       return expression.typeCheck(symTable, structTable);
+   }
+
+   public boolean doesReturn() {
+      return false;
    }
 }
