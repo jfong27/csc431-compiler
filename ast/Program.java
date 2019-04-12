@@ -34,7 +34,7 @@ public class Program
       }
       for (Declaration currDecl : decls) {
          symTable.put(currDecl.getName(), 
-                      new IdProperties(currDecl.getType(), false));
+                      new IdProperties(currDecl.getType(), false, null));
       }
 
       for (TypeDeclaration typeDecl : types) {
@@ -52,7 +52,7 @@ public class Program
       // to the symTable?? 
       for (Function func : funcs) {
          symTable.put(func.getName(), 
-                      new IdProperties(func.getRetType(), true));
+                      new IdProperties(func.getRetType(), true, func.getParams()));
       }
 
       for (Function func : funcs) {

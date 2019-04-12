@@ -32,6 +32,10 @@ public class Function
       return retType;
    }
 
+   public List<Declaration> getParams() {
+      return params;
+   }
+
    public int getNumParams() {
       return params.size();
    }
@@ -42,10 +46,10 @@ public class Function
       Map<String, IdProperties> symTableClone = (Map)symTable.clone();
 
       for (Declaration decl : params) {
-         symTableClone.put(decl.getName(), new IdProperties(decl.getType(), false));
+         symTableClone.put(decl.getName(), new IdProperties(decl.getType(), false, null));
       }
       for (Declaration decl : locals) {
-         symTableClone.put(decl.getName(), new IdProperties(decl.getType(), false));
+         symTableClone.put(decl.getName(), new IdProperties(decl.getType(), false, null));
       }
 
       body.typeCheck(symTableClone, structTable, retType);

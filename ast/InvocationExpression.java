@@ -23,14 +23,16 @@ public class InvocationExpression
 
       if (symTable.containsKey(this.name) && 
           symTable.get(this.name).isFunction()) {
-        // System.out.printf("%d: %s is a function\n", this.getLineNum(), this.name);
-//         if (this.arguments.size() > symTable.get(this.name).getType().getNumParams()) {
-//            System.out.println(getLineNum() + ": Too many arguments");
-//            System.exit(-1);
-//         } else if (this.arguments.size() < symTable.get(this.name).getNumParams()) {
-//            System.out.println(getLineNum() + ": Too few arguments");
-//            System.exit(-1);
-//         }
+         IdProperties func = symTable.get(this.name);
+         //System.out.printf("%d: %s is a function\n", this.getLineNum(), this.name);
+         if (this.arguments.size() > func.getParams().size()) {
+            System.out.printf("%d: Too many arguments provided to function %s\n", 
+                              getLineNum(), this.name);
+            System.exit(-1);
+         } else if (this.arguments.size() < func.getParams().size()) {
+            System.out.println(getLineNum() + ": Too few arguments");
+            System.exit(-1);
+         }
          return symTable.get(this.name).getType();
       } else {
          System.out.println(getLineNum()+": "+this.name+" is not a struct");

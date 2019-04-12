@@ -19,8 +19,8 @@ public class DotExpression
                          Map<String, Map<String, Type>> structTable) {
       Type leftType = left.typeCheck(symTable, structTable);
       if (!(leftType instanceof StructType)) {
-         System.out.printf("%d: Accessing field from a non-struct type\n",
-                           getLineNum());
+         System.out.printf("%d: Accessing field from non-struct type %s\n",
+                           getLineNum(), leftType.getTypeString());
          System.exit(-1);
       }
       String leftName = ((StructType)leftType).getName();
