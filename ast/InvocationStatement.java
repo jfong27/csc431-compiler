@@ -17,6 +17,6 @@ public class InvocationStatement
    public Type typeCheck(Map<String, IdProperties> symTable, 
                          Map<String, Map<String, Type>> structTable,
                          Type retType) {
-      return new VoidType();
+      return expression.typeCheck(symTable, structTable);
    }
 }

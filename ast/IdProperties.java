@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.List;
+
 public class IdProperties {
    private final Type type;
    private final boolean isFunction;
@@ -16,5 +18,4 @@ public class IdProperties {
    public boolean isFunction() {
       return isFunction;
    }
-
 }

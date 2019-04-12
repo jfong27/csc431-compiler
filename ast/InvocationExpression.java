@@ -24,10 +24,19 @@ public class InvocationExpression
       if (symTable.containsKey(this.name) && 
           symTable.get(this.name).isFunction()) {
         // System.out.printf("%d: %s is a function\n", this.getLineNum(), this.name);
+//         if (this.arguments.size() > symTable.get(this.name).getType().getNumParams()) {
+//            System.out.println(getLineNum() + ": Too many arguments");
+//            System.exit(-1);
+//         } else if (this.arguments.size() < symTable.get(this.name).getNumParams()) {
+//            System.out.println(getLineNum() + ": Too few arguments");
+//            System.exit(-1);
+//         }
          return symTable.get(this.name).getType();
       } else {
-         System.out.println(this.name+" is not a struct");
+         System.out.println(getLineNum()+": "+this.name+" is not a struct");
+         System.exit(-1);
       }
+      System.out.println("yay for line " + getLineNum());
       return new VoidType();
    }
 

@@ -32,6 +32,10 @@ public class Function
       return retType;
    }
 
+   public int getNumParams() {
+      return params.size();
+   }
+
    public Type typeCheck(HashMap<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
 
