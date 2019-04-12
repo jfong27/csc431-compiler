@@ -10,7 +10,6 @@ public class ReturnEmptyStatement
       super(lineNum);
    }
 
-   //TODO: Correct?? Do we even need to return? 
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable,
                          Type retType) {
