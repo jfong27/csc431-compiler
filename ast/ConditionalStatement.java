@@ -22,8 +22,11 @@ public class ConditionalStatement
                          Map<String, Map<String, Type>> structTable,
                          Type retType) {
 
-      if (!(guard.typeCheck(symTable, structTable) instanceof BoolType)) {
-         System.out.println("conditional requires boolean guard");
+      Type guardType = guard.typeCheck(symTable, structTable);
+
+      if (!(guardType instanceof BoolType)) {
+         System.out.printf("%d: Conditional statement requires boolean guard, found %s\n",
+                           this.getLineNum(), guardType.getTypeString());
          System.exit(-1);
       }
 

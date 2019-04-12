@@ -20,8 +20,10 @@ public class InvocationExpression
    //TODO: IMPLEMENT
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
-      if (structTable.containsKey(this.name)) {
-         System.out.println(this.name+" is a struct");
+
+      if (symTable.containsKey(this.name) && 
+          symTable.get(this.name).isFunction()) {
+         System.out.printf("%d: %s is a function\n", this.getLineNum(), this.name);
       } else {
          System.out.println(this.name+" is not a struct");
       }

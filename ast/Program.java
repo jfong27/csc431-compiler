@@ -25,7 +25,7 @@ public class Program
 
       for (Declaration currDecl : decls) {
          symTable.put(currDecl.getName(), 
-                      new IdProperties(currDecl.getType()));
+                      new IdProperties(currDecl.getType(), false));
       }
 
       for (TypeDeclaration typeDecl : types) {
@@ -41,6 +41,11 @@ public class Program
       //TODO: Invocation expression needs to return the retType of
       // the function being invoked. So we need to add function retTypes
       // to the symTable?? 
+
+      for (Function func : funcs) {
+         symTable.put(func.getName(), 
+                      new IdProperties(func.getRetType(), true));
+      }
 
       for (Function func : funcs) {
          func.typeCheck(symTable, structTable);
