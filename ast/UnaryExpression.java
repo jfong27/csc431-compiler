@@ -50,7 +50,7 @@ public class UnaryExpression
       } else if (this.operator == Operator.MINUS && (operandType instanceof IntType)) {
          return new IntType();
       } else {
-         System.out.println("! requires bool and - requires int");
+         System.out.println(getLineNum() + ": Operator ! requires bool and Operator - requires int");
          System.exit(-1);
       }
 

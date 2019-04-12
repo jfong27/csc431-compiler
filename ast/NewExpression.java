@@ -19,7 +19,5 @@ public class NewExpression
                          Map<String, Map<String, Type>> structTable) {
 
       return new StructType(this.getLineNum(), id);
-
-
    }
 }

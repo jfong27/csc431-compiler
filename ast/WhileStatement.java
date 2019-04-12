@@ -21,7 +21,7 @@ public class WhileStatement
       Type guardType = guard.typeCheck(symTable, structTable);
       
       if (!(guardType.equals(new BoolType()))) {
-         System.out.println("while statement requires bool");
+         System.out.println(getLineNum() + ": While statement requires bool");
          System.exit(-1);
       }
 

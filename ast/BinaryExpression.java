@@ -28,7 +28,7 @@ public class BinaryExpression
          if (leftType instanceof BoolType && rightType instanceof BoolType) {
             return new BoolType();
          } else {
-            System.out.println("Expected two bools");
+            System.out.println(getLineNum() + ": Expected two bools");
             System.exit(-1);
          }
       } else if (operator == Operator.TIMES ||

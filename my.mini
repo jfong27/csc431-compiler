@@ -7,6 +7,6 @@ fun main() int {
     struct Brent b;
     int c;
     c = 3;
-    b.i = 3;
-    return b.i;
+    b.i = c;
+    return 3;
 }

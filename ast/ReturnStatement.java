@@ -21,9 +21,8 @@ public class ReturnStatement
       if (exprType.canConvertTo(retType)) {
          return retType;
       } else {
-         System.out.printf("%d: Invalid return type: expected %s, found %s\n",
-                            this.getLineNum(), retType.getTypeString(), 
-                            exprType.getTypeString());
+         System.out.printf(getLineNum() + ": Wrong return type: expected %s, returned %s\n",
+                            retType.getTypeString(), exprType.getTypeString());
          System.exit(-1);
       }
       return exprType;

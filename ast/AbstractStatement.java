@@ -11,7 +11,6 @@ public abstract class AbstractStatement
    }
 
    public int getLineNum() {
-      return lineNum;
+      return this.lineNum;
    }
-
 }

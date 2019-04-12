@@ -16,7 +16,7 @@ public class IdentifierExpression
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
       if (!symTable.containsKey(id)) {
-         System.out.println("id '"+id+"' does not exist");
+         System.out.println(getLineNum() + ": id '"+id+"' is undeclared");
          System.exit(-1);
       }
       return symTable.get(id).getType();
