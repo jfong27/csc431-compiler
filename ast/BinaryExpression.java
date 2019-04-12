@@ -49,7 +49,10 @@ public class BinaryExpression
          if (leftType instanceof IntType && rightType instanceof IntType) {
             return new BoolType();
          } else {
-            System.out.println("expected two ints for comparing");
+            System.out.printf("%d: Expected two ints, found %s and %s\n",
+                              this.getLineNum(),
+                              leftType.getTypeString(),
+                              rightType.getTypeString());
             System.exit(-1);
          }
       }

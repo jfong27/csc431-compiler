@@ -23,7 +23,8 @@ public class InvocationExpression
 
       if (symTable.containsKey(this.name) && 
           symTable.get(this.name).isFunction()) {
-         System.out.printf("%d: %s is a function\n", this.getLineNum(), this.name);
+        // System.out.printf("%d: %s is a function\n", this.getLineNum(), this.name);
+         return symTable.get(this.name).getType();
       } else {
          System.out.println(this.name+" is not a struct");
       }
