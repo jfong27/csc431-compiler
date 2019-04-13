@@ -13,7 +13,7 @@ public class ReadExpression
    //TODO: IMPLEMENT
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
-      return new VoidType();
+      return new IntType();
    }
 
 }
