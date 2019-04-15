@@ -36,6 +36,9 @@ public class MiniCompiler
          ast.Program program = programVisitor.visit(tree);
       
          program.typeCheck();
+
+         List<Block> functionCFGraphs = program.createCFGraphs();
+
       }
    }
 

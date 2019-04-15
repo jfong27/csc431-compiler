@@ -40,6 +40,24 @@ public class Function
       return params.size();
    }
 
+   public Block createCFG() {
+      List<Statement> stmts = ((BlockStatement)body).getStatements();
+      List<Statement> entryStmts = new ArrayList<>();
+      List<Statement> exitStmts = new ArrayList<>();
+      Block entryNode;
+      Block exitNode;
+      for (Statement stmt : stmts) {
+         if (stmt.isConditional()) {
+            entryNode = new Block(name, 
+         } else {
+            entryStmts.append(stmt);
+         }
+      }
+
+      
+
+   }
+
    public Type typeCheck(HashMap<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
 

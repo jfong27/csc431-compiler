@@ -19,6 +19,18 @@ public class Program
       this.funcs = funcs;
    }
 
+   public List<Block> createCFGraphs() {
+
+      List<Block> funcGraphs = new ArrayList<>();
+
+      for (Function func : funcs) {
+         funcGraphs.append(func.createCFG());
+      }
+
+      return funcGraphs;
+
+   }
+
    public void typeCheck() {
       HashMap<String, IdProperties> symTable = new HashMap<>();
       Map<String, Map<String, Type>> structTable = new HashMap<>();
