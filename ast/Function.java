@@ -42,17 +42,20 @@ public class Function
 
    public Block createCFG() {
       List<Statement> stmts = ((BlockStatement)body).getStatements();
-      List<Statement> entryStmts = new ArrayList<>();
-      List<Statement> exitStmts = new ArrayList<>();
-      Block entryNode;
-      Block exitNode;
+      Block entryNode = new Block(name + "_entry");
+      Block exitNode = new Block(name + "_exit");
       for (Statement stmt : stmts) {
          if (stmt.isConditional()) {
-            entryNode = new Block(name, 
+            //End of entry node
+            entryNode = new Block(name);
+            break;
          } else {
-            entryStmts.append(stmt);
+            entryNode.addInstruction(stmt);
          }
       }
+
+
+
 
       
 
