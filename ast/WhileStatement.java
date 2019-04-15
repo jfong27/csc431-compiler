@@ -32,4 +32,8 @@ public class WhileStatement
    public boolean doesReturn() {
       return false;
    }
+
+   public boolean isConditional() {
+      return false;
+   }
 }

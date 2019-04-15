@@ -26,4 +26,8 @@ public class PrintStatement
       return false;
    }
 
+   public boolean isConditional() {
+      return false;
+   }
+
 }

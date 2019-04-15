@@ -22,4 +22,8 @@ public class InvocationStatement
    public boolean doesReturn() {
       return false;
    }
+
+   public boolean isConditional() {
+      return false;
+   }
 }

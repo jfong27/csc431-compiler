@@ -40,4 +40,8 @@ public class ConditionalStatement
       return (thenBlock.doesReturn() && elseBlock.doesReturn());
    }
 
+   public boolean isConditional() {
+      return true;
+   }
+
 }
