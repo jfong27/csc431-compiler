@@ -31,4 +31,8 @@ public class ReturnStatement
    public boolean doesReturn() {
       return true;
    }
+
+   public boolean isConditional() {
+      return false;
+   }
 }

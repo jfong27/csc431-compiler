@@ -25,4 +25,8 @@ public class ReturnEmptyStatement
       return true;
    }
 
+   public boolean isConditional() {
+      return false;
+   }
+
 }

@@ -43,4 +43,8 @@ public class BlockStatement
       }
       return false;
    }
+
+   public boolean isConditional() {
+      return false;
+   }
 }

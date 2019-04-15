@@ -27,4 +27,8 @@ public class DeleteStatement
       return false;
    }
 
+   public boolean isConditional() {
+      return false;
+   }
+
 }

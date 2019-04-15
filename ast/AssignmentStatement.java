@@ -36,4 +36,8 @@ public class AssignmentStatement
       return false;
    }
 
+   public boolean isConditional() {
+      return false;
+   }
+
 }
