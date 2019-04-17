@@ -41,24 +41,10 @@ public class Function
    }
 
    public Block createCFG() {
-      List<Statement> stmts = ((BlockStatement)body).getStatements();
       Block entryNode = new Block(name + "_entry");
       Block exitNode = new Block(name + "_exit");
-      for (Statement stmt : stmts) {
-         if (stmt.isConditional()) {
-            //End of entry node
-            entryNode = new Block(name);
-            break;
-         } else {
-            entryNode.addInstruction(stmt);
-         }
-      }
-
-
-
-
-      
-
+      body.createCFG(entryNode, exitNode);
+      return entryNode;
    }
 
    public Type typeCheck(HashMap<String, IdProperties> symTable,

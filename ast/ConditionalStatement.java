@@ -8,6 +8,7 @@ public class ConditionalStatement
    private final Expression guard;
    private final Statement thenBlock;
    private final Statement elseBlock;
+   private static int condCount = 0;
 
    public ConditionalStatement(int lineNum, Expression guard,
       Statement thenBlock, Statement elseBlock)
@@ -16,6 +17,18 @@ public class ConditionalStatement
       this.guard = guard;
       this.thenBlock = thenBlock;
       this.elseBlock = elseBlock;
+   }
+
+   public Block createCFG(Block entryNode, Block exitNode) {
+      Block thenEntry = new Block("thenEntry" + condCount);
+      Block elseEntry = new Block("elseEntry" + condCount);
+      Block joinEntry = new Block("joinEntry" + condCount);
+      condCount++;
+      Block thenExit = thenBlock.createCFG(thenEntry, exitNode);
+      Block elseExit = elseBlock.createCFG(elseEntry, exitNode);
+      thenExit.addSuccessors(joinEntry);
+      elseExit.addSuccessors(joinEntry);
+      return joinEntry;
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,

@@ -7,6 +7,7 @@ public class WhileStatement
 {
    private final Expression guard;
    private final Statement body;
+   private static int whileCount = 0;
 
    public WhileStatement(int lineNum, Expression guard, Statement body)
    {
@@ -27,6 +28,18 @@ public class WhileStatement
       }
 
       return body.typeCheck(symTable, structTable, retType);
+   }
+
+   public Block createCFG(Block entryNode, Block exitNode) {
+      //entryNode.addInstructions(guard);
+      Block bodyExit = body.createCFG(entryNode, exitNode);
+      Block joinBlock = new Block("join"+whileCount);
+      whileCount++;
+      entryNode.addSuccessors(bodyExit);
+      entryNode.addSuccessors(joinBlock);
+      bodyExit.addSuccessors(bodyExit);
+      bodyExit.addSuccessors(joinBlock);
+      return joinBlock;
    }
 
    public boolean doesReturn() {

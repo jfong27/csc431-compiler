@@ -32,6 +32,11 @@ public class AssignmentStatement
 
    }
 
+   public Block createCFG(Block entryNode, Block exitNode) {
+      //entryNode.addInstruction
+      return entryNode;
+   }
+
    public boolean doesReturn() {
       return false;
    }

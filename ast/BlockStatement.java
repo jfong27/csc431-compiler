@@ -35,6 +35,13 @@ public class BlockStatement
       //Consider return statements
       return new BoolType();
    }
+   public Block createCFG(Block entryNode, Block exitNode) {
+      Block curNode = entryNode;
+      for (Statement stmt : stmts) {
+         curNode = stmt.createCFG(curNode,exitNode);
+      }
+      return curNode;
+   }
 
    public boolean doesReturn() {
       for (Statement s : statements) {
