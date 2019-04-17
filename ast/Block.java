@@ -10,10 +10,10 @@ public class Block {
    // Should instructions be list of statements? or expressions?
    // Problem w/ stmt: block statement
    // Problem w/ expression: no assignment expression. a = 5;
-   private List<Statement> instructions;
+   private List<Instruction> instructions;
 
    public Block(String label, List<Block> successors,
-                List<Statement> instructions) {
+                List<Instruction> instructions) {
       this.label = label;
       this.successors = successors;
       this.instructions = instructions;
@@ -23,6 +23,7 @@ public class Block {
       this.label = label;
       this.successors = new ArrayList<>();
       this.instructions = new ArrayList<>();
+   }
 
    public String getLabel() {
       return label;
@@ -32,16 +33,16 @@ public class Block {
       return successors;
    }
 
-   public List<Statement> getInstructions() {
+   public List<Instruction> getInstructions() {
       return instructions;
    }
 
-   public void addInstruction(Statement s) {
-      instructions.append(s);
+   public void addInstruction(Instruction s) {
+      instructions.add(s);
    }
 
    public void addSuccessor(Block b) {
-      successors.append(b);
+      successors.add(b);
    }
 
 

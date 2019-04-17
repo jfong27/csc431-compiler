@@ -19,6 +19,13 @@ public class InvocationStatement
       return expression.typeCheck(symTable, structTable);
    }
 
+   public Block createCFG(Block entryNode, Block exitNode) {
+      //TODO: Add instruction to entry node
+
+      return entryNode;
+   }
+
+
    public boolean doesReturn() {
       return false;
    }

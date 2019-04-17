@@ -35,10 +35,10 @@ public class WhileStatement
       Block bodyExit = body.createCFG(entryNode, exitNode);
       Block joinBlock = new Block("join"+whileCount);
       whileCount++;
-      entryNode.addSuccessors(bodyExit);
-      entryNode.addSuccessors(joinBlock);
-      bodyExit.addSuccessors(bodyExit);
-      bodyExit.addSuccessors(joinBlock);
+      entryNode.addSuccessor(bodyExit);
+      entryNode.addSuccessor(joinBlock);
+      bodyExit.addSuccessor(bodyExit);
+      bodyExit.addSuccessor(joinBlock);
       return joinBlock;
    }
 

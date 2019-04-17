@@ -3,6 +3,8 @@ import org.antlr.v4.runtime.tree.*;
 
 import java.io.*;
 import javax.json.JsonValue;
+import java.util.List;
+import ast.Block;
 
 public class MiniCompiler
 {

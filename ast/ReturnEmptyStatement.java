@@ -21,6 +21,12 @@ public class ReturnEmptyStatement
       return new VoidType();
    }
 
+   public Block createCFG(Block entryNode, Block exitNode) {
+      //TODO: Add return instruction to EXIT NODE
+      
+      return exitNode; 
+   }
+
    public boolean doesReturn() {
       return true;
    }

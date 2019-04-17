@@ -31,13 +31,12 @@ public class BlockStatement
          stmnt.typeCheck(symTable, structTable, retType);
       }
 
-      //TODO: Should statements return a type? 
-      //Consider return statements
       return new BoolType();
    }
+
    public Block createCFG(Block entryNode, Block exitNode) {
       Block curNode = entryNode;
-      for (Statement stmt : stmts) {
+      for (Statement stmt : statements) {
          curNode = stmt.createCFG(curNode,exitNode);
       }
       return curNode;

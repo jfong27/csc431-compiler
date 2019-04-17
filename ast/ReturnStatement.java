@@ -28,6 +28,12 @@ public class ReturnStatement
       return exprType;
    }
 
+   public Block createCFG(Block entryNode, Block exitNode) {
+      //TODO: Add instruction to exitNode
+
+      return exitNode;
+   }
+
    public boolean doesReturn() {
       return true;
    }

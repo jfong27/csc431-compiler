@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -21,10 +22,10 @@ public class Program
 
    public List<Block> createCFGraphs() {
 
-      List<Block> funcGraphs = new ArrayList<>();
+      ArrayList<Block> funcGraphs = new ArrayList<>();
 
       for (Function func : funcs) {
-         funcGraphs.append(func.createCFG());
+         funcGraphs.add(func.createCFG());
       }
 
       return funcGraphs;

@@ -23,6 +23,13 @@ public class DeleteStatement
 
    }
 
+   public Block createCFG(Block entryNode, Block exitNode) {
+      //TODO: Add instruction to entryNode
+      
+      return entryNode;
+
+   }
+
    public boolean doesReturn() {
       return false;
    }

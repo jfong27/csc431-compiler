@@ -13,7 +13,6 @@ public class PrintLnStatement
       this.expression = expression;
    }
 
-   //TODO: Correct to return voidType???
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable,
                          Type retType) {
@@ -21,6 +20,12 @@ public class PrintLnStatement
       expression.typeCheck(symTable, structTable);
 
       return new VoidType();
+   }
+
+   public Block createCFG(Block entryNode, Block exitNode) {
+      //TODO: Add instruction to entry node
+
+      return entryNode;
    }
 
    public boolean doesReturn() {

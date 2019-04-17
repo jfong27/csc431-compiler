@@ -26,8 +26,8 @@ public class ConditionalStatement
       condCount++;
       Block thenExit = thenBlock.createCFG(thenEntry, exitNode);
       Block elseExit = elseBlock.createCFG(elseEntry, exitNode);
-      thenExit.addSuccessors(joinEntry);
-      elseExit.addSuccessors(joinEntry);
+      thenExit.addSuccessor(joinEntry);
+      elseExit.addSuccessor(joinEntry);
       return joinEntry;
    }
 
