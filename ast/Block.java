@@ -1,5 +1,7 @@
 package ast;
 
+import java.lang.StringBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,23 @@ public class Block {
       this.label = label;
       this.successors = new ArrayList<>();
       this.instructions = new ArrayList<>();
+   }
+
+   public String toString() {
+      StringBuilder blockString = new StringBuilder();
+
+      blockString.append(label);
+      blockString.append(":\n");
+
+      for (Instruction instr : instructions) {
+         blockString.append(instr.toString() + "\n");
+      }
+
+      for (Block successor : successors) {
+         blockString.append(successor.toString());
+      }
+
+      return blockString.toString();
    }
 
    public String getLabel() {

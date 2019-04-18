@@ -41,6 +41,10 @@ public class MiniCompiler
 
          List<Block> functionCFGraphs = program.createCFGraphs();
 
+         for (Block block : functionCFGraphs) {
+            System.out.println(block.toString());
+         }
+
       }
    }
 

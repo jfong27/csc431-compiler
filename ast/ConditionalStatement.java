@@ -23,6 +23,10 @@ public class ConditionalStatement
       Block thenEntry = new Block("thenEntry" + condCount);
       Block elseEntry = new Block("elseEntry" + condCount);
       Block joinEntry = new Block("joinEntry" + condCount);
+
+      entryNode.addSuccessor(thenEntry);
+      entryNode.addSuccessor(elseEntry);
+
       condCount++;
       Block thenExit = thenBlock.createCFG(thenEntry, exitNode);
       Block elseExit = elseBlock.createCFG(elseEntry, exitNode);

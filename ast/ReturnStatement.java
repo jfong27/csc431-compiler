@@ -30,6 +30,8 @@ public class ReturnStatement
 
    public Block createCFG(Block entryNode, Block exitNode) {
       //TODO: Add instruction to exitNode
+      exitNode.addInstruction(new ReturnInstruction());
+      entryNode.addSuccessor(exitNode);
 
       return exitNode;
    }
