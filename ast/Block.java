@@ -34,7 +34,7 @@ public class Block {
       blockString.append(":\n");
 
       for (Instruction instr : instructions) {
-         blockString.append(instr.toString() + "\n");
+         blockString.append("\t" + instr.toString() + "\n");
       }
 
       for (Block successor : successors) {

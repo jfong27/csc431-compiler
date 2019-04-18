@@ -16,8 +16,12 @@ public class InvocationExpression
       this.name = name;
       this.arguments = arguments;
    }
+   
+   //TODO
+   public Value addInstructions(Block node) {
+      return new RegisterValue("INVOCATION EXPRESSION");
+   }
 
-   //TODO: IMPLEMENT
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
 

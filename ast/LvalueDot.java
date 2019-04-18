@@ -40,4 +40,8 @@ public class LvalueDot
       return structTable.get(leftName).get(id);
 
    }
+
+   public String toString() {
+      return "IMPLEMENT LVALUE DOT TOSTRING";
+   }
 }

@@ -22,4 +22,12 @@ public class IntType
       return "int";
     }
 
+    public String toLLVMType() {
+       return "i32";
+    }
+
+    public String toString() {
+       return "i32";
+    }
+
 }

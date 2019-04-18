@@ -6,7 +6,7 @@ public class AssignInstruction implements Instruction {
    }
 
    public String toString() {
-      return "Assign instruction";
+      return "Assign instruction" + Integer.toString(Counter.getCount());
    }
 
 }

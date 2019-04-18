@@ -20,4 +20,8 @@ public class LvalueId
 
    }
 
+   public String toString() {
+      return id;
+   }
+
 }

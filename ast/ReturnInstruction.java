@@ -6,6 +6,6 @@ public class ReturnInstruction implements Instruction {
    }
 
    public String toString() {
-      return "Return instruction";
+      return "ret void";
    }
 }

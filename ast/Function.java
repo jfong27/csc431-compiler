@@ -41,8 +41,22 @@ public class Function
    }
 
    public Block createCFG() {
-      Block entryNode = new Block(name + "_entry");
-      Block exitNode = new Block(name + "_exit");
+      Block exitNode = new Block(String.format("LU%d", Counter.getBlockCount()));
+      Block entryNode = new Block(String.format("LU%d", Counter.getBlockCount()));
+
+      RegisterValue retReg = new RegisterValue("retval");
+      entryNode.addInstruction(new AllocateInstruction(retReg, retType));
+      for (Declaration decl : params) {
+         RegisterValue reg = new RegisterValue("P_" + decl.getName());
+         Type type = decl.getType();
+         RegisterValue paramReg = new RegisterValue(decl.getName());
+
+         entryNode.addInstruction(new AllocateInstruction(reg, type));
+         entryNode.addInstruction(new StoreInstruction(type, type, paramReg, reg));
+      }
+      for (Declaration decl : locals) {
+
+      }
       body.createCFG(entryNode, exitNode);
       return entryNode;
    }

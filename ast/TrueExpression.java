@@ -8,11 +8,16 @@ public class TrueExpression
    public TrueExpression(int lineNum)
    {
       super(lineNum);
-   }
+    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
       return new BoolType();
+   }
+
+   //TODO
+   public Value addInstructions(Block node) {
+      return new RegisterValue("TRUE EXPR");
    }
 
 }

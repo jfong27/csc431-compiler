@@ -13,6 +13,11 @@ public class IdentifierExpression
       this.id = id;
    }
 
+   //TODO: IMPLEMENT
+   public Value addInstructions(Block node) {
+      return new RegisterValue("ID EXPRESSION");
+   }
+
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
       if (!symTable.containsKey(id)) {

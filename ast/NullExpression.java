@@ -10,6 +10,11 @@ public class NullExpression
       super(lineNum);
    }
 
+
+   public Value addInstructions(Block node) {
+      return new RegisterValue("NULL EXPRESSION");
+   }
+
    //TODO: Correct to return void type???
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {

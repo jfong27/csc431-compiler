@@ -15,6 +15,12 @@ public class DotExpression
       this.id = id;
    }
 
+   //TODO: Recurse on left expression, store in register, etc.
+   public Value addInstructions(Block node) {
+      return new RegisterValue("DOT EXPRESSION");
+   }
+
+
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
       Type leftType = left.typeCheck(symTable, structTable);

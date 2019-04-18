@@ -43,6 +43,7 @@ public class MiniCompiler
 
          for (Block block : functionCFGraphs) {
             System.out.println(block.toString());
+            System.out.println("\n");
          }
 
       }

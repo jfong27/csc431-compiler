@@ -33,5 +33,12 @@ public class StructType
    public String getTypeString() {
       return "struct " + name;
    }
+   
+   public String toLLVMType() {
+      return String.format("%%struct.%s", name);
+   }
 
+   public String toString() {
+      return String.format("%%struct.%s", name);
+   }
 }

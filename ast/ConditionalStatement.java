@@ -8,7 +8,7 @@ public class ConditionalStatement
    private final Expression guard;
    private final Statement thenBlock;
    private final Statement elseBlock;
-   private static int condCount = 0;
+ //  private static int condCount = 0;
 
    public ConditionalStatement(int lineNum, Expression guard,
       Statement thenBlock, Statement elseBlock)
@@ -20,14 +20,20 @@ public class ConditionalStatement
    }
 
    public Block createCFG(Block entryNode, Block exitNode) {
+      /*
       Block thenEntry = new Block("thenEntry" + condCount);
       Block elseEntry = new Block("elseEntry" + condCount);
       Block joinEntry = new Block("joinEntry" + condCount);
+      */
+      Block thenEntry = new Block("LU" + Counter.getBlockCount());
+      Block elseEntry = new Block("LU" + Counter.getBlockCount());
+      Block joinEntry = new Block("LU" + Counter.getBlockCount());
+
 
       entryNode.addSuccessor(thenEntry);
       entryNode.addSuccessor(elseEntry);
 
-      condCount++;
+//      condCount++;
       Block thenExit = thenBlock.createCFG(thenEntry, exitNode);
       Block elseExit = elseBlock.createCFG(elseEntry, exitNode);
       thenExit.addSuccessor(joinEntry);

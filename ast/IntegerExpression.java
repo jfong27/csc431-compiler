@@ -17,4 +17,8 @@ public class IntegerExpression
                          Map<String, Map<String, Type>> structTable) {
       return new IntType();
    }
+
+   public Value addInstructions(Block node) {
+      return new ImmediateValue(0);
+   }
 }

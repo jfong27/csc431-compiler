@@ -22,5 +22,9 @@ public class BoolType
     public String getTypeString() {
       return "bool";
     }
+    
+    public String toLLVMType() {
+       return "i1";
+    }
 
 }
