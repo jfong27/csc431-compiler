@@ -16,8 +16,11 @@ public class LvalueId
 
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
+      if (!symTable.containsKey(id)) {
+         System.out.println("Variable '"+id+"' is undeclared");
+         System.exit(-1);
+      }
       return symTable.get(id).getType();
-
    }
 
    public String toString() {
