@@ -40,18 +40,24 @@ public class Program
       StringBuilder sb = new StringBuilder();
       List<Block> functionCFGs = createCFGraphs(structTable);
 
+      sb.append("target triple=\"i686\"");
       for (TypeDeclaration decl : types) {
          sb.append(decl.toString());
       }
       sb.append("\n");
 
+      int f = 0;
       for (Block functionEntry : functionCFGs) {
+         Function currFunc = funcs.get(f++);
+         sb.append(String.format("define %s @%s()\n{\n", 
+                                 currFunc.getRetType().toString(), 
+                                 currFunc.getName()));
          Queue<Block> blockOrder = new LinkedList<>();
          blockOrder = functionEntry.BFS(blockOrder);
          for (Block block : blockOrder) {
             sb.append(block.toString());
          }
-         sb.append("\n");
+         sb.append("}\n\n");
       }
 
       return sb.toString();
