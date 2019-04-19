@@ -15,6 +15,7 @@ public class Program
    private final List<TypeDeclaration> types;
    private final List<Declaration> decls;
    private final List<Function> funcs;
+   private final HashMap<String, IdProperties> symTable;
 
    public Program(List<TypeDeclaration> types, List<Declaration> decls,
       List<Function> funcs)
@@ -22,6 +23,7 @@ public class Program
       this.types = types;
       this.decls = decls;
       this.funcs = funcs;
+      this.symTable = initSymTable();
    }
 
    public List<Block> createCFGraphs(Map<String, Map<String, Type>> structTable) {
@@ -29,7 +31,7 @@ public class Program
       ArrayList<Block> funcGraphs = new ArrayList<>();
 
       for (Function func : funcs) {
-         funcGraphs.add(func.createCFG(structTable));
+         funcGraphs.add(func.createCFG(symTable, structTable));
       }
 
       return funcGraphs;
@@ -65,7 +67,6 @@ public class Program
 
 
    public Map<String, Map<String, Type>> typeCheck() {
-      HashMap<String, IdProperties> symTable = new HashMap<>();
       Map<String, Map<String, Type>> structTable = new HashMap<>();
       boolean mainFlag = false;
       for (Function func : funcs) {
@@ -77,10 +78,6 @@ public class Program
          System.out.println("There is no main function");
          System.exit(-1);
       }
-      for (Declaration currDecl : decls) {
-         symTable.put(currDecl.getName(), 
-                      new IdProperties(currDecl.getType(), false, null));
-      }
 
       for (TypeDeclaration typeDecl : types) {
          Map<String, Type> fieldsTable = new HashMap<>();
@@ -90,14 +87,6 @@ public class Program
          }
 
          structTable.put(typeDecl.getName(), fieldsTable);
-      }
-
-      //TODO: Invocation expression needs to return the retType of
-      // the function being invoked. So we need to add function retTypes
-      // to the symTable?? 
-      for (Function func : funcs) {
-         symTable.put(func.getName(), 
-                      new IdProperties(func.getRetType(), true, func.getParams()));
       }
 
       for (Function func : funcs) {
@@ -111,6 +100,22 @@ public class Program
 
       return structTable;
 
+   }
+
+   private HashMap<String, IdProperties> initSymTable() {
+      HashMap<String, IdProperties> symTable = new HashMap<>();
+
+      for (Declaration currDecl : decls) {
+         symTable.put(currDecl.getName(), 
+               new IdProperties(currDecl.getType(), false, null));
+      }
+
+      for (Function func : funcs) {
+         symTable.put(func.getName(), 
+               new IdProperties(func.getRetType(), true, func.getParams()));
+      }
+
+      return symTable;
    }
 
 }

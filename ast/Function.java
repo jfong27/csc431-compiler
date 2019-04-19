@@ -40,7 +40,12 @@ public class Function
       return params.size();
    }
 
-   public Block createCFG(Map<String, Map<String, Type>> structTable) {
+   public Block createCFG(HashMap<String, IdProperties> symTable,
+                          Map<String, Map<String, Type>> structTable) {
+
+      //TODO: Clone symTable for local scope;
+
+      Map<String, IdProperties> localSymTable = addLocalsTo(symTable);
 
       Block exitNode = new Block(String.format("LU%d", Counter.getBlockCount()));
       Block entryNode = new Block(String.format("LU%d", Counter.getBlockCount()));
@@ -61,6 +66,21 @@ public class Function
       }
       body.createCFG(entryNode, exitNode, structTable);
       return entryNode;
+   }
+
+   private Map<String, IdProperties> addLocalsTo(HashMap<String, IdProperties> symTable) {
+      Map<String, IdProperties> localTable = symTable.clone();
+
+      for (Declaration decl : params) {
+         localTable.put(decl.getName(), new IdProperties(decl.getType(), false, null));
+      }
+
+      for (Declaration decl : locals) {
+         localTable.put(decl.getName(), new IdProperties(decl.getType(), false, null));
+      }
+
+      return localTable;
+
    }
 
    public Type typeCheck(HashMap<String, IdProperties> symTable,
