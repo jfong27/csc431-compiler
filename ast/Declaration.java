@@ -25,4 +25,13 @@ public class Declaration
    public Type typeCheck() {
        return type;
    }
+
+   public String toString() {
+
+      if (type instanceof IntType) {
+         return "i32";
+      }
+      return "DECL TYPE";
+
+   }
 }

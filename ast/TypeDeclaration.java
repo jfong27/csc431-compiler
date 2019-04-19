@@ -1,6 +1,8 @@
 package ast;
 
-import java.util.*;
+import java.lang.StringBuilder;
+
+import java.util.List;
 
 public class TypeDeclaration
 {
@@ -21,6 +23,24 @@ public class TypeDeclaration
 
    public List<Declaration> getFields() {
       return fields;
+   }
+
+   public String toString() {
+      StringBuilder sb = new StringBuilder();
+
+      sb.append("%struct.");
+      sb.append(name);
+      sb.append(" = type {");
+
+      for (Declaration decl : fields) {
+         sb.append(decl.toString() + ", ");
+      }
+
+      sb.delete(sb.length() - 2, sb.length());
+      sb.append("}\n");
+
+      return sb.toString();
+      
    }
 
 }

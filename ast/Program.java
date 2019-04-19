@@ -1,9 +1,13 @@
 package ast;
 
+import java.lang.StringBuilder;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Queue;
 
 
 public class Program
@@ -31,6 +35,28 @@ public class Program
       return funcGraphs;
 
    }
+
+   public String toString() {
+      StringBuilder sb = new StringBuilder();
+      List<Block> functionCFGs = createCFGraphs();
+
+      for (TypeDeclaration decl : types) {
+         sb.append(decl.toString());
+      }
+      sb.append("\n");
+
+      for (Block functionEntry : functionCFGs) {
+         Queue<Block> blockOrder = new LinkedList<>();
+         blockOrder = functionEntry.BFS(blockOrder);
+         for (Block block : blockOrder) {
+            sb.append(block.toString());
+         }
+         sb.append("\n");
+      }
+
+      return sb.toString();
+   }
+
 
    public void typeCheck() {
       HashMap<String, IdProperties> symTable = new HashMap<>();

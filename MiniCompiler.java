@@ -3,10 +3,7 @@ import org.antlr.v4.runtime.tree.*;
 
 import java.io.*;
 import javax.json.JsonValue;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-import ast.Block;
 
 public class MiniCompiler
 {
@@ -41,17 +38,8 @@ public class MiniCompiler
       
          program.typeCheck();
 
-         List<Block> functionCFGraphs = program.createCFGraphs();
-
-         for (Block functionEntry : functionCFGraphs) {
-            Queue<Block> blockOrder = new LinkedList<>();
-            blockOrder = functionEntry.BFS(blockOrder);
-            for (Block block : blockOrder) { 
-               System.out.print(block.toString());
-            }
-            System.out.println("\n");
-         }
-
+         System.out.println(program.toString());
+         
       }
    }
 
