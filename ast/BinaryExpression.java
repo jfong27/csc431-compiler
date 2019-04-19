@@ -21,6 +21,8 @@ public class BinaryExpression
    //TODO: Recurse on left/right expressions, add LLVM instructions
    public Value addInstructions(Block node) {
       //node.add(new ___Instruction());
+      left.addInstructions(node);
+      right.addInstructions(node);
       return new RegisterValue("BINARY EXPRESSION");
    }
 

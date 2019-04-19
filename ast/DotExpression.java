@@ -17,6 +17,7 @@ public class DotExpression
 
    //TODO: Recurse on left expression, store in register, etc.
    public Value addInstructions(Block node) {
+      node.addInstruction(new TestInstruction("DOT EXPRESSION"));
       return new RegisterValue("DOT EXPRESSION");
    }
 

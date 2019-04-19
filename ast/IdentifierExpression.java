@@ -15,6 +15,7 @@ public class IdentifierExpression
 
    //TODO: IMPLEMENT
    public Value addInstructions(Block node) {
+      node.addInstruction(new TestInstruction("ID EXPRESSION"));
       return new RegisterValue("ID EXPRESSION");
    }
 

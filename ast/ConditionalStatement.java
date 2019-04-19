@@ -20,20 +20,15 @@ public class ConditionalStatement
    }
 
    public Block createCFG(Block entryNode, Block exitNode) {
-      /*
-      Block thenEntry = new Block("thenEntry" + condCount);
-      Block elseEntry = new Block("elseEntry" + condCount);
-      Block joinEntry = new Block("joinEntry" + condCount);
-      */
-      Block thenEntry = new Block("LU" + Counter.getBlockCount());
-      Block elseEntry = new Block("LU" + Counter.getBlockCount());
-      Block joinEntry = new Block("LU" + Counter.getBlockCount());
+
+      Block thenEntry = new Block("THEN" + Counter.getBlockCount());
+      Block elseEntry = new Block("ELSE" + Counter.getBlockCount());
+      Block joinEntry = new Block("JOIN" + Counter.getBlockCount());
 
 
       entryNode.addSuccessor(thenEntry);
       entryNode.addSuccessor(elseEntry);
 
-//      condCount++;
       Block thenExit = thenBlock.createCFG(thenEntry, exitNode);
       Block elseExit = elseBlock.createCFG(elseEntry, exitNode);
       thenExit.addSuccessor(joinEntry);

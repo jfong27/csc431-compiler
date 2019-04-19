@@ -4,6 +4,7 @@ import java.lang.StringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class Block {
 
@@ -13,6 +14,8 @@ public class Block {
    // Problem w/ stmt: block statement
    // Problem w/ expression: no assignment expression. a = 5;
    private List<Instruction> instructions;
+   private boolean alreadyPrinted = false;
+   private boolean visited = false;
 
    public Block(String label, List<Block> successors,
                 List<Instruction> instructions) {
@@ -27,7 +30,26 @@ public class Block {
       this.instructions = new ArrayList<>();
    }
 
+   public Queue BFS(Queue qu) {
+      qu.add(this);
+      for (Block successor : successors) {
+         qu.add(successor);
+      }
+
+      for (Block successor : successors) {
+         qu = successor.BFS(qu);
+      }
+
+      return qu;
+   }
+
    public String toString() {
+      if (alreadyPrinted) {
+         return ""; 
+      } else {
+         alreadyPrinted = true;
+      }
+
       StringBuilder blockString = new StringBuilder();
 
       blockString.append(label);
@@ -35,10 +57,6 @@ public class Block {
 
       for (Instruction instr : instructions) {
          blockString.append("\t" + instr.toString() + "\n");
-      }
-
-      for (Block successor : successors) {
-         blockString.append(successor.toString());
       }
 
       return blockString.toString();
