@@ -16,8 +16,17 @@ public class DotExpression
    }
 
    //TODO: Recurse on left expression, store in register, etc.
+   // We need to get the type to give to load instruction. How 
+   // do we find out the type? 
    public Value addInstructions(Block node) {
       node.addInstruction(new TestInstruction("DOT EXPRESSION"));
+      String reg1 = "u" + Integer.toString(Counter.getCount());
+      String reg2 = "u" + Integer.toString(Counter.getCount());
+      node.addInstruction(new LoadInstruction(new RegisterValue(reg1),
+                                              new IntType(), 
+                                              new RegisterValue(id)));
+      node.addInstruction(new GetElemPtrInstruction(new RegisterValue(reg2)));
+                        
       return new RegisterValue("DOT EXPRESSION");
    }
 

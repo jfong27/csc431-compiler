@@ -46,6 +46,10 @@ public class Function
 
       RegisterValue retReg = new RegisterValue("retval");
       entryNode.addInstruction(new AllocateInstruction(retReg, retType));
+      for (Declaration decl : locals) {
+         RegisterValue localReg = new RegisterValue(decl.getName());
+         entryNode.addInstruction(new AllocateInstruction(localReg, decl.getType()));
+      }
       for (Declaration decl : params) {
          RegisterValue reg = new RegisterValue("P_" + decl.getName());
          Type type = decl.getType();
@@ -53,9 +57,6 @@ public class Function
 
          entryNode.addInstruction(new AllocateInstruction(reg, type));
          entryNode.addInstruction(new StoreInstruction(type, type, paramReg, reg));
-      }
-      for (Declaration decl : locals) {
-
       }
       body.createCFG(entryNode, exitNode);
       return entryNode;
