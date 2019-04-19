@@ -31,6 +31,11 @@ public class Block {
    }
 
    public Queue BFS(Queue qu) {
+      if (visited) {
+         return qu;
+      } else {
+        visited = true;
+      } 
       qu.add(this);
       for (Block successor : successors) {
          qu.add(successor);
