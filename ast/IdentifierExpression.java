@@ -14,9 +14,9 @@ public class IdentifierExpression
    }
 
    //TODO: IMPLEMENT
-   public Value addInstructions(Block node) {
+   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
       node.addInstruction(new TestInstruction("ID EXPRESSION"));
-      return new RegisterValue("ID EXPRESSION");
+      return new RegisterValue("ID EXPRESSION", new IntType());
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,

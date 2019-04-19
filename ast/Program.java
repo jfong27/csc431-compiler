@@ -24,21 +24,21 @@ public class Program
       this.funcs = funcs;
    }
 
-   public List<Block> createCFGraphs() {
+   public List<Block> createCFGraphs(Map<String, Map<String, Type>> structTable) {
 
       ArrayList<Block> funcGraphs = new ArrayList<>();
 
       for (Function func : funcs) {
-         funcGraphs.add(func.createCFG());
+         funcGraphs.add(func.createCFG(structTable));
       }
 
       return funcGraphs;
 
    }
 
-   public String toString() {
+   public String toString(Map<String, Map<String, Type>> structTable) {
       StringBuilder sb = new StringBuilder();
-      List<Block> functionCFGs = createCFGraphs();
+      List<Block> functionCFGs = createCFGraphs(structTable);
 
       for (TypeDeclaration decl : types) {
          sb.append(decl.toString());
@@ -58,7 +58,7 @@ public class Program
    }
 
 
-   public void typeCheck() {
+   public Map<String, Map<String, Type>> typeCheck() {
       HashMap<String, IdProperties> symTable = new HashMap<>();
       Map<String, Map<String, Type>> structTable = new HashMap<>();
       boolean mainFlag = false;
@@ -102,6 +102,8 @@ public class Program
             System.exit(-1);
          }
       }
+
+      return structTable;
 
    }
 

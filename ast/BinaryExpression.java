@@ -19,11 +19,12 @@ public class BinaryExpression
    }
 
    //TODO: Recurse on left/right expressions, add LLVM instructions
-   public Value addInstructions(Block node) {
+   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
       //node.add(new ___Instruction());
-      left.addInstructions(node);
-      right.addInstructions(node);
-      return new RegisterValue("BINARY EXPRESSION");
+      left.addInstructions(node, structTable);
+      right.addInstructions(node, structTable);
+      //TODO: RegisterValue could be Bool type or int type depending on operator
+      return new RegisterValue("BINARY EXPRESSION", new IntType());
    }
 
    public Type typeCheck(Map<String,IdProperties> symTable, 

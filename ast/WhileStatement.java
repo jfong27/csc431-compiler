@@ -30,9 +30,10 @@ public class WhileStatement
       return body.typeCheck(symTable, structTable, retType);
    }
 
-   public Block createCFG(Block entryNode, Block exitNode) {
+   public Block createCFG(Block entryNode, Block exitNode, 
+                          Map<String, Map<String, Type>> structTable) {
       //entryNode.addInstructions(guard);
-      Block bodyExit = body.createCFG(entryNode, exitNode);
+      Block bodyExit = body.createCFG(entryNode, exitNode, structTable);
       Block joinBlock = new Block("join"+whileCount);
       whileCount++;
       entryNode.addSuccessor(bodyExit);

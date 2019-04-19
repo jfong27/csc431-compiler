@@ -16,8 +16,8 @@ public class TrueExpression
    }
 
    //TODO
-   public Value addInstructions(Block node) {
-      return new RegisterValue("TRUE EXPR");
+   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+      return new ImmediateValue(1, new BoolType());
    }
 
 }

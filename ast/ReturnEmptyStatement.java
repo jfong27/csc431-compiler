@@ -21,8 +21,11 @@ public class ReturnEmptyStatement
       return new VoidType();
    }
 
-   public Block createCFG(Block entryNode, Block exitNode) {
+   public Block createCFG(Block entryNode, Block exitNode,
+                          Map<String, Map<String, Type>> structTable) {
       //TODO: Add return instruction to EXIT NODE
+      entryNode.addSuccessor(exitNode);
+      exitNode.addInstruction(new ReturnEmptyInstruction());
       
       return exitNode; 
    }

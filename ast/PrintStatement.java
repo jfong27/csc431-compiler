@@ -21,9 +21,11 @@ public class PrintStatement
       return new VoidType();
    }
 
-   public Block createCFG(Block entryNode, Block exitNode) {
+   public Block createCFG(Block entryNode, Block exitNode,
+                          Map<String, Map<String, Type>> structTable) {
       //TODO: Add instruction
       
+      entryNode.addInstruction(new TestInstruction("PRINT"));
       return entryNode;
    }
 

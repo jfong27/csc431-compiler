@@ -11,11 +11,10 @@ public class NullExpression
    }
 
 
-   public Value addInstructions(Block node) {
-      return new RegisterValue("NULL EXPRESSION");
+   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+      return new ImmediateValue(-1, new IntType());
    }
 
-   //TODO: Correct to return void type???
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
       return new VoidType();

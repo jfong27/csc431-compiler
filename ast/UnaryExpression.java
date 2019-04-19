@@ -41,9 +41,9 @@ public class UnaryExpression
    }
 
 
-   //TODO
-   public Value addInstructions(Block node) {
-      return new RegisterValue("UNARY");
+   //TODO: Depending on type of operand, return bool or int type
+   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+      return new RegisterValue("UNARY", new BoolType());
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,

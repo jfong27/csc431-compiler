@@ -32,9 +32,11 @@ public class AssignmentStatement
 
    }
 
-   public Block createCFG(Block entryNode, Block exitNode) {
-      Value sourceReg = source.addInstructions(entryNode);
-      Value targetReg = target.addInstructions(entryNode);
+   public Block createCFG(Block entryNode, Block exitNode, Map<String, 
+                          Map<String, Type>> structTable) {
+
+      Value sourceReg = source.addInstructions(entryNode, structTable);
+      Value targetReg = target.addInstructions(entryNode, structTable);
       StoreInstruction instr = new StoreInstruction(new IntType(), new IntType(), 
                                                     sourceReg, targetReg);
       entryNode.addInstruction(instr);

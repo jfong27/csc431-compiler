@@ -14,11 +14,14 @@ public class NewExpression
    }
 
    //TODO
-   public Value addInstructions(Block node) {
-      RegisterValue result1 = new RegisterValue("u" + Integer.toString(Counter.getCount()));
+   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+
+      RegisterValue result1 = new RegisterValue("u" + Integer.toString(Counter.getCount()),
+                                                new IntType());
       Instruction callInstr = new CallInstruction(result1);
 
-      RegisterValue result2 = new RegisterValue("u" + Integer.toString(Counter.getCount()));
+      RegisterValue result2 = new RegisterValue("u" + Integer.toString(Counter.getCount()),
+                                                new IntType());
       Instruction bitcastInstr = new BitcastInstruction(result2, result1);
       node.addInstruction(callInstr);
       node.addInstruction(bitcastInstr);

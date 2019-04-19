@@ -40,25 +40,26 @@ public class Function
       return params.size();
    }
 
-   public Block createCFG() {
+   public Block createCFG(Map<String, Map<String, Type>> structTable) {
+
       Block exitNode = new Block(String.format("LU%d", Counter.getBlockCount()));
       Block entryNode = new Block(String.format("LU%d", Counter.getBlockCount()));
 
-      RegisterValue retReg = new RegisterValue("retval");
+      RegisterValue retReg = new RegisterValue("retval", retType);
       entryNode.addInstruction(new AllocateInstruction(retReg, retType));
       for (Declaration decl : locals) {
-         RegisterValue localReg = new RegisterValue(decl.getName());
+         RegisterValue localReg = new RegisterValue(decl.getName(), decl.getType());
          entryNode.addInstruction(new AllocateInstruction(localReg, decl.getType()));
       }
       for (Declaration decl : params) {
-         RegisterValue reg = new RegisterValue("P_" + decl.getName());
+         RegisterValue reg = new RegisterValue("P_" + decl.getName(), decl.getType());
          Type type = decl.getType();
-         RegisterValue paramReg = new RegisterValue(decl.getName());
+         RegisterValue paramReg = new RegisterValue(decl.getName(), decl.getType());
 
          entryNode.addInstruction(new AllocateInstruction(reg, type));
          entryNode.addInstruction(new StoreInstruction(type, type, paramReg, reg));
       }
-      body.createCFG(entryNode, exitNode);
+      body.createCFG(entryNode, exitNode, structTable);
       return entryNode;
    }
 

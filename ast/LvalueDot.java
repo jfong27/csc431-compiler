@@ -17,9 +17,10 @@ public class LvalueDot
    }
 
 
-   public Value addInstructions(Block node) {
+   //TODO
+   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
       node.addInstruction(new TestInstruction("ADD INSTR FOR LVALUEDOT"));
-      return new RegisterValue("LVALUE DOT");
+      return new RegisterValue("LVALUE DOT", new IntType());
    }
 
 

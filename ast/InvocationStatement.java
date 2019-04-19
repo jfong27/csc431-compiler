@@ -19,9 +19,11 @@ public class InvocationStatement
       return expression.typeCheck(symTable, structTable);
    }
 
-   public Block createCFG(Block entryNode, Block exitNode) {
+   public Block createCFG(Block entryNode, Block exitNode,
+                          Map<String, Map<String, Type>> structTable) {
       //TODO: Add instruction to entry node
 
+      entryNode.addInstruction(new TestInstruction("Invocation Statement"));
       return entryNode;
    }
 

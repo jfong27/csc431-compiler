@@ -19,7 +19,8 @@ public class ConditionalStatement
       this.elseBlock = elseBlock;
    }
 
-   public Block createCFG(Block entryNode, Block exitNode) {
+   public Block createCFG(Block entryNode, Block exitNode,
+                          Map<String, Map<String, Type>> structTable) {
 
       Block thenEntry = new Block("LU" + Counter.getBlockCount());
       Block elseEntry = new Block("LU" + Counter.getBlockCount());
@@ -29,8 +30,8 @@ public class ConditionalStatement
       entryNode.addSuccessor(thenEntry);
       entryNode.addSuccessor(elseEntry);
 
-      Block thenExit = thenBlock.createCFG(thenEntry, exitNode);
-      Block elseExit = elseBlock.createCFG(elseEntry, exitNode);
+      Block thenExit = thenBlock.createCFG(thenEntry, exitNode, structTable);
+      Block elseExit = elseBlock.createCFG(elseEntry, exitNode, structTable);
       thenExit.addSuccessor(joinEntry);
       elseExit.addSuccessor(joinEntry);
       return joinEntry;

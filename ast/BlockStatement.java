@@ -34,12 +34,13 @@ public class BlockStatement
       return new BoolType();
    }
 
-   public Block createCFG(Block entryNode, Block exitNode) {
-      Block curNode = entryNode;
+   public Block createCFG(Block entryNode, Block exitNode,
+                          Map<String, Map<String, Type>> structTable) {
+      Block currNode = entryNode;
       for (Statement stmt : statements) {
-         curNode = stmt.createCFG(curNode,exitNode);
+         currNode = stmt.createCFG(currNode, exitNode, structTable);
       }
-      return curNode;
+      return currNode;
    }
 
    public boolean doesReturn() {

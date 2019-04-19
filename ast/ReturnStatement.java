@@ -28,8 +28,10 @@ public class ReturnStatement
       return exprType;
    }
 
-   public Block createCFG(Block entryNode, Block exitNode) {
+   public Block createCFG(Block entryNode, Block exitNode, 
+                          Map<String, Map<String, Type>> structTable) {
       //TODO: Add instruction to exitNode
+      Value retExpr = expression.addInstructions(entryNode, structTable);
       exitNode.addInstruction(new ReturnInstruction());
       entryNode.addSuccessor(exitNode);
 

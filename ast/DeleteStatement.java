@@ -23,8 +23,11 @@ public class DeleteStatement
 
    }
 
-   public Block createCFG(Block entryNode, Block exitNode) {
+   public Block createCFG(Block entryNode, Block exitNode,
+                          Map<String, Map<String, Type>> structTable) {
       //TODO: Add instruction to entryNode
+      
+      entryNode.addInstruction(new TestInstruction("del"));
       
       return entryNode;
 

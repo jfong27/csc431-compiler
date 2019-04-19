@@ -11,11 +11,12 @@ public class ReadExpression
    }
 
    //TODO
-   public Value addInstructions(Block node) {
-      return new RegisterValue("READ EXPR");
+   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+      node.addInstruction(new TestInstruction("READ"));
+
+      return new RegisterValue("READ EXPR", new IntType());
    }
 
-   //TODO: IMPLEMENT
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
       return new IntType();

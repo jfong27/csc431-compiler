@@ -1,9 +1,11 @@
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
+import ast.Type;
 import java.io.*;
 import javax.json.JsonValue;
 import java.util.List;
+import java.util.Map;
 
 public class MiniCompiler
 {
@@ -36,9 +38,9 @@ public class MiniCompiler
             new MiniToAstProgramVisitor();
          ast.Program program = programVisitor.visit(tree);
       
-         program.typeCheck();
+         Map<String, Map<String, Type>> structTable = program.typeCheck();
 
-         System.out.println(program.toString());
+         System.out.println(program.toString(structTable));
          
       }
    }

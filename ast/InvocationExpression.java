@@ -18,8 +18,8 @@ public class InvocationExpression
    }
    
    //TODO
-   public Value addInstructions(Block node) {
-      return new RegisterValue("INVOCATION EXPRESSION");
+   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+      return new RegisterValue("INVOCATION EXPRESSION", new IntType());
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,
