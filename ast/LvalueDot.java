@@ -16,7 +16,13 @@ public class LvalueDot
       this.id = id;
    }
 
-   //TODO: Implement
+
+   public Value addInstructions(Block node) {
+      node.addInstruction(new TestInstruction("ADD INSTR FOR LVALUEDOT"));
+      return new RegisterValue("LVALUE DOT");
+   }
+
+
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
       Type leftType = left.typeCheck(symTable, structTable);
@@ -36,7 +42,6 @@ public class LvalueDot
                             lineNum, id, leftName);
          System.exit(-1);
       }
-      //Map<String,Type> structFields = structTable.get(leftName);
       return structTable.get(leftName).get(id);
 
    }

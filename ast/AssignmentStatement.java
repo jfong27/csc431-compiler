@@ -33,9 +33,10 @@ public class AssignmentStatement
    }
 
    public Block createCFG(Block entryNode, Block exitNode) {
-      Value reg = source.addInstructions(entryNode);
+      Value sourceReg = source.addInstructions(entryNode);
+      Value targetReg = target.addInstructions(entryNode);
       StoreInstruction instr = new StoreInstruction(new IntType(), new IntType(), 
-                                                    reg, new RegisterValue(target.toString()));
+                                                    sourceReg, targetReg);
       entryNode.addInstruction(instr);
       return entryNode;
    }

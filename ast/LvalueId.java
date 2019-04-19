@@ -14,6 +14,12 @@ public class LvalueId
       this.id = id;
    }
 
+   public Value addInstructions(Block node) {
+
+      node.addInstruction(new TestInstruction("Add instr for lvalue id"));
+      return new RegisterValue("LVALUE ID");
+   }
+
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
       if (!symTable.containsKey(id)) {
