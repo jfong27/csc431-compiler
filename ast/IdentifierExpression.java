@@ -17,8 +17,13 @@ public class IdentifierExpression
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
-      node.addInstruction(new TestInstruction("ID EXPRESSION"));
-      return new RegisterValue("ID EXPRESSION", new IntType());
+
+      Type idType = symTable.get(id).getType();
+      RegisterValue resultReg = new RegisterValue(idType);
+      RegisterValue idReg = new RegisterValue(id, idType);
+
+      node.addInstruction(new LoadInstruction(resultReg, idType, idReg));
+      return resultReg;
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,

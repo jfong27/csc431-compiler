@@ -10,8 +10,17 @@ public class RegisterValue implements Value {
       this.type = type;
    }
 
+   public RegisterValue(Type type) {
+      this.name = "u" + Integer.toString(Counter.getCount());
+      this.type = type;
+   }
+
    public String toString() {
       return "%" + name;
+   }
+
+   public String getName() {
+      return name;
    }
 
    public Type getType() {
