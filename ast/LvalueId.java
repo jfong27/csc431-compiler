@@ -14,7 +14,9 @@ public class LvalueId
       this.id = id;
    }
 
-   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+   public Value addInstructions(Block node, 
+                                Map<String, IdProperties> symTable,
+                                Map<String, Map<String, Type>> structTable) {
 
       node.addInstruction(new TestInstruction("Add instr for lvalue id"));
       return new RegisterValue(id, new IntType());

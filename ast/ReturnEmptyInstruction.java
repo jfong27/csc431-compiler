@@ -6,6 +6,6 @@ public class ReturnEmptyInstruction implements Instruction {
    }
 
    public String toString() {
-      return "ret";
+      return "ret void";
    }
 }

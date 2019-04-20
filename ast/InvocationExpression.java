@@ -18,7 +18,11 @@ public class InvocationExpression
    }
    
    //TODO
-   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+   public Value addInstructions(Block node, 
+                                Map<String, IdProperties> symTable,
+                                Map<String, Map<String, Type>> structTable) {
+      // Load arguments into registers LoadInstruction
+      // pass registers as args into new CallInstruction
       return new RegisterValue("INVOCATION EXPRESSION", new IntType());
    }
 

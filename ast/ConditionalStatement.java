@@ -19,19 +19,28 @@ public class ConditionalStatement
       this.elseBlock = elseBlock;
    }
 
+
+   // I think this is done. 
    public Block createCFG(Block entryNode, Block exitNode,
+                          Map<String, IdProperties> symTable,
                           Map<String, Map<String, Type>> structTable) {
 
       Block thenEntry = new Block("LU" + Counter.getBlockCount());
       Block elseEntry = new Block("LU" + Counter.getBlockCount());
       Block joinEntry = new Block("LU" + Counter.getBlockCount());
 
-
       entryNode.addSuccessor(thenEntry);
       entryNode.addSuccessor(elseEntry);
 
-      Block thenExit = thenBlock.createCFG(thenEntry, exitNode, structTable);
-      Block elseExit = elseBlock.createCFG(elseEntry, exitNode, structTable);
+      Value guardResult = guard.addInstructions(entryNode, symTable, structTable);
+      entryNode.addInstruction(new BranchInstruction(guardResult, 
+                                                     thenEntry.getLabel(), 
+                                                     elseEntry.getLabel()));
+
+      Block thenExit = thenBlock.createCFG(thenEntry, exitNode, 
+                                           symTable, structTable);
+      Block elseExit = elseBlock.createCFG(elseEntry, exitNode,
+                                           symTable, structTable);
       thenExit.addSuccessor(joinEntry);
       elseExit.addSuccessor(joinEntry);
       return joinEntry;

@@ -29,9 +29,13 @@ public class ReturnStatement
    }
 
    public Block createCFG(Block entryNode, Block exitNode, 
+                          Map<String, IdProperties> symTable,
                           Map<String, Map<String, Type>> structTable) {
+
       //TODO: Add instruction to exitNode
-      Value retExpr = expression.addInstructions(entryNode, structTable);
+      Value retExpr = expression.addInstructions(entryNode, symTable, structTable);
+      // Add a store instruction from retExpr to %ret_val
+      entryNode.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
       exitNode.addInstruction(new ReturnInstruction());
       entryNode.addSuccessor(exitNode);
 

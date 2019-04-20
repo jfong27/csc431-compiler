@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class NewExpression
@@ -14,11 +15,13 @@ public class NewExpression
    }
 
    //TODO
-   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+   public Value addInstructions(Block node, 
+                                Map<String, IdProperties> symTable,
+                                Map<String, Map<String, Type>> structTable) {
 
       RegisterValue result1 = new RegisterValue("u" + Integer.toString(Counter.getCount()),
                                                 new IntType());
-      Instruction callInstr = new CallInstruction(result1);
+      Instruction callInstr = new CallInstruction(result1, new IntType(), "malloc", new ArrayList<Value>());
 
       RegisterValue result2 = new RegisterValue("u" + Integer.toString(Counter.getCount()),
                                                 new IntType());

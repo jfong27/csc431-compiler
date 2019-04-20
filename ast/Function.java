@@ -43,8 +43,6 @@ public class Function
    public Block createCFG(HashMap<String, IdProperties> symTable,
                           Map<String, Map<String, Type>> structTable) {
 
-      //TODO: Clone symTable for local scope;
-
       Map<String, IdProperties> localSymTable = addLocalsTo(symTable);
 
       Block exitNode = new Block(String.format("LU%d", Counter.getBlockCount()));
@@ -52,10 +50,12 @@ public class Function
 
       RegisterValue retReg = new RegisterValue("retval", retType);
       entryNode.addInstruction(new AllocateInstruction(retReg, retType));
+
       for (Declaration decl : locals) {
          RegisterValue localReg = new RegisterValue(decl.getName(), decl.getType());
          entryNode.addInstruction(new AllocateInstruction(localReg, decl.getType()));
       }
+
       for (Declaration decl : params) {
          RegisterValue reg = new RegisterValue("P_" + decl.getName(), decl.getType());
          Type type = decl.getType();
@@ -64,12 +64,15 @@ public class Function
          entryNode.addInstruction(new AllocateInstruction(reg, type));
          entryNode.addInstruction(new StoreInstruction(type, type, paramReg, reg));
       }
-      body.createCFG(entryNode, exitNode, structTable);
+
+      body.createCFG(entryNode, exitNode, localSymTable, structTable);
+
       return entryNode;
+
    }
 
    private Map<String, IdProperties> addLocalsTo(HashMap<String, IdProperties> symTable) {
-      Map<String, IdProperties> localTable = symTable.clone();
+      Map<String, IdProperties> localTable = (Map)symTable.clone();
 
       for (Declaration decl : params) {
          localTable.put(decl.getName(), new IdProperties(decl.getType(), false, null));

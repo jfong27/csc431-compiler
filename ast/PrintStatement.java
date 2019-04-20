@@ -21,9 +21,13 @@ public class PrintStatement
       return new VoidType();
    }
 
+   //TODO: same as printlnStatement. util.c??
    public Block createCFG(Block entryNode, Block exitNode,
+                          Map<String, IdProperties> symTable,
                           Map<String, Map<String, Type>> structTable) {
       //TODO: Add instruction
+      
+      Value resultVal = expression.addInstructions(entryNode, symTable, structTable);
       
       entryNode.addInstruction(new TestInstruction("PRINT"));
       return entryNode;

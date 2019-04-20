@@ -11,7 +11,9 @@ public class ReadExpression
    }
 
    //TODO
-   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+   public Value addInstructions(Block node, 
+                                Map<String, IdProperties> symTable,
+                                Map<String, Map<String, Type>> structTable) {
       node.addInstruction(new TestInstruction("READ"));
 
       return new RegisterValue("READ EXPR", new IntType());

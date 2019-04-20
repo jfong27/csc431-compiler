@@ -11,6 +11,10 @@ public class VoidType
       return "void";
    }
 
+   public String toString() {
+      return "void";
+   }
+
    public String toLLVMType() {
       return "i1";
    }

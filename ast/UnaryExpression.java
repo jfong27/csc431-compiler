@@ -42,7 +42,9 @@ public class UnaryExpression
 
 
    //TODO: Depending on type of operand, return bool or int type
-   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+   public Value addInstructions(Block node, 
+                                Map<String, IdProperties> symTable,
+                                Map<String, Map<String, Type>> structTable) {
       return new RegisterValue("UNARY", new BoolType());
    }
 

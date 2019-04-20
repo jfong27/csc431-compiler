@@ -13,7 +13,6 @@ public class StructType
       this.name = name;
    }
 
-   //TODO: Double check logic?
    public boolean canConvertTo(Type t) {
       if (t instanceof StructType) {
          StructType structT = (StructType)t;

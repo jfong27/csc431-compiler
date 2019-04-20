@@ -32,12 +32,14 @@ public class AssignmentStatement
 
    }
 
-   public Block createCFG(Block entryNode, Block exitNode, Map<String, 
-                          Map<String, Type>> structTable) {
+   // I think this one should be good
+   public Block createCFG(Block entryNode, Block exitNode,
+                          Map<String, IdProperties> symTable,
+                          Map<String, Map<String, Type>> structTable) {
 
-      Value sourceReg = source.addInstructions(entryNode, structTable);
-      Value targetReg = target.addInstructions(entryNode, structTable);
-      StoreInstruction instr = new StoreInstruction(new IntType(), new IntType(), 
+      Value sourceReg = source.addInstructions(entryNode, symTable, structTable);
+      Value targetReg = target.addInstructions(entryNode, symTable, structTable);
+      StoreInstruction instr = new StoreInstruction(sourceReg.getType(), targetReg.getType(), 
                                                     sourceReg, targetReg);
       entryNode.addInstruction(instr);
       return entryNode;

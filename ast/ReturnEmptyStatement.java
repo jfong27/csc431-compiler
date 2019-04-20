@@ -21,10 +21,12 @@ public class ReturnEmptyStatement
       return new VoidType();
    }
 
+   // I tihnk done
    public Block createCFG(Block entryNode, Block exitNode,
+                          Map<String, IdProperties> symTable,
                           Map<String, Map<String, Type>> structTable) {
-      //TODO: Add return instruction to EXIT NODE
       entryNode.addSuccessor(exitNode);
+      entryNode.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
       exitNode.addInstruction(new ReturnEmptyInstruction());
       
       return exitNode; 

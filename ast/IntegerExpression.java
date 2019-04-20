@@ -18,7 +18,9 @@ public class IntegerExpression
       return new IntType();
    }
 
-   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+   public Value addInstructions(Block node, 
+                                Map<String, IdProperties> symTable,
+                                Map<String, Map<String, Type>> structTable) {
       return new ImmediateValue(Integer.parseInt(value), new IntType());
    }
 }

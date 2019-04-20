@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class DeleteStatement
@@ -23,14 +25,20 @@ public class DeleteStatement
 
    }
 
+   // Logically good? Probably bugs
    public Block createCFG(Block entryNode, Block exitNode,
+                          Map<String, IdProperties> symTable,
                           Map<String, Map<String, Type>> structTable) {
-      //TODO: Add instruction to entryNode
-      
-      entryNode.addInstruction(new TestInstruction("del"));
+
+      Value resultVal = expression.addInstructions(entryNode, symTable, structTable);
+
+      List<Value> args = new ArrayList<>();
+      args.add(resultVal);
+      CallInstruction callInstr = new CallInstruction(new VoidType(), "free", args);
+                                                       
+      entryNode.addInstruction(callInstr);
       
       return entryNode;
-
    }
 
    public boolean doesReturn() {

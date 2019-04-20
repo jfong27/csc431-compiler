@@ -10,8 +10,9 @@ public class NullExpression
       super(lineNum);
    }
 
-
-   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+   public Value addInstructions(Block node, 
+                                Map<String, IdProperties> symTable,
+                                Map<String, Map<String, Type>> structTable) {
       return new ImmediateValue(-1, new IntType());
    }
 
@@ -19,5 +20,6 @@ public class NullExpression
                          Map<String, Map<String, Type>> structTable) {
       return new VoidType();
    }
+
 
 }

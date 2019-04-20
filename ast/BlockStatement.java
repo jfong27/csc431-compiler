@@ -34,11 +34,13 @@ public class BlockStatement
       return new BoolType();
    }
 
+   // This should be good
    public Block createCFG(Block entryNode, Block exitNode,
+                          Map<String, IdProperties> symTable,
                           Map<String, Map<String, Type>> structTable) {
       Block currNode = entryNode;
       for (Statement stmt : statements) {
-         currNode = stmt.createCFG(currNode, exitNode, structTable);
+         currNode = stmt.createCFG(currNode, exitNode, symTable, structTable);
       }
       return currNode;
    }

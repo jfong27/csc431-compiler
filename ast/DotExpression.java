@@ -18,7 +18,9 @@ public class DotExpression
    //TODO: Recurse on left expression, store in register, etc.
    // We need to get the type to give to load instruction. How 
    // do we find out the type? 
-   public Value addInstructions(Block node, Map<String, Map<String, Type>> structTable) {
+   public Value addInstructions(Block node, 
+                                Map<String, IdProperties> symTable,
+                                Map<String, Map<String, Type>> structTable) {
 
       node.addInstruction(new TestInstruction("DOT EXPRESSION"));
       String reg1 = "u" + Integer.toString(Counter.getCount());
