@@ -13,7 +13,7 @@ public class IdentifierExpression
       this.id = id;
    }
 
-   //TODO: IMPLEMENT
+   // I think done
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {

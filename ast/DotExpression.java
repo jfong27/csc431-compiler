@@ -22,15 +22,19 @@ public class DotExpression
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
 
-      node.addInstruction(new TestInstruction("DOT EXPRESSION"));
+
       String reg1 = "u" + Integer.toString(Counter.getCount());
       String reg2 = "u" + Integer.toString(Counter.getCount());
-      node.addInstruction(new LoadInstruction(new RegisterValue(reg1, new IntType()),
+
+      RegisterValue elemReg = new RegisterValue(reg1, new IntType());
+      RegisterValue returnReg = new RegisterValue(reg2, new IntType());
+      Value leftResult = left.addInstructions(node, symTable, structTable);
+      node.addInstruction(new GetElemPtrInstruction(elemReg));
+      node.addInstruction(new LoadInstruction(returnReg, 
                                               new IntType(), 
-                                              new RegisterValue(id, new IntType())));
-      node.addInstruction(new GetElemPtrInstruction(new RegisterValue(reg2, new IntType())));
+                                              elemReg));
                         
-      return new RegisterValue("DOT EXPRESSION", new IntType());
+      return returnReg;
    }
 
 

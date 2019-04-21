@@ -28,10 +28,16 @@ public class Declaration
 
    public String toString() {
 
-      if (type instanceof IntType) {
+      if (type instanceof IntType ||
+          type instanceof BoolType) {
          return "i32";
+      } 
+      if (type instanceof VoidType) {
+         return "void";
       }
-      return "DECL TYPE";
+      StructType struct = (StructType)type;
+
+      return "%struct." + struct.getName() + "*";
 
    }
 }

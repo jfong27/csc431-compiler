@@ -42,18 +42,33 @@ public class Program
       StringBuilder sb = new StringBuilder();
       List<Block> functionCFGs = createCFGraphs(structTable);
 
-      sb.append("target triple=\"i686\"");
+      sb.append("target triple=\"i686\"\n");
       for (TypeDeclaration decl : types) {
          sb.append(decl.toString());
+      }
+      sb.append("\n");
+
+      for (Declaration decl : decls) {
+         sb.append(String.format("@%s = common global %s null, align 4\n",
+                                  decl.getName(), decl.toString()));
       }
       sb.append("\n");
 
       int f = 0;
       for (Block functionEntry : functionCFGs) {
          Function currFunc = funcs.get(f++);
-         sb.append(String.format("define %s @%s()\n{\n", 
+         sb.append(String.format("define %s @%s(", 
                                  currFunc.getRetType().toString(), 
                                  currFunc.getName()));
+         for (Declaration decl : currFunc.getParams()) {
+            sb.append(String.format("%s %%%s, ", 
+                                    decl.getType().toString(),
+                                    decl.getName()));
+         }
+         if (currFunc.getNumParams() > 0) {
+            sb.delete(sb.length() - 2, sb.length());
+         }
+         sb.append(")\n");
          Queue<Block> blockOrder = new LinkedList<>();
          blockOrder = functionEntry.BFS(blockOrder);
          for (Block block : blockOrder) {

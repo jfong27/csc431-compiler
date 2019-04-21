@@ -38,7 +38,9 @@ public class CallInstruction implements Instruction {
          sb.append(arg.getType().toString() + " ");
          sb.append(arg.toString() + ", ");
       }
-      sb.delete(sb.length() - 1, sb.length());
+      if (args.size() > 0) {
+         sb.delete(sb.length() - 1, sb.length());
+      }
       sb.append(")");
 
       return sb.toString();
