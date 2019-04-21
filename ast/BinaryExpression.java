@@ -22,11 +22,79 @@ public class BinaryExpression
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
-      //node.add(new ___Instruction());
-      left.addInstructions(node, symTable, structTable);
-      right.addInstructions(node, symTable, structTable);
-      //TODO: RegisterValue could be Bool type or int type depending on operator
-      return new RegisterValue("BINARY EXPRESSION", new IntType());
+      RegisterValue resultReg;
+      Value leftVal = left.addInstructions(node, symTable, structTable);
+      Value rightVal = right.addInstructions(node, symTable, structTable);
+
+      switch (operator) {
+         case TIMES:
+            resultReg = new RegisterValue(new IntType());
+            node.addInstruction(new BinaryInstruction(resultReg, "mul",
+                                                      new IntType(), leftVal, rightVal));
+            break;
+         case DIVIDE:
+            resultReg = new RegisterValue(new IntType());
+            node.addInstruction(new BinaryInstruction(resultReg, "sdiv",
+                                                      new IntType(), leftVal, rightVal));
+            break;
+         case PLUS:
+            resultReg = new RegisterValue(new IntType());
+            node.addInstruction(new BinaryInstruction(resultReg, "add",
+                                                      new IntType(), leftVal, rightVal));
+            break;
+         case MINUS:
+            resultReg = new RegisterValue(new IntType());
+            node.addInstruction(new BinaryInstruction(resultReg, "sub",
+                                                      new IntType(), leftVal, rightVal));
+            break;
+         case AND:
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new BinaryInstruction(resultReg, "and",
+                                                      new IntType(), leftVal, rightVal));
+            break;
+         case OR:
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new BinaryInstruction(resultReg, "or",
+                                                      new IntType(), leftVal, rightVal));
+            break;
+         case LT:
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(resultReg, "slt",
+                                                           new IntType(), leftVal, rightVal));
+            break;
+         case GT:
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(resultReg, "sgt",
+                                                           new IntType(), leftVal, rightVal));
+            break;
+         case LE:
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(resultReg, "sle",
+                                                           new IntType(), leftVal, rightVal));
+            break;
+         case GE:
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(resultReg, "sge",
+                                                           new IntType(), leftVal, rightVal));
+            break;
+         case EQ:
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(resultReg, "eq",
+                                                           new IntType(), leftVal, rightVal));
+            break;
+         case NE:
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(resultReg, "ne",
+                                                           new IntType(), leftVal, rightVal));
+            break;
+         default:
+            resultReg = new RegisterValue(new IntType());
+            break;
+
+      }
+
+
+      return resultReg;
    }
 
    public Type typeCheck(Map<String,IdProperties> symTable, 

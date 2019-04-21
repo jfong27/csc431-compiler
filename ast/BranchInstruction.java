@@ -15,7 +15,7 @@ public class BranchInstruction implements Instruction {
    }
 
    public String toString() {
-      return String.format("br i1 %s, label %s, label %s",
+      return String.format("br i1 %s, label %%%s, label %%%s",
                            cond.toString(), thenBlockLabel,
                            elseBlockLabel);
    }
