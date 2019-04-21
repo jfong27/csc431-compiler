@@ -41,11 +41,32 @@ public class UnaryExpression
    }
 
 
-   //TODO: Depending on type of operand, return bool or int type
+   //TODO: NOT
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
-      return new RegisterValue("UNARY", new BoolType());
+
+      RegisterValue resultReg;
+      Value oprndVal = operand.addInstructions(node, symTable, structTable);
+
+      switch (operator) {
+         case NOT:
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new TestInstruction("How to do NOT? UnaryExpr"));
+            break;
+         case MINUS:
+            resultReg = new RegisterValue(new IntType());
+            Value negValue = new ImmediateValue(-1, new IntType());
+            node.addInstruction(new BinaryInstruction(resultReg, "mul",
+                                                      new IntType(), oprndVal,
+                                                      negValue));
+            break;
+         default:
+            resultReg = new RegisterValue(new BoolType());
+            break;
+      }
+
+      return resultReg;
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,

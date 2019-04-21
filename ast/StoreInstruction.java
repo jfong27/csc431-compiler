@@ -17,7 +17,7 @@ public class StoreInstruction implements Instruction {
    }
 
    public String toString() {
-      return String.format("store %s %s, %s* %%s",
+      return String.format("store %s %s, %s* %s",
                            fromType.toString(), from.toString(),
                            toType.toString(), to.toString());
    }

@@ -41,6 +41,14 @@ public class ConditionalStatement
                                            symTable, structTable);
       Block elseExit = elseBlock.createCFG(elseEntry, exitNode,
                                            symTable, structTable);
+
+      if (!thenExit.isFinished()) {
+         thenExit.addInstruction(new UnconditionalBranchInstruction(joinEntry.getLabel()));
+      }
+      if (!elseExit.isFinished()) {
+         elseExit.addInstruction(new UnconditionalBranchInstruction(joinEntry.getLabel()));
+      }
+
       thenExit.addSuccessor(joinEntry);
       elseExit.addSuccessor(joinEntry);
       return joinEntry;

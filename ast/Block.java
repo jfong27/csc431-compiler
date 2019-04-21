@@ -10,9 +10,6 @@ public class Block {
 
    private final String label;
    private List<Block> successors;
-   // Should instructions be list of statements? or expressions?
-   // Problem w/ stmt: block statement
-   // Problem w/ expression: no assignment expression. a = 5;
    private List<Instruction> instructions;
    private boolean alreadyPrinted = false;
    private boolean visited = false;
@@ -87,6 +84,19 @@ public class Block {
       successors.add(b);
    }
 
+   public boolean isFinished() {
+      int instrSize = instructions.size();
+      if (instrSize == 0) {
+         return false;
+      }
+
+      Instruction lastInstruction = instructions.get(instrSize - 1);
+      return (lastInstruction instanceof UnconditionalBranchInstruction ||
+              lastInstruction instanceof BranchInstruction || 
+              lastInstruction instanceof ReturnEmptyInstruction ||
+              lastInstruction instanceof ReturnInstruction);
+
+   }
 
 
 }

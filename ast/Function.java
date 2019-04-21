@@ -48,7 +48,7 @@ public class Function
       Block exitNode = new Block(String.format("LU%d", Counter.getBlockCount()));
       Block entryNode = new Block(String.format("LU%d", Counter.getBlockCount()));
 
-      RegisterValue retReg = new RegisterValue("retval", retType);
+      RegisterValue retReg = new RegisterValue("_retval_", retType);
       entryNode.addInstruction(new AllocateInstruction(retReg, retType));
 
       for (Declaration decl : locals) {
@@ -57,7 +57,10 @@ public class Function
       }
 
       for (Declaration decl : params) {
-         RegisterValue reg = new RegisterValue("P_" + decl.getName(), decl.getType());
+         IdProperties currParam = symTable.get(decl.getName());
+         String localParam = "_P_" + decl.getName();
+         symTable.put(localParam, currParam);
+         RegisterValue reg = new RegisterValue(localParam, decl.getType());
          Type type = decl.getType();
          RegisterValue paramReg = new RegisterValue(decl.getName(), decl.getType());
 
