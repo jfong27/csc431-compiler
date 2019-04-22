@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 
@@ -23,7 +24,18 @@ public class InvocationExpression
                                 Map<String, Map<String, Type>> structTable) {
       // Load arguments into registers LoadInstruction
       // pass registers as args into new CallInstruction
-      return new RegisterValue("INVOCATION EXPRESSION", new IntType());
+
+      IdProperties func = symTable.get(name);
+
+      RegisterValue resultReg = new RegisterValue(func.getType());
+      List<Value> args = new ArrayList<>();
+      for (Expression arg : arguments) {
+         args.add(arg.addInstructions(node, symTable, structTable));
+      }
+      node.addInstruction(new CallInstruction(resultReg, func.getType(),
+                                              name, args));
+
+      return resultReg;
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,

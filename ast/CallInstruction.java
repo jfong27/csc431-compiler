@@ -39,7 +39,7 @@ public class CallInstruction implements Instruction {
          sb.append(arg.toString() + ", ");
       }
       if (args.size() > 0) {
-         sb.delete(sb.length() - 1, sb.length());
+         sb.delete(sb.length() - 2, sb.length());
       }
       sb.append(")");
 
