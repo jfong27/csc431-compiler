@@ -1,33 +1,33 @@
 package ast;
 
-public class BoolType
+public class PointerType
    implements Type
 {
     public boolean equals(Type t) {
-        if (t instanceof BoolType) {
+        if (t instanceof PointerType) {
             return true;
         } else {
             return false;
         }
     }
-
+    
     public boolean canConvertTo(Type t) {
-       if (t instanceof BoolType) {
-         return true;
-       }
+       if (t instanceof PointerType) {
+          return true;
+       } 
        return false;
     }
 
     public String getTypeString() {
-      return "bool";
+      return "i8";
+    }
+
+    public String toLLVMType() {
+       return "i8";
     }
 
     public String toString() {
-       return "i32";
-    }
-    
-    public String toLLVMType() {
-       return "i1";
+       return "i8*";
     }
 
 }

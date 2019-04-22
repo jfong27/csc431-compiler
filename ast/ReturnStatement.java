@@ -36,7 +36,9 @@ public class ReturnStatement
       Value retExpr = expression.addInstructions(entryNode, symTable, structTable);
       // Add a store instruction from retExpr to %ret_val
       entryNode.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
-      exitNode.addInstruction(new ReturnInstruction());
+      if (!exitNode.isFinished()) {
+         exitNode.addInstruction(new ReturnInstruction());
+      }
       entryNode.addSuccessor(exitNode);
 
       return exitNode;

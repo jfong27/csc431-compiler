@@ -18,7 +18,6 @@ public class BinaryExpression
       this.right = right;
    }
 
-   //TODO: Recurse on left/right expressions, add LLVM instructions
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {

@@ -18,12 +18,9 @@ public class InvocationExpression
       this.arguments = arguments;
    }
    
-   //TODO
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
-      // Load arguments into registers LoadInstruction
-      // pass registers as args into new CallInstruction
 
       IdProperties func = symTable.get(name);
 

@@ -13,6 +13,11 @@ public class StructType
       this.name = name;
    }
 
+   public StructType(String name) {
+      this.lineNum = -1;
+      this.name = name;
+   }
+
    public boolean canConvertTo(Type t) {
       if (t instanceof StructType) {
          StructType structT = (StructType)t;

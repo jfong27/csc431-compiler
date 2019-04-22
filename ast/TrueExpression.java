@@ -15,7 +15,6 @@ public class TrueExpression
       return new BoolType();
    }
 
-   //TODO
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {

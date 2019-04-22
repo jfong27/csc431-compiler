@@ -14,21 +14,23 @@ public class NewExpression
       this.id = id;
    }
 
-   //TODO
+   //TODO: determine size to malloc
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
 
-      RegisterValue result1 = new RegisterValue("u" + Integer.toString(Counter.getCount()),
-                                                new IntType());
-      Instruction callInstr = new CallInstruction(result1, new IntType(), "malloc", new ArrayList<Value>());
+      RegisterValue mallocResult = new RegisterValue(new PointerType());
+      RegisterValue bitcastResult = new RegisterValue(new IntType());
+      Type structType = new StructType(id);
 
-      RegisterValue result2 = new RegisterValue("u" + Integer.toString(Counter.getCount()),
-                                                new IntType());
-      Instruction bitcastInstr = new BitcastInstruction(result2, result1);
+      Instruction callInstr = new CallInstruction(mallocResult, new PointerType(), 
+                                                  "malloc", new ArrayList<Value>());
+
+      Instruction bitcastInstr = new BitcastInstruction(bitcastResult, mallocResult.getType(),
+                                                        mallocResult, structType);
       node.addInstruction(callInstr);
       node.addInstruction(bitcastInstr);
-      return result2;
+      return bitcastResult;
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,
