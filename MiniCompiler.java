@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class MiniCompiler
 {
-   public static void main(String[] args)
+   public static void main(String[] args) throws IOException
    {
       parseParameters(args);
 
@@ -40,14 +40,25 @@ public class MiniCompiler
       
          Map<String, Map<String, Type>> structTable = program.typeCheck();
 
-         System.out.println(program.toString(structTable));
+         String programString = program.toString(structTable);
+         System.out.println(programString);
+
+         String inputName = args[0].substring(0, args[0].length() - 5);
+         BufferedWriter out = new BufferedWriter(new FileWriter(inputName + ".ll"));
+         try {
+            out.write(programString);
+         } catch (IOException e) {
+            System.out.println(e);
+         } finally {
+            out.close();
+         }
          
       }
    }
 
    private static String _inputFile = null;
 
-   private static void parseParameters(String [] args)
+   private static void parseParameters(String[] args)
    {
       for (int i = 0; i < args.length; i++)
       {

@@ -37,7 +37,7 @@ public class ReturnStatement
       // Add a store instruction from retExpr to %ret_val
       entryNode.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
       if (!exitNode.isFinished()) {
-         exitNode.addInstruction(new ReturnInstruction());
+         exitNode.addInstruction(new ReturnInstruction(retExpr.getType(), retExpr));
       }
       entryNode.addSuccessor(exitNode);
 

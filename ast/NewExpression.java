@@ -23,6 +23,8 @@ public class NewExpression
       RegisterValue bitcastResult = new RegisterValue(new IntType());
       Type structType = new StructType(id);
 
+
+
       Instruction callInstr = new CallInstruction(mallocResult, new PointerType(), 
                                                   "malloc", new ArrayList<Value>());
 
