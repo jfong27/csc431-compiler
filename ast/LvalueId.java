@@ -18,8 +18,8 @@ public class LvalueId
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
 
-      node.addInstruction(new TestInstruction("Add instr for lvalue id"));
-      return new RegisterValue(id, new IntType());
+      IdProperties idResult = symTable.get(id);
+      return new RegisterValue(id, idResult.getType());
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,

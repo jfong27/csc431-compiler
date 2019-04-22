@@ -15,25 +15,33 @@ public class DotExpression
       this.id = id;
    }
 
-   //TODO: Recurse on left expression, store in register, etc.
-   // We need to get the type to give to load instruction. How 
-   // do we find out the type? 
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
 
-
-      String reg1 = "u" + Integer.toString(Counter.getCount());
-      String reg2 = "u" + Integer.toString(Counter.getCount());
-
-      RegisterValue elemReg = new RegisterValue(reg1, new IntType());
-      RegisterValue returnReg = new RegisterValue(reg2, new IntType());
+      /*
+      RegisterValue elemReg = new RegisterValue(new IntType());
       Value leftResult = left.addInstructions(node, symTable, structTable);
+      StructType leftStruct = (StructType)leftResult.getType();
+      Type leftStructType = structTable.get(leftStruct.getName()).get(id);
+      RegisterValue returnReg = new RegisterValue(leftStructType);
+
+
       node.addInstruction(new GetElemPtrInstruction(elemReg));
       node.addInstruction(new LoadInstruction(returnReg, 
                                               new IntType(), 
-                                              elemReg));
-                        
+                                              elemReg));*/
+
+
+      Value leftVal = left.addInstructions(node, symTable, structTable);
+      StructType leftStruct = (StructType)leftVal.getType();
+      Type structIdType = structTable.get(leftStruct.getName()).get(id);
+      RegisterValue tmpReg = new RegisterValue(structIdType);
+      RegisterValue returnReg = new RegisterValue(structIdType);
+
+      node.addInstruction(new GetElemPtrInstruction(tmpReg, leftStruct, 
+                                                    leftVal, 0));
+      node.addInstruction(new LoadInstruction(returnReg, structIdType, tmpReg));
       return returnReg;
    }
 

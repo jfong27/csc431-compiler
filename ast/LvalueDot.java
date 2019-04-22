@@ -17,12 +17,20 @@ public class LvalueDot
    }
 
 
-   //TODO
+   //TODO: How to get index of the field????
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
-      node.addInstruction(new TestInstruction("ADD INSTR FOR LVALUEDOT"));
-      return new RegisterValue("LVALUE DOT", new IntType());
+      Value leftVal = left.addInstructions(node, symTable, structTable);
+      StructType leftStruct = (StructType)leftVal.getType();
+      Type structIdType = structTable.get(leftStruct.getName()).get(id);
+      RegisterValue tmpReg = new RegisterValue(structIdType);
+      RegisterValue returnReg = new RegisterValue(structIdType);
+
+      node.addInstruction(new GetElemPtrInstruction(tmpReg, leftStruct, 
+                                                    leftVal, 0));
+      node.addInstruction(new LoadInstruction(returnReg, structIdType, tmpReg));
+      return returnReg;
    }
 
 
