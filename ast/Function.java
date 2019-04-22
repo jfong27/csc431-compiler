@@ -40,6 +40,8 @@ public class Function
       return params.size();
    }
 
+   //TODO: When user references parameter, how to load in _P_ register
+   //instead of straight from param??? 
    public Block createCFG(HashMap<String, IdProperties> symTable,
                           Map<String, Map<String, Type>> structTable) {
 
@@ -57,18 +59,25 @@ public class Function
       }
 
       for (Declaration decl : params) {
+         /*
          IdProperties currParam = symTable.get(decl.getName());
          String localParam = "_P_" + decl.getName();
          symTable.put(localParam, currParam);
-         RegisterValue reg = new RegisterValue(localParam, decl.getType());
+         */
+         RegisterValue reg = new RegisterValue(decl.getName(), decl.getType());
          Type type = decl.getType();
-         RegisterValue paramReg = new RegisterValue(decl.getName(), decl.getType());
+         RegisterValue paramReg = new RegisterValue("_P_" + decl.getName(), decl.getType());
 
          entryNode.addInstruction(new AllocateInstruction(reg, type));
          entryNode.addInstruction(new StoreInstruction(type, type, paramReg, reg));
       }
 
-      body.createCFG(entryNode, exitNode, localSymTable, structTable);
+      Block finalBlock = body.createCFG(entryNode, exitNode, localSymTable, structTable);
+
+      if (!finalBlock.isFinished()) {
+         finalBlock.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
+      }
+
 
       return entryNode;
 

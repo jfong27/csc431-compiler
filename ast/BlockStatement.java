@@ -42,6 +42,7 @@ public class BlockStatement
       for (Statement stmt : statements) {
          currNode = stmt.createCFG(currNode, exitNode, symTable, structTable);
       }
+
       return currNode;
    }
 

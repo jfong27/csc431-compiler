@@ -44,6 +44,8 @@ public class MiniCompiler
          System.out.println(programString);
 
          String inputName = args[0].substring(0, args[0].length() - 5);
+         String[] path = inputName.split("/");
+         inputName = path[path.length - 1];
          BufferedWriter out = new BufferedWriter(new FileWriter(inputName + ".ll"));
          try {
             out.write(programString);

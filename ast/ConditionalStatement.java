@@ -25,9 +25,9 @@ public class ConditionalStatement
                           Map<String, IdProperties> symTable,
                           Map<String, Map<String, Type>> structTable) {
 
-      Block thenEntry = new Block("LU" + Counter.getBlockCount());
-      Block elseEntry = new Block("LU" + Counter.getBlockCount());
-      Block joinEntry = new Block("LU" + Counter.getBlockCount());
+      Block thenEntry = new Block("then" + Counter.getBlockCount());
+      Block elseEntry = new Block("else" + Counter.getBlockCount());
+      Block joinEntry = new Block("join" + Counter.getBlockCount());
 
       entryNode.addSuccessor(thenEntry);
       entryNode.addSuccessor(elseEntry);

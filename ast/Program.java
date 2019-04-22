@@ -61,14 +61,14 @@ public class Program
                                  currFunc.getRetType().toString(), 
                                  currFunc.getName()));
          for (Declaration decl : currFunc.getParams()) {
-            sb.append(String.format("%s %%%s, ", 
+            sb.append(String.format("%s %%_P_%s, ", 
                                     decl.getType().toString(),
                                     decl.getName()));
          }
          if (currFunc.getNumParams() > 0) {
             sb.delete(sb.length() - 2, sb.length());
          }
-         sb.append(")\n");
+         sb.append(")\n{\n");
          Queue<Block> blockOrder = new LinkedList<>();
          blockOrder = functionEntry.BFS(blockOrder);
          for (Block block : blockOrder) {
