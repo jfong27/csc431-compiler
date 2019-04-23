@@ -231,19 +231,19 @@ LU20:
 	%u112 = load i32* %a
 	%u111 = call void @tailrecursive(i32 %u112)
 	%u113 = load i32* %a
-	Test instruction: PRINT LN
+	call i32 @printf_newline(i32 %u113)
 	%u115 = load i32* %b
 	%u114 = call void @domath(i32 %u115)
 	%u116 = load i32* %b
-	Test instruction: PRINT LN
+	call i32 @printf_newline(i32 %u116)
 	%u118 = load i32* %c
 	%u117 = call void @objinstantiation(i32 %u118)
 	%u119 = load i32* %c
-	Test instruction: PRINT LN
+	call i32 @printf_newline(i32 %u119)
 	%u121 = load i32* %d
 	%u122 = load i32* %e
 	%u120 = call i32 @ackermann(i32 %u121, i32 %u122)
-	Test instruction: PRINT LN
+	call i32 @printf_newline(i32 %u120)
 	br label %LU19
 LU19:
 	ret i32 0

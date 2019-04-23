@@ -23,15 +23,13 @@ public class PrintLnStatement
       }
 
 
-      //TODO: Should we use util.c?? Idk
       public Block createCFG(Block entryNode, Block exitNode, 
                              Map<String, IdProperties> symTable,
                              Map<String, Map<String, Type>> structTable) {
-         //TODO: Add expression Instructions, will return register
          
          Value exprResult = expression.addInstructions(entryNode, symTable, structTable);
 
-         entryNode.addInstruction(new PrintlnInstruction(0));
+         entryNode.addInstruction(new PrintlnInstruction(exprResult));
       return entryNode;
    }
 

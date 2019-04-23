@@ -2,14 +2,14 @@ package ast;
 
 public class PrintInstruction implements Instruction {
 
-   int x;
+   Value x;
 
-   public PrintInstruction(int x) {
+   public PrintInstruction(Value x) {
       this.x = x;
    }
 
    public String toString() {
-      return String.format("call i32 printf_int(%d)", x);
+      return String.format("call i32 printf_int(%x)", x.toString());
       //return String.format("store %s %s, %s* %s",
       //                     fromType.toString(), from.toString(),
       //                     toType.toString(), to.toString());
