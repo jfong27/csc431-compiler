@@ -34,7 +34,6 @@ public class WhileStatement
                           Map<String, IdProperties> symTable,
                           Map<String, Map<String, Type>> structTable) {
 
-      //entryNode.addInstructions(guard);
       Block bodyExit = body.createCFG(entryNode, exitNode, symTable, structTable);
       Block joinBlock = new Block("join"+whileCount);
       whileCount++;

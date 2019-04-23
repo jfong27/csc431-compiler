@@ -44,7 +44,7 @@ LU9:
 	store i32 %u11, i32* %input
 	%u13 = load i32* %input
 	%u12 = call i32 @computeFib(i32 %u13)
-	call i32 @printf_newline(i32 0)
+	call void @printf_newline(i32 %u12)
 	br label %LU8
 LU8:
 	ret i32 0
