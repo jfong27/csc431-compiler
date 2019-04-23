@@ -14,24 +14,24 @@ public class PrintLnStatement
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,
-                         Map<String, Map<String, Type>> structTable,
-                         Type retType) {
+                            Map<String, Map<String, Type>> structTable,
+                            Type retType) {
 
-      expression.typeCheck(symTable, structTable);
+         expression.typeCheck(symTable, structTable);
 
-      return new VoidType();
-   }
+         return new VoidType();
+      }
 
 
-   //TODO: Should we use util.c?? Idk
-   public Block createCFG(Block entryNode, Block exitNode, 
-                          Map<String, IdProperties> symTable,
-                          Map<String, Map<String, Type>> structTable) {
-      //TODO: Add expression Instructions, will return register
-      
-      Value exprResult = expression.addInstructions(entryNode, symTable, structTable);
+      //TODO: Should we use util.c?? Idk
+      public Block createCFG(Block entryNode, Block exitNode, 
+                             Map<String, IdProperties> symTable,
+                             Map<String, Map<String, Type>> structTable) {
+         //TODO: Add expression Instructions, will return register
+         
+         Value exprResult = expression.addInstructions(entryNode, symTable, structTable);
 
-      entryNode.addInstruction(new TestInstruction("PRINT LN"));
+         entryNode.addInstruction(new PrintlnInstruction(0));
       return entryNode;
    }
 

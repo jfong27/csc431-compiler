@@ -29,7 +29,7 @@ public class PrintStatement
       
       Value resultVal = expression.addInstructions(entryNode, symTable, structTable);
       
-      entryNode.addInstruction(new TestInstruction("PRINT"));
+      entryNode.addInstruction(new PrintInstruction(0));
       return entryNode;
    }
 

@@ -40,13 +40,16 @@ define i32 @main()
 LU9:
 	%_retval_ = alloca i32
 	%input = alloca i32
-	Test instruction: READ
-	store i32 %READ EXPR, i32* %input
-	%u12 = load i32* %input
-	%u11 = call i32 @computeFib(i32 %u12)
-	Test instruction: PRINT LN
+	%u11 = call i32 @read()
+	store i32 %u11, i32* %input
+	%u13 = load i32* %input
+	%u12 = call i32 @computeFib(i32 %u13)
+	call i32 @printf_newline(i32 0)
 	br label %LU8
 LU8:
 	ret i32 0
 }
 
+declare void @printf_int(i32 %x)
+declare void @printf_newline(i32 %x)
+declare i32 @read()
