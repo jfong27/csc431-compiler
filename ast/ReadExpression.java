@@ -10,18 +10,17 @@ public class ReadExpression
       super(lineNum);
    }
 
-   //TODO
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
-      node.addInstruction(new TestInstruction("READ"));
+      RegisterValue resultReg = new RegisterValue(new IntType());
+      node.addInstruction(new ReadInstruction(resultReg));
 
-      return new RegisterValue("READ EXPR", new IntType());
+      return resultReg;
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable) {
       return new IntType();
    }
-
 }

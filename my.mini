@@ -6,6 +6,5 @@ struct Brent
 fun main() void {
     struct Brent b;
     int c;
-    c = 3;
-    b.i = c;
+    c = read;
 }

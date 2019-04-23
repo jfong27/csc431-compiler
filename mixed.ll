@@ -4,37 +4,40 @@ target triple="i686"
 
 @globalfoo = common global %struct.foo* null, align 4
 
-define void @tailrecursive(i32 %num)
+define void @tailrecursive(i32 %_P_num)
+{
 LU1:
 	%_retval_ = alloca i1
 	%unused = alloca %struct.foo
-	%_P_num = alloca i32
-	store i32 %num, i32* %_P_num
+	%num = alloca i32
+	store i32 %_P_num, i32* %num
 	%u0 = load i32* %num
 	%u1 = icmp sle i32 %u0, 0
-	br i1 %u1, label %LU2, label %LU3
-LU2:
+	br i1 %u1, label %then2, label %else3
+then2:
 	br label %LU0
-LU3:
-	br label %LU4
+else3:
+	br label %join4
 LU0:
 	ret void
-LU4:
+join4:
 	%u2 = call i8* @malloc()
 	%u3 = bitcast i8* %u2 to %struct.foo
 	store i32 %u3, %struct.foo* %unused
 	%u5 = load i32* %num
 	%u6 = sub i32 %u5, 1
 	%u4 = call void @tailrecursive(i32 %u6)
+	br label %LU0
 }
 
-define i32 @add(i32 %x, i32 %y)
+define i32 @add(i32 %_P_x, i32 %_P_y)
+{
 LU6:
 	%_retval_ = alloca i32
-	%_P_x = alloca i32
-	store i32 %x, i32* %_P_x
-	%_P_y = alloca i32
-	store i32 %y, i32* %_P_y
+	%x = alloca i32
+	store i32 %_P_x, i32* %x
+	%y = alloca i32
+	store i32 %_P_y, i32* %y
 	%u7 = load i32* %x
 	%u8 = load i32* %y
 	%u9 = add i32 %u7, %u8
@@ -43,14 +46,15 @@ LU5:
 	ret i32 %u9
 }
 
-define void @domath(i32 %num)
+define void @domath(i32 %_P_num)
+{
 LU8:
 	%_retval_ = alloca i1
 	%math1 = alloca %struct.foo
 	%math2 = alloca %struct.foo
 	%tmp = alloca i32
-	%_P_num = alloca i32
-	store i32 %num, i32* %_P_num
+	%num = alloca i32
+	store i32 %_P_num, i32* %num
 	%u10 = call i8* @malloc()
 	%u11 = bitcast i8* %u10 to %struct.foo
 	store i32 %u11, %struct.foo* %math1
@@ -142,14 +146,16 @@ join0:
 	call void @free(%struct.foo %u83)
 	%u84 = load %struct.foo* %math2
 	call void @free(%struct.foo %u84)
+	br label %LU7
 }
 
-define void @objinstantiation(i32 %num)
+define void @objinstantiation(i32 %_P_num)
+{
 LU10:
 	%_retval_ = alloca i1
 	%tmp = alloca %struct.foo
-	%_P_num = alloca i32
-	store i32 %num, i32* %_P_num
+	%num = alloca i32
+	store i32 %_P_num, i32* %num
 	%u85 = call i8* @malloc()
 	%u86 = bitcast i8* %u85 to %struct.foo
 	store i32 %u86, %struct.foo* %tmp
@@ -159,37 +165,40 @@ LU10:
 	%u89 = sub i32 %u88, 1
 	store i32 %u89, i32* %num
 join1:
+	br label %LU9
 }
 
-define i32 @ackermann(i32 %m, i32 %n)
+define i32 @ackermann(i32 %_P_m, i32 %_P_n)
+{
 LU12:
 	%_retval_ = alloca i32
-	%_P_m = alloca i32
-	store i32 %m, i32* %_P_m
-	%_P_n = alloca i32
-	store i32 %n, i32* %_P_n
+	%m = alloca i32
+	store i32 %_P_m, i32* %m
+	%n = alloca i32
+	store i32 %_P_n, i32* %n
 	%u90 = load i32* %m
 	%u91 = icmp eq i32 %u90, 0
-	br i1 %u91, label %LU13, label %LU14
-LU13:
+	br i1 %u91, label %then13, label %else14
+then13:
 	%u92 = load i32* %n
 	%u93 = add i32 %u92, 1
 	br label %LU11
-LU14:
-	br label %LU15
+else14:
+	br label %join15
 LU11:
 	ret i32 %u93
-LU15:
+join15:
 	%u94 = load i32* %n
 	%u95 = icmp eq i32 %u94, 0
-	br i1 %u95, label %LU16, label %LU17
-LU18:
-LU16:
+	br i1 %u95, label %then16, label %else17
+join18:
+	br label %LU11
+then16:
 	%u97 = load i32* %m
 	%u98 = sub i32 %u97, 1
 	%u96 = call i32 @ackermann(i32 %u98, i32 1)
 	br label %LU11
-LU17:
+else17:
 	%u100 = load i32* %m
 	%u101 = sub i32 %u100, 1
 	%u103 = load i32* %m
@@ -201,6 +210,7 @@ LU17:
 }
 
 define i32 @main()
+{
 LU20:
 	%_retval_ = alloca i32
 	%a = alloca i32
@@ -208,34 +218,37 @@ LU20:
 	%c = alloca i32
 	%d = alloca i32
 	%e = alloca i32
-	Test instruction: READ
-	store i32 %READ EXPR, i32* %a
-	Test instruction: READ
-	store i32 %READ EXPR, i32* %b
-	Test instruction: READ
-	store i32 %READ EXPR, i32* %c
-	Test instruction: READ
-	store i32 %READ EXPR, i32* %d
-	Test instruction: READ
-	store i32 %READ EXPR, i32* %e
-	%u107 = load i32* %a
-	%u106 = call void @tailrecursive(i32 %u107)
-	%u108 = load i32* %a
+	%u106 = call i32 @read()
+	store i32 %u106, i32* %a
+	%u107 = call i32 @read()
+	store i32 %u107, i32* %b
+	%u108 = call i32 @read()
+	store i32 %u108, i32* %c
+	%u109 = call i32 @read()
+	store i32 %u109, i32* %d
+	%u110 = call i32 @read()
+	store i32 %u110, i32* %e
+	%u112 = load i32* %a
+	%u111 = call void @tailrecursive(i32 %u112)
+	%u113 = load i32* %a
 	Test instruction: PRINT LN
-	%u110 = load i32* %b
-	%u109 = call void @domath(i32 %u110)
-	%u111 = load i32* %b
+	%u115 = load i32* %b
+	%u114 = call void @domath(i32 %u115)
+	%u116 = load i32* %b
 	Test instruction: PRINT LN
-	%u113 = load i32* %c
-	%u112 = call void @objinstantiation(i32 %u113)
-	%u114 = load i32* %c
+	%u118 = load i32* %c
+	%u117 = call void @objinstantiation(i32 %u118)
+	%u119 = load i32* %c
 	Test instruction: PRINT LN
-	%u116 = load i32* %d
-	%u117 = load i32* %e
-	%u115 = call i32 @ackermann(i32 %u116, i32 %u117)
+	%u121 = load i32* %d
+	%u122 = load i32* %e
+	%u120 = call i32 @ackermann(i32 %u121, i32 %u122)
 	Test instruction: PRINT LN
 	br label %LU19
 LU19:
 	ret i32 0
 }
 
+declare void @printf_int(i32 %x)
+declare void @printf_newline(i32 %x)
+declare i32 @read()
