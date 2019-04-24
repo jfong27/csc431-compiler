@@ -31,11 +31,19 @@ public class ConditionalStatement
 
       entryNode.addSuccessor(thenEntry);
       entryNode.addSuccessor(elseEntry);
-
-      Value guardResult = guard.addInstructions(entryNode, symTable, structTable);
-      entryNode.addInstruction(new BranchInstruction(guardResult, 
+      
+      
+      RegisterValue guardResult = (RegisterValue)guard.addInstructions(entryNode, symTable, structTable);
+      Value res = new RegisterValue(new BoolType());
+      entryNode.addInstruction(new TruncInstruction(res, guardResult));
+      entryNode.addInstruction(new BranchInstruction(res, //originally guardResult
                                                      thenEntry.getLabel(), 
                                                      elseEntry.getLabel()));
+
+      //Value guardResult = guard.addInstructions(entryNode, symTable, structTable);
+      //entryNode.addInstruction(new BranchInstruction(guardResult, 
+      //                                               thenEntry.getLabel(), 
+      //                                               elseEntry.getLabel()));
 
       Block thenExit = thenBlock.createCFG(thenEntry, exitNode, 
                                            symTable, structTable);

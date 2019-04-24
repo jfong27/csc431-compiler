@@ -7,8 +7,7 @@ fun main() void {
    #struct Brent b;
    int c;
    c = 3;
-   while (c >= 0) {
+   if (c < 4 && c > 2 && c == 3) {
       print c endl;
-      c = c - 1;
    }
 }

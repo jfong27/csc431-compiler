@@ -19,7 +19,7 @@ public class ComparisonInstruction implements Instruction {
 
    public String toString() {
 
-      return String.format("%s = icmp %s %s %s, %s",   
+      return String.format("%s = icmp %s %s %s, %s",
                            result.toString(), cond, 
                            ty.toString(), op1.toString(), 
                            op2.toString());

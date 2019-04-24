@@ -1,6 +1,6 @@
 fun foo(int i) int      # standard case
 {
-   return true;
+   return 2; #original: return true;
 }
 
 fun bar(int i) int      # control flow case
@@ -24,5 +24,5 @@ fun bar(int i) int      # control flow case
 
 fun main() void
 {
-   return;
+   print bar(2) endl;
 }
