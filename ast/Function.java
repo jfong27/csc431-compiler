@@ -74,8 +74,17 @@ public class Function
 
       Block finalBlock = body.createCFG(entryNode, exitNode, localSymTable, structTable);
 
+      finalBlock.addSuccessor(exitNode);
       if (!finalBlock.isFinished()) {
          finalBlock.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
+      }
+
+      if (retType instanceof VoidType) {
+         exitNode.addInstruction(new ReturnEmptyInstruction());
+      } else {
+         RegisterValue tmpReg = new RegisterValue(retType);
+         exitNode.addInstruction(new LoadInstruction(tmpReg, retType, retReg));
+         exitNode.addInstruction(new ReturnInstruction(retType, tmpReg));
       }
 
 
