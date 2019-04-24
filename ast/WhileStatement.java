@@ -32,16 +32,28 @@ public class WhileStatement
    public Block createCFG(Block entryNode, Block exitNode, 
                           Map<String, IdProperties> symTable,
                           Map<String, Map<String, Type>> structTable) {
-
-      Block bodyExit = body.createCFG(entryNode, exitNode, symTable, structTable);
+      Block bodyEntry = new Block("LU" + Integer.toString(Counter.getBlockCount()));
+      //body.createCFG(entryNode, exitNode, symTable, structTable);
       Block joinBlock = new Block("LU" + Integer.toString(Counter.getBlockCount()));
-      entryNode.addSuccessor(bodyExit);
+      entryNode.addSuccessor(bodyEntry);
       entryNode.addSuccessor(joinBlock);
-      bodyExit.addSuccessor(bodyExit);
-      bodyExit.addSuccessor(joinBlock);
-
+      //bodyEntry.addSuccessor(bodyEntry);
+      //bodyEntry.addSuccessor(joinBlock);
       Value guardVal = guard.addInstructions(entryNode, symTable, structTable);
+      entryNode.addInstruction(new BranchInstruction(guardVal,
+                                                     bodyEntry.getLabel(),
+                                                     joinBlock.getLabel()));
+      Block bodyExit = body.createCFG(bodyEntry, exitNode,
+                                      symTable, structTable);
       Value bodyGuardVal = guard.addInstructions(bodyExit, symTable, structTable);
+      bodyExit.addSuccessor(joinBlock);
+      bodyExit.addInstruction(new BranchInstruction(bodyGuardVal,
+                                                    bodyEntry.getLabel(),
+                                                    joinBlock.getLabel()));
+      if (!bodyExit.isFinished()) {
+         bodyExit.addInstruction(new UnconditionalBranchInstruction(joinBlock.getLabel()));
+      }
+      bodyExit.addSuccessor(bodyEntry);
 
       //TODO: Problem, we don't have the label for the while body's entry block. 
       // We only have the exit block. 

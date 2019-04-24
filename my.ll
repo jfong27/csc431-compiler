@@ -1,37 +1,25 @@
 target triple="i686"
-%struct.Brent = type {i32}
 
 
 define void @main()
 {
 LU1:
 	%_retval_ = alloca i1
-	%b = alloca %struct.Brent
-	%u0 = icmp slt i32 4, 4
-	br i1 %u0, label %LU2, label %LU3
+	%c = alloca i32
+	store i32 3, i32* %c
+	%u0 = load i32* %c
+	%u1 = icmp sge i32 %u0, 0
+	br i1 %u1, label %LU2, label %LU3
 LU2:
-	%u1 = icmp slt i32 3, 4
-	br i1 %u1, label %LU5, label %LU6
+	%u2 = load i32* %c
+	call void @printf_newline(i32 %u2)
+	%u3 = load i32* %c
+	%u4 = sub i32 %u3, 1
+	store i32 %u4, i32* %c
+	%u5 = load i32* %c
+	%u6 = icmp sge i32 %u5, 0
+	br i1 %u6, label %LU2, label %LU3
 LU3:
-	call void @printf_newline(i32 4)
-	br label %LU4
-LU5:
-	%u2 = icmp slt i32 4, 4
-	br i1 %u2, label %LU8, label %LU9
-LU6:
-	call void @printf_newline(i32 3)
-	br label %LU7
-LU8:
-	call void @printf_newline(i32 1)
-	br label %LU10
-LU9:
-	call void @printf_newline(i32 2)
-	br label %LU10
-LU10:
-	br label %LU7
-LU7:
-	br label %LU4
-LU4:
 	br label %LU0
 LU0:
 	ret void

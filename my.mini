@@ -1,21 +1,14 @@
-struct Brent
-{
-   int i;
-};
+#struct Brent
+#{
+#   int i;
+#};
 
 fun main() void {
-   struct Brent b;
-   if (4 < 4) {
-      if (3 < 4) {
-         if (4<4) {
-            print 1 endl;
-         } else {
-            print 2 endl;
-         }
-      } else {
-         print 3 endl;
-      }
-   } else {
-      print 4 endl;
+   #struct Brent b;
+   int c;
+   c = 3;
+   while (c >= 0) {
+      print c endl;
+      c = c - 1;
    }
 }
