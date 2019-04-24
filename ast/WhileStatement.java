@@ -7,7 +7,6 @@ public class WhileStatement
 {
    private final Expression guard;
    private final Statement body;
-   private static int whileCount = 0;
 
    public WhileStatement(int lineNum, Expression guard, Statement body)
    {
@@ -35,12 +34,21 @@ public class WhileStatement
                           Map<String, Map<String, Type>> structTable) {
 
       Block bodyExit = body.createCFG(entryNode, exitNode, symTable, structTable);
-      Block joinBlock = new Block("join"+whileCount);
-      whileCount++;
+      Block joinBlock = new Block("LU" + Integer.parseInt(Counter.getBlockCount());
       entryNode.addSuccessor(bodyExit);
       entryNode.addSuccessor(joinBlock);
       bodyExit.addSuccessor(bodyExit);
       bodyExit.addSuccessor(joinBlock);
+
+      Value guardVal = guard.addInstructions(entryNode, symTable, structTable);
+      Value bodyGuardVal = guard.addInstructions(bodyExit, symTable, structTable);
+
+      //TODO: Problem, we don't have the label for the while body's entry block. 
+      // We only have the exit block. 
+      //entryNode.addInstruction(new BranchInstruction(guardVal, 
+      //bodyExit.addInstruction(new BranchInstruction(bodyGuardVal, 
+      
+
       return joinBlock;
    }
 
