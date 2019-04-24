@@ -51,7 +51,9 @@ public class Function
       Block entryNode = new Block(String.format("LU%d", Counter.getBlockCount()));
 
       RegisterValue retReg = new RegisterValue("_retval_", retType);
-      entryNode.addInstruction(new AllocateInstruction(retReg, retType));
+      if (!(retType instanceof VoidType)) {
+         entryNode.addInstruction(new AllocateInstruction(retReg, retType));
+      }
 
       for (Declaration decl : locals) {
          RegisterValue localReg = new RegisterValue(decl.getName(), decl.getType());

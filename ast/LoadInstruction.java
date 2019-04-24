@@ -13,8 +13,14 @@ public class LoadInstruction implements Instruction {
    }
 
    public String toString() {
+      String tyString = ty.toString();
+      /*
+      if (ty instanceof StructType) {
+         tyString += "*";
+      }
+      */
       String retString = String.format("%s = load %s* %s",
-                                       result.toString(), ty.toString(),
+                                       result.toString(), ty,
                                        pointer.toString());
       return retString;
    }

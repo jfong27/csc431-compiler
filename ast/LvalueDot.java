@@ -29,7 +29,7 @@ public class LvalueDot
 
       node.addInstruction(new GetElemPtrInstruction(tmpReg, leftStruct, 
                                                     leftVal, 0));
-      node.addInstruction(new LoadInstruction(returnReg, structIdType, tmpReg));
+//      node.addInstruction(new LoadInstruction(returnReg, structIdType, tmpReg));
       return returnReg;
    }
 

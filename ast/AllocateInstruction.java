@@ -11,7 +11,14 @@ public class AllocateInstruction implements Instruction {
    }
 
    public String toString() {
-      return String.format("%s = alloca %s", reg.toString(), type.toLLVMType());
+      String typeString = type.toString();
+      /*
+      if (type instanceof StructType) {
+         typeString += "*";
+      }
+      */
+
+      return String.format("%s = alloca %s", reg.toString(), typeString);
    }
 
 }

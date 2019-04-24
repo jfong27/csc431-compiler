@@ -24,7 +24,13 @@ public class InvocationExpression
 
       IdProperties func = symTable.get(name);
 
-      RegisterValue resultReg = new RegisterValue(func.getType());
+      RegisterValue resultReg;
+     
+      if (func.getType() instanceof VoidType) {
+         resultReg = null;
+      } else {
+         resultReg = new RegisterValue(func.getType());
+      }
       List<Value> args = new ArrayList<>();
       for (Expression arg : arguments) {
          args.add(arg.addInstructions(node, symTable, structTable));

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+make clean
+make
+java MiniCompiler mixed.mini
+clang -m32 ast/util.c mixed.ll
+

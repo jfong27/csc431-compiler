@@ -43,6 +43,6 @@ public class StructType
    }
 
    public String toString() {
-      return String.format("%%struct.%s", name);
+      return String.format("%%struct.%s*", name);
    }
 }

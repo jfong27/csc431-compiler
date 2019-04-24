@@ -16,7 +16,7 @@ public class GetElemPtrInstruction implements Instruction {
    }
 
    public String toString() {
-      String resultString = String.format("%s = getelementptr %s* %s, i1 0, i32 %d",
+      String resultString = String.format("%s = getelementptr %s %s, i1 0, i32 %d",
                                           result.toString(), type.toString(), 
                                           ptrVal.toString(), index);
       return resultString;

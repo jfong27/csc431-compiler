@@ -19,9 +19,9 @@ public class NewExpression
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
 
-      RegisterValue mallocResult = new RegisterValue(new PointerType());
-      RegisterValue bitcastResult = new RegisterValue(new IntType());
       Type structType = new StructType(id);
+      RegisterValue mallocResult = new RegisterValue(new PointerType());
+      RegisterValue bitcastResult = new RegisterValue(structType);
 
 
 
