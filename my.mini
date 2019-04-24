@@ -5,9 +5,9 @@ struct Brent
 
 fun main() void {
    struct Brent b;
-   if (3 < 4) {
-      if (4 < 3) {
-         if (3<4 && 3<5) {
+   if (4 < 4) {
+      if (3 < 4) {
+         if (4<4) {
             print 1 endl;
          } else {
             print 2 endl;
