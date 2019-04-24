@@ -10,7 +10,11 @@ LU1:
 	%c = alloca i32
 	%u0 = call i32 @read()
 	store i32 %u0, i32* %c
-	call void @printf_newline(i32 3)
+	%u1 = load i32* %c
+	call void @printf_newline(i32 %u1)
+	call void @printf_int(i32 3)
+	call void @printf_int(i32 4)
+	call void @printf_newline(i32 6)
 	br label %LU0
 LU0:
 	ret void

@@ -7,5 +7,8 @@ fun main() void {
     struct Brent b;
     int c;
     c = read;
-    print 3 endl;
+    print c endl;
+    print 3;
+    print 4;
+    print 6 endl;
 }
