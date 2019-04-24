@@ -33,12 +33,9 @@ public class WhileStatement
                           Map<String, IdProperties> symTable,
                           Map<String, Map<String, Type>> structTable) {
       Block bodyEntry = new Block("LU" + Integer.toString(Counter.getBlockCount()));
-      //body.createCFG(entryNode, exitNode, symTable, structTable);
       Block joinBlock = new Block("LU" + Integer.toString(Counter.getBlockCount()));
       entryNode.addSuccessor(bodyEntry);
       entryNode.addSuccessor(joinBlock);
-      //bodyEntry.addSuccessor(bodyEntry);
-      //bodyEntry.addSuccessor(joinBlock);
       Value guardVal = guard.addInstructions(entryNode, symTable, structTable);
       entryNode.addInstruction(new BranchInstruction(guardVal,
                                                      bodyEntry.getLabel(),
@@ -54,11 +51,6 @@ public class WhileStatement
          bodyExit.addInstruction(new UnconditionalBranchInstruction(joinBlock.getLabel()));
       }
       bodyExit.addSuccessor(bodyEntry);
-
-      //TODO: Problem, we don't have the label for the while body's entry block. 
-      // We only have the exit block. 
-      //entryNode.addInstruction(new BranchInstruction(guardVal, 
-      //bodyExit.addInstruction(new BranchInstruction(bodyGuardVal, 
       return joinBlock;
    }
 
