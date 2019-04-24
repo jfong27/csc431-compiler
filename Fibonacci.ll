@@ -18,7 +18,6 @@ else3:
 	%u3 = icmp sle i32 %u2, 2
 	br i1 %u3, label %then5, label %else6
 LU0:
-	ret i32 0
 	%u11 = load i32* %_retval_
 	ret i32 %u11
 join7:
@@ -53,7 +52,6 @@ LU9:
 	store i32 0, i32* %_retval_
 	br label %LU8
 LU8:
-	ret i32 0
 	%u15 = load i32* %_retval_
 	ret i32 %u15
 }

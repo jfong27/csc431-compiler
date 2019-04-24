@@ -27,6 +27,10 @@ public class Block {
       this.instructions = new ArrayList<>();
    }
 
+   public void clearInstructions() {
+      instructions.clear();
+   }
+
    public Queue BFS(Queue qu) {
       if (visited) {
          return qu;

@@ -79,6 +79,7 @@ public class Function
          finalBlock.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
       }
 
+      exitNode.clearInstructions();
       if (retType instanceof VoidType) {
          exitNode.addInstruction(new ReturnEmptyInstruction());
       } else {
