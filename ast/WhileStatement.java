@@ -47,8 +47,6 @@ public class WhileStatement
       // We only have the exit block. 
       //entryNode.addInstruction(new BranchInstruction(guardVal, 
       //bodyExit.addInstruction(new BranchInstruction(bodyGuardVal, 
-      
-
       return joinBlock;
    }
 
