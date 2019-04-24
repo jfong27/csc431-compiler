@@ -22,6 +22,7 @@ public class BinaryExpression
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
       RegisterValue resultReg;
+      RegisterValue res;
       Value leftVal = left.addInstructions(node, symTable, structTable);
       Value rightVal = right.addInstructions(node, symTable, structTable);
 
@@ -57,34 +58,46 @@ public class BinaryExpression
                                                       new IntType(), leftVal, rightVal));
             break;
          case LT:
-            resultReg = new RegisterValue(new BoolType());
-            node.addInstruction(new ComparisonInstruction(resultReg, "slt",
+            res = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(res, "slt",
                                                            new IntType(), leftVal, rightVal));
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ZextInstruction(resultReg, res));
             break;
          case GT:
-            resultReg = new RegisterValue(new BoolType());
-            node.addInstruction(new ComparisonInstruction(resultReg, "sgt",
+            res = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(res, "sgt",
                                                            new IntType(), leftVal, rightVal));
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ZextInstruction(resultReg, res));
             break;
          case LE:
-            resultReg = new RegisterValue(new BoolType());
-            node.addInstruction(new ComparisonInstruction(resultReg, "sle",
+            res = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(res, "sle",
                                                            new IntType(), leftVal, rightVal));
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ZextInstruction(resultReg, res));
             break;
          case GE:
-            resultReg = new RegisterValue(new BoolType());
-            node.addInstruction(new ComparisonInstruction(resultReg, "sge",
+            res = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(res, "sge",
                                                            new IntType(), leftVal, rightVal));
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ZextInstruction(resultReg, res));
             break;
          case EQ:
-            resultReg = new RegisterValue(new BoolType());
-            node.addInstruction(new ComparisonInstruction(resultReg, "eq",
+            res = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(res, "eq",
                                                            new IntType(), leftVal, rightVal));
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ZextInstruction(resultReg, res));
             break;
          case NE:
-            resultReg = new RegisterValue(new BoolType());
-            node.addInstruction(new ComparisonInstruction(resultReg, "ne",
+            res = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(res, "ne",
                                                            new IntType(), leftVal, rightVal));
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ZextInstruction(resultReg, res));
             break;
          default:
             resultReg = new RegisterValue(new IntType());
