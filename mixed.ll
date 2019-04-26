@@ -84,7 +84,7 @@ LU8:
 	%u34 = getelementptr %struct.foo* %u33, i1 0, i32 0
 	%u35 = load i32* %u34
 	%u36 = load %struct.foo** %math1
-	%u37 = getelementptr %struct.foo* %u36, i1 0, i32 0
+	%u37 = getelementptr %struct.foo* %u36, i1 0, i32 2
 	%u38 = load %struct.simple** %u37
 	%u39 = getelementptr %struct.simple* %u38, i1 0, i32 0
 	store i32 %u35, i32* %u40
@@ -92,7 +92,7 @@ LU8:
 	%u42 = getelementptr %struct.foo* %u41, i1 0, i32 0
 	%u43 = load i32* %u42
 	%u44 = load %struct.foo** %math2
-	%u45 = getelementptr %struct.foo* %u44, i1 0, i32 0
+	%u45 = getelementptr %struct.foo* %u44, i1 0, i32 2
 	%u46 = load %struct.simple** %u45
 	%u47 = getelementptr %struct.simple* %u46, i1 0, i32 0
 	store i32 %u43, i32* %u48
@@ -111,7 +111,7 @@ LU9:
 	store i32 %u58, i32* %tmp
 	%u59 = load i32* %tmp
 	%u60 = load %struct.foo** %math1
-	%u61 = getelementptr %struct.foo* %u60, i1 0, i32 0
+	%u61 = getelementptr %struct.foo* %u60, i1 0, i32 2
 	%u62 = load %struct.simple** %u61
 	%u63 = getelementptr %struct.simple* %u62, i1 0, i32 0
 	%u64 = load i32* %u63
@@ -122,7 +122,7 @@ LU9:
 	%u69 = sdiv i32 %u65, %u68
 	store i32 %u69, i32* %tmp
 	%u71 = load %struct.foo** %math2
-	%u72 = getelementptr %struct.foo* %u71, i1 0, i32 0
+	%u72 = getelementptr %struct.foo* %u71, i1 0, i32 2
 	%u73 = load %struct.simple** %u72
 	%u74 = getelementptr %struct.simple* %u73, i1 0, i32 0
 	%u75 = load i32* %u74

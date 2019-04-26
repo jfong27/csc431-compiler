@@ -22,12 +22,13 @@ public class DotExpression
       Value leftVal = left.addInstructions(node, symTable, structTable);
       StructType leftStruct = (StructType)leftVal.getType();
       Map<String, Type> structDef = structTable.get(leftStruct.getName()).getFieldMap();
+      int fieldOffset = structTable.get(leftStruct.getName()).getFieldOrder().indexOf(id);
       Type structIdType = structDef.get(id);
       RegisterValue tmpReg = new RegisterValue(structIdType);
       RegisterValue returnReg = new RegisterValue(structIdType);
 
       node.addInstruction(new GetElemPtrInstruction(tmpReg, leftStruct, 
-                                                    leftVal, structIdType, 0));
+                                                    leftVal, structIdType, fieldOffset));
       node.addInstruction(new LoadInstruction(returnReg, structIdType, tmpReg));
       return returnReg;
    }

@@ -50,7 +50,7 @@ public class MiniCompiler
          inputName = path[path.length - 1];
          BufferedWriter out;
          String programString;
-         if (stack) { //-stack was provided in command line
+         if (true) { //-stack was provided in command line
             programString = program.toString(structTable);
             System.out.println(programString);
             out = new BufferedWriter(new FileWriter(inputName + ".ll"));
