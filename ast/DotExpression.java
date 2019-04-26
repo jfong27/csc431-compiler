@@ -19,28 +19,15 @@ public class DotExpression
                                 Map<String, IdProperties> symTable,
                                 Map<String, Map<String, Type>> structTable) {
 
-      /*
-      RegisterValue elemReg = new RegisterValue(new IntType());
-      Value leftResult = left.addInstructions(node, symTable, structTable);
-      StructType leftStruct = (StructType)leftResult.getType();
-      Type leftStructType = structTable.get(leftStruct.getName()).get(id);
-      RegisterValue returnReg = new RegisterValue(leftStructType);
-
-
-      node.addInstruction(new GetElemPtrInstruction(elemReg));
-      node.addInstruction(new LoadInstruction(returnReg, 
-                                              new IntType(), 
-                                              elemReg));*/
-
-
       Value leftVal = left.addInstructions(node, symTable, structTable);
       StructType leftStruct = (StructType)leftVal.getType();
-      Type structIdType = structTable.get(leftStruct.getName()).get(id);
+      Map<String, Type> structDef = structTable.get(leftStruct.getName());
+      Type structIdType = structDef.get(id);
       RegisterValue tmpReg = new RegisterValue(structIdType);
       RegisterValue returnReg = new RegisterValue(structIdType);
 
       node.addInstruction(new GetElemPtrInstruction(tmpReg, leftStruct, 
-                                                    leftVal, 0));
+                                                    leftVal, structIdType, 0));
       node.addInstruction(new LoadInstruction(returnReg, structIdType, tmpReg));
       return returnReg;
    }

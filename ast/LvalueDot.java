@@ -28,7 +28,7 @@ public class LvalueDot
       RegisterValue returnReg = new RegisterValue(structIdType);
 
       node.addInstruction(new GetElemPtrInstruction(tmpReg, leftStruct, 
-                                                    leftVal, 0));
+                                                    leftVal, structIdType, 0));
 //      node.addInstruction(new LoadInstruction(returnReg, structIdType, tmpReg));
       return returnReg;
    }
