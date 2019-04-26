@@ -27,7 +27,6 @@ public class NewExpression
       RegisterValue bitcastResult = new RegisterValue(structType);
 
 
-
       //Malloc should be 4 * number of fields
       Value arg = new ImmediateValue(4 * struct.size(), new IntType());
       List<Value> args = new ArrayList<>();

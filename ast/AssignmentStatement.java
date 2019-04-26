@@ -30,7 +30,7 @@ public class AssignmentStatement
 
       return sourceType;
 
-   }
+      }
 
    // I think this one should be good
    public Block createCFG(Block entryNode, Block exitNode,

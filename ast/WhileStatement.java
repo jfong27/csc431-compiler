@@ -37,14 +37,18 @@ public class WhileStatement
       entryNode.addSuccessor(bodyEntry);
       entryNode.addSuccessor(joinBlock);
       Value guardVal = guard.addInstructions(entryNode, symTable, structTable);
-      entryNode.addInstruction(new BranchInstruction(guardVal,
+      Value truncatedGuard = new RegisterValue(new BoolType());
+      entryNode.addInstruction(new TruncInstruction(truncatedGuard, guardVal));
+      entryNode.addInstruction(new BranchInstruction(truncatedGuard,
                                                      bodyEntry.getLabel(),
                                                      joinBlock.getLabel()));
       Block bodyExit = body.createCFG(bodyEntry, exitNode,
                                       symTable, structTable);
       Value bodyGuardVal = guard.addInstructions(bodyExit, symTable, structTable);
+      Value truncatedBodyGuard = new RegisterValue(new BoolType());
       bodyExit.addSuccessor(joinBlock);
-      bodyExit.addInstruction(new BranchInstruction(bodyGuardVal,
+      bodyExit.addInstruction(new TruncInstruction(truncatedBodyGuard, bodyGuardVal));
+      bodyExit.addInstruction(new BranchInstruction(truncatedBodyGuard,
                                                     bodyEntry.getLabel(),
                                                     joinBlock.getLabel()));
       if (!bodyExit.isFinished()) {

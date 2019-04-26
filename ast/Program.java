@@ -76,8 +76,10 @@ public class Program
          }
          sb.append("}\n\n");
       }
+      sb.append("declare i8* @malloc(i32)\n");
       sb.append("declare void @printf_int(i32 %x)\n");
       sb.append("declare void @printf_newline(i32 %x)\n");
+      sb.append("declare void @free(i8* %x)\n");
       sb.append("declare i32 @read()\n");
 
       return sb.toString();

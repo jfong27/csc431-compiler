@@ -3,9 +3,9 @@ package ast;
 public class TruncInstruction implements Instruction {
 
    private Value result;
-   private RegisterValue from;
+   private Value from;
 
-   public TruncInstruction(Value result, RegisterValue from) {
+   public TruncInstruction(Value result, Value from) {
       this.result = result;
       this.from = from;
    }

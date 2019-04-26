@@ -33,9 +33,13 @@ public class DeleteStatement
       Value resultVal = expression.addInstructions(entryNode, symTable, structTable);
 
       List<Value> args = new ArrayList<>();
-      args.add(resultVal);
+      RegisterValue bitcastResult = new RegisterValue(new StructPointerType());
+      BitcastInstruction bitcastInstr = new BitcastInstruction(bitcastResult, resultVal.getType(),
+                                                               resultVal, new StructPointerType());
+      args.add(bitcastResult);
       CallInstruction callInstr = new CallInstruction(new VoidType(), "free", args);
                                                        
+      entryNode.addInstruction(bitcastInstr);
       entryNode.addInstruction(callInstr);
       
       return entryNode;

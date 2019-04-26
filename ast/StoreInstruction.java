@@ -20,14 +20,6 @@ public class StoreInstruction implements Instruction {
       String fromTypeStr = fromType.toString();
       String toTypeStr = toType.toString();
       
-      /*
-      if (fromType instanceof StructType) {
-         fromTypeStr += "*";
-      }
-      if (toType instanceof StructType) {
-         toTypeStr += "*";
-      }
-      */
       return String.format("store %s %s, %s* %s",
                            fromTypeStr, from.toString(),
                            toTypeStr, to.toString());
