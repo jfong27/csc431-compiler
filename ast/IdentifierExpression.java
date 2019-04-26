@@ -16,7 +16,7 @@ public class IdentifierExpression
    // I think done
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
-                                Map<String, Map<String, Type>> structTable) {
+                                Map<String, StructProperties> structTable) {
 
       Type idType = symTable.get(id).getType();
       RegisterValue resultReg = new RegisterValue(idType);

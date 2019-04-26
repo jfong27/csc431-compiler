@@ -20,7 +20,7 @@ public class InvocationExpression
    
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
-                                Map<String, Map<String, Type>> structTable) {
+                                Map<String, StructProperties> structTable) {
 
       IdProperties func = symTable.get(name);
 

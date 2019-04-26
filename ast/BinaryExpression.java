@@ -20,7 +20,7 @@ public class BinaryExpression
 
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
-                                Map<String, Map<String, Type>> structTable) {
+                                Map<String, StructProperties> structTable) {
       RegisterValue resultReg;
       RegisterValue res;
       Value leftVal = left.addInstructions(node, symTable, structTable);

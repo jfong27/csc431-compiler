@@ -28,7 +28,7 @@ public class DeleteStatement
    // Logically good? Probably bugs
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
-                          Map<String, Map<String, Type>> structTable) {
+                          Map<String, StructProperties> structTable) {
 
       Value resultVal = expression.addInstructions(entryNode, symTable, structTable);
 

@@ -18,11 +18,9 @@ public class NewExpression
    //TODO: determine size to malloc
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
-                                Map<String, Map<String, Type>> structTable) {
+                                Map<String, StructProperties> structTable) {
 
-      Map<String, Type> struct = structTable.get(id);
-      List<Type> structFields = new ArrayList<>();
-
+      Map<String, Type> struct = structTable.get(id).getFieldMap();
 
       Type structType = new StructType(id);
       RegisterValue mallocResult = new RegisterValue(new PointerType());

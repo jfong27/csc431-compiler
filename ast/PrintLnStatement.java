@@ -23,14 +23,14 @@ public class PrintLnStatement
       }
 
 
-      public Block createCFG(Block entryNode, Block exitNode, 
-                             Map<String, IdProperties> symTable,
-                             Map<String, Map<String, Type>> structTable) {
-         
+   public Block createCFG(Block entryNode, Block exitNode, 
+                          Map<String, IdProperties> symTable,
+                          Map<String, StructProperties> structTable) {
+      
          Value exprResult = expression.addInstructions(entryNode, symTable, structTable);
 
          entryNode.addInstruction(new PrintlnInstruction(exprResult));
-      return entryNode;
+         return entryNode;
    }
 
    public boolean doesReturn() {

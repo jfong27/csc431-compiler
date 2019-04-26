@@ -23,7 +23,7 @@ public class PrintStatement
 
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
-                          Map<String, Map<String, Type>> structTable) {
+                          Map<String, StructProperties> structTable) {
       Value resultVal = expression.addInstructions(entryNode, symTable, structTable);
       
       entryNode.addInstruction(new PrintInstruction(resultVal));

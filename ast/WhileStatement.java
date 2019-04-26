@@ -31,7 +31,7 @@ public class WhileStatement
 
    public Block createCFG(Block entryNode, Block exitNode, 
                           Map<String, IdProperties> symTable,
-                          Map<String, Map<String, Type>> structTable) {
+                          Map<String, StructProperties> structTable) {
       Block bodyEntry = new Block("LU" + Integer.toString(Counter.getBlockCount()));
       Block joinBlock = new Block("LU" + Integer.toString(Counter.getBlockCount()));
       entryNode.addSuccessor(bodyEntry);

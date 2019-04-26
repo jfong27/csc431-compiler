@@ -37,7 +37,7 @@ public class BlockStatement
    // This should be good
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
-                          Map<String, Map<String, Type>> structTable) {
+                          Map<String, StructProperties> structTable) {
       Block currNode = entryNode;
       for (Statement stmt : statements) {
          currNode = stmt.createCFG(currNode, exitNode, symTable, structTable);

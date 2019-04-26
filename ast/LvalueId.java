@@ -16,7 +16,7 @@ public class LvalueId
 
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
-                                Map<String, Map<String, Type>> structTable) {
+                                Map<String, StructProperties> structTable) {
 
       IdProperties idResult = symTable.get(id);
       return new RegisterValue(id, idResult.getType());

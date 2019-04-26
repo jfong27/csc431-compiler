@@ -20,7 +20,7 @@ public class IntegerExpression
 
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
-                                Map<String, Map<String, Type>> structTable) {
+                                Map<String, StructProperties> structTable) {
       return new ImmediateValue(Integer.parseInt(value), new IntType());
    }
 }

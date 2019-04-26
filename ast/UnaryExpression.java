@@ -44,7 +44,7 @@ public class UnaryExpression
    //TODO: NOT
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
-                                Map<String, Map<String, Type>> structTable) {
+                                Map<String, StructProperties> structTable) {
 
       RegisterValue resultReg;
       Value oprndVal = operand.addInstructions(node, symTable, structTable);

@@ -1,6 +1,7 @@
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
+import ast.StructProperties;
 import ast.Type;
 import java.io.*;
 import javax.json.JsonValue;
@@ -38,7 +39,7 @@ public class MiniCompiler
             new MiniToAstProgramVisitor();
          ast.Program program = programVisitor.visit(tree);
       
-         Map<String, Map<String, Type>> structTable = program.typeCheck();
+         Map<String, StructProperties> structTable = program.typeCheck();
 
          String programString = program.toString(structTable);
          System.out.println(programString);

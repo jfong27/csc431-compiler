@@ -26,7 +26,7 @@ public class Program
       this.symTable = initSymTable();
    }
 
-   public List<Block> createCFGraphs(Map<String, Map<String, Type>> structTable) {
+   public List<Block> createCFGraphs(Map<String, StructProperties> structTable) {
 
       ArrayList<Block> funcGraphs = new ArrayList<>();
 
@@ -38,7 +38,7 @@ public class Program
 
    }
 
-   public String toString(Map<String, Map<String, Type>> structTable) {
+   public String toString(Map<String, StructProperties> structTable) {
       StringBuilder sb = new StringBuilder();
       List<Block> functionCFGs = createCFGraphs(structTable);
 
@@ -84,8 +84,9 @@ public class Program
    }
 
 
-   public Map<String, Map<String, Type>> typeCheck() {
+   public Map<String, StructProperties> typeCheck() {
       Map<String, Map<String, Type>> structTable = new HashMap<>();
+      Map<String, StructProperties> cfgStructTable = new HashMap<>();
       boolean mainFlag = false;
       for (Function func : funcs) {
          if (func.getName().equals("main")) {
@@ -98,13 +99,18 @@ public class Program
       }
 
       for (TypeDeclaration typeDecl : types) {
-         Map<String, Type> fieldsTable = new HashMap<>();
+         Map<String, Type> fieldMap = new HashMap<>();
+         List<String> fieldOrder = new ArrayList<>();
 
          for (Declaration field : typeDecl.getFields()) {
-            fieldsTable.put(field.getName(), field.getType());
+            fieldMap.put(field.getName(), field.getType());
+            fieldOrder.add(field.getName());
          }
 
-         structTable.put(typeDecl.getName(), fieldsTable);
+         StructProperties currStruct = new StructProperties(typeDecl.getName(),
+                                                            fieldMap, fieldOrder);
+         cfgStructTable.put(typeDecl.getName(), currStruct);
+         structTable.put(typeDecl.getName(), fieldMap);
       }
 
       for (Function func : funcs) {
@@ -116,7 +122,7 @@ public class Program
          }
       }
 
-      return structTable;
+      return cfgStructTable;
 
    }
 

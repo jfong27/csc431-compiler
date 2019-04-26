@@ -23,7 +23,7 @@ public class ConditionalStatement
    // I think this is done. 
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
-                          Map<String, Map<String, Type>> structTable) {
+                          Map<String, StructProperties> structTable) {
 
       Block thenEntry = new Block("LU" + Counter.getBlockCount());
       Block elseEntry = new Block("LU" + Counter.getBlockCount());

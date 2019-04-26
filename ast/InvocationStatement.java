@@ -22,7 +22,7 @@ public class InvocationStatement
    // I think ok
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
-                          Map<String, Map<String, Type>> structTable) {
+                          Map<String, StructProperties> structTable) {
       expression.addInstructions(entryNode, symTable, structTable);
       return entryNode;
    }

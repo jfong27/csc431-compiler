@@ -35,7 +35,7 @@ public class AssignmentStatement
    // I think this one should be good
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
-                          Map<String, Map<String, Type>> structTable) {
+                          Map<String, StructProperties> structTable) {
 
       Value sourceReg = source.addInstructions(entryNode, symTable, structTable);
       Value targetReg = target.addInstructions(entryNode, symTable, structTable);

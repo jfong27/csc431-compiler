@@ -43,7 +43,7 @@ public class Function
    //TODO: When user references parameter, how to load in _P_ register
    //instead of straight from param??? 
    public Block createCFG(HashMap<String, IdProperties> symTable,
-                          Map<String, Map<String, Type>> structTable) {
+                          Map<String, StructProperties> structTable) {
 
       Map<String, IdProperties> localSymTable = addLocalsTo(symTable);
 

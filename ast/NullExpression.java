@@ -12,7 +12,7 @@ public class NullExpression
 
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
-                                Map<String, Map<String, Type>> structTable) {
+                                Map<String, StructProperties> structTable) {
       return new ImmediateValue(-1, new IntType());
    }
 

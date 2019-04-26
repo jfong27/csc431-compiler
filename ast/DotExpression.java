@@ -17,11 +17,11 @@ public class DotExpression
 
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
-                                Map<String, Map<String, Type>> structTable) {
+                                Map<String, StructProperties> structTable) {
 
       Value leftVal = left.addInstructions(node, symTable, structTable);
       StructType leftStruct = (StructType)leftVal.getType();
-      Map<String, Type> structDef = structTable.get(leftStruct.getName());
+      Map<String, Type> structDef = structTable.get(leftStruct.getName()).getFieldMap();
       Type structIdType = structDef.get(id);
       RegisterValue tmpReg = new RegisterValue(structIdType);
       RegisterValue returnReg = new RegisterValue(structIdType);

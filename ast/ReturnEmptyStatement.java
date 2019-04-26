@@ -24,7 +24,7 @@ public class ReturnEmptyStatement
    // I tihnk done
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
-                          Map<String, Map<String, Type>> structTable) {
+                          Map<String, StructProperties> structTable) {
       entryNode.addSuccessor(exitNode);
       entryNode.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
       exitNode.addInstruction(new ReturnEmptyInstruction());

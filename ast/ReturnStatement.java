@@ -30,7 +30,7 @@ public class ReturnStatement
 
    public Block createCFG(Block entryNode, Block exitNode, 
                           Map<String, IdProperties> symTable,
-                          Map<String, Map<String, Type>> structTable) {
+                          Map<String, StructProperties> structTable) {
 
       //TODO: Add instruction to exitNode
       Value retExpr = expression.addInstructions(entryNode, symTable, structTable);

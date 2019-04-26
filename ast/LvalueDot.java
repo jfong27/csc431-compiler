@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.List;
 import java.util.Map;
 
 public class LvalueDot
@@ -17,18 +18,18 @@ public class LvalueDot
    }
 
 
-   //TODO: How to get index of the field????
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
-                                Map<String, Map<String, Type>> structTable) {
+                                Map<String, StructProperties> structTable) {
       Value leftVal = left.addInstructions(node, symTable, structTable);
       StructType leftStruct = (StructType)leftVal.getType();
-      Type structIdType = structTable.get(leftStruct.getName()).get(id);
+      Type structIdType = structTable.get(leftStruct.getName()).getFieldMap().get(id);
+      List<String> fieldOrder = structTable.get(leftStruct.getName()).getFieldOrder();
       RegisterValue tmpReg = new RegisterValue(structIdType);
       RegisterValue returnReg = new RegisterValue(structIdType);
 
       node.addInstruction(new GetElemPtrInstruction(tmpReg, leftStruct, 
-                                                    leftVal, structIdType, 0));
+                                                    leftVal, structIdType, fieldOrder.indexOf(id)));
 //      node.addInstruction(new LoadInstruction(returnReg, structIdType, tmpReg));
       return returnReg;
    }
