@@ -44,15 +44,13 @@ public class MiniCompiler
          Map<String, StructProperties> structTable = program.typeCheck();
 
          
-         //String inputName = args[0].substring(0, args[0].length() - 5);
          String inputName = _inputFile.substring(0, _inputFile.length() - 5);
-         String[] path = inputName.split("/");
-         inputName = path[path.length - 1];
          BufferedWriter out;
          String programString;
+         //change true back to -stack after testing
          if (true) { //-stack was provided in command line
             programString = program.toString(structTable);
-            System.out.println(programString);
+            //System.out.println(programString);
             out = new BufferedWriter(new FileWriter(inputName + ".ll"));
          } else { //-stack was NOT provided in command line
             //TODO

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]]
+   then
+      echo "run all tests"
+      make clean
+      make
+      for file in benchmarks/hanoi_benchmark/*.mini
+         do
+            java MiniCompiler $file && y=${file%.*}
+            clang -m32 "$y.ll" ast/util.c
+            par=$(dirname "$file")
+            echo "=======$par/input======="
+            ./a.out < "$par/input" > "$y.myout"
+            diff "$y.myout" "$par/output"
+            echo "=======$par/input.longer======="
+            ./a.out < "$par/input.longer" > "$y.mylonger"
+            diff "$y.mylonger" "$par/output.longer"
+      done
+elif [[ $# -eq 1 ]]
+   then
+      if [[ $1 = "-noC" ]]
+         then
+            echo -e "Error: No file was given\nUsage: ./run [opt: -noC] [filename.mini]"
+      elif [[ ! -f "$1" ]]
+         then
+            echo -e "Error: "$1" is not a regular file\nUsage: ./run [opt: -noC] [filename.mini]"
+      else
+         echo -e "$1 is a file"
+      fi
+elif [[ $# -eq 2 ]]
+   then
+      if [[ $1 = "-noC" ]]
+         then
+            if [[ -f $2 ]]
+               then
+                  echo -e "this should work"
+            else
+               echo -e "Error $1 is not a file\nUsage: ./run [opt: -noC] [filename.mini]"
+            fi
+      else
+         echo -e "Error: 1st OPTIONAL argument has to be -noC if used\nUsage: ./run [opt: -noC] [filename.mini]"
+      fi
+else
+   echo -e "Error: Too many arguments\nUsage: ./run [opt: -noC] [filename.mini]"
+fi
