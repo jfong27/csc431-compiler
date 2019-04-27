@@ -2,18 +2,17 @@
 
 if [[ $# -eq 0 ]]
    then
-      echo "run all tests"
       make clean
       make
-      for file in benchmarks/hanoi_benchmark/*.mini
+      for file in benchmarks/fact_sum/*.mini
          do
             java MiniCompiler $file && y=${file%.*}
             clang -m32 "$y.ll" ast/util.c
             par=$(dirname "$file")
-            echo "=======$par/input======="
+            echo "=======$file======="
             ./a.out < "$par/input" > "$y.myout"
             diff "$y.myout" "$par/output"
-            echo "=======$par/input.longer======="
+            echo "=======$file longer======="
             ./a.out < "$par/input.longer" > "$y.mylonger"
             diff "$y.mylonger" "$par/output.longer"
       done
@@ -21,26 +20,124 @@ elif [[ $# -eq 1 ]]
    then
       if [[ $1 = "-noC" ]]
          then
-            echo -e "Error: No file was given\nUsage: ./run [opt: -noC] [filename.mini]"
+            for file in benchmarks/fact_sum/*.mini
+               do
+                  java MiniCompiler $file && y=${file%.*}
+                  clang -m32 "$y.ll" ast/util.c
+                  par=$(dirname "$file")
+                  echo "=======$file======="
+                  ./a.out < "$par/input" > "$y.myout"
+                  diff "$y.myout" "$par/output"
+                  echo "=======$file longer======="
+                  ./a.out < "$par/input.longer" > "$y.mylonger"
+                  diff "$y.mylonger" "$par/output.longer"
+            done
+      elif [[ $1 = "-noIn" ]]
+         then
+            echo "Error: No file was given"
+            echo "To run all benchmarks: ./run [opt: -noC]"
+            echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
       elif [[ ! -f "$1" ]]
          then
-            echo -e "Error: "$1" is not a regular file\nUsage: ./run [opt: -noC] [filename.mini]"
+            echo "Error: "$1" is not a regular file"
+            echo "To run all benchmarks: ./run [opt: -noC]"
+            echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
       else
-         echo -e "$1 is a file"
+         make clean
+         make
+         java MiniCompiler $1 && y=${1%.*}
+         clang -m32 "$y.ll" ast/util.c
+         par=$(dirname "$1")
+         echo "=======$1======="
+         ./a.out < "$par/input" > "$y.myout"
+         diff "$y.myout" "$par/output"
+         echo "=======$1 longer======="
+         ./a.out < "$par/input.longer" > "$y.mylonger"
+         diff "$y.mylonger" "$par/output.longer"
       fi
 elif [[ $# -eq 2 ]]
    then
       if [[ $1 = "-noC" ]]
          then
-            if [[ -f $2 ]]
+            if [[ $2 = "-noIn" ]]
                then
-                  echo -e "this should work"
+                  echo "Error: No file was given"
+                  echo "To run all benchmarks: ./run [opt: -noC]"
+                  echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
+            elif [[ -f $2 ]]
+               then
+                  java MiniCompiler $2 && y=${2%.*}
+                  clang -m32 "$y.ll" ast/util.c
+                  par=$(dirname "$2")
+                  echo "=======$2======="
+                  ./a.out < "$par/input" > "$y.myout"
+                  diff "$y.myout" "$par/output"
+                  echo "=======$2 longer======="
+                  ./a.out < "$par/input.longer" > "$y.mylonger"
+                  diff "$y.mylonger" "$par/output.longer"
             else
-               echo -e "Error $1 is not a file\nUsage: ./run [opt: -noC] [filename.mini]"
+               echo "Error: $2 is not a file"
+               echo "To run all benchmarks: ./run [opt: -noC]"
+               echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
+            fi
+      elif [[ $1 = "-noIn" ]]
+         then
+            if [[ $2 = "-noC" ]]
+               then
+                  echo "Error: No file was given"
+                  echo "To run all benchmarks: ./run [opt: -noC]"
+                  echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
+            elif [[ -f $2 ]]
+               then
+                  make clean
+                  make
+                  java MiniCompiler $2 && y=${2%.*}
+                  clang -m32 "$y.ll" ast/util.c
+                  par=$(dirname "$2")
+                  echo "=======$2======="
+                  ./a.out > "$y.myout"
+                  diff "$y.myout" "$par/output"
+            else
+               echo "Error: $2 is not a file"
+               echo "To run all benchmarks: ./run [opt: -noC]"
+               echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
             fi
       else
-         echo -e "Error: 1st OPTIONAL argument has to be -noC if used\nUsage: ./run [opt: -noC] [filename.mini]"
+         echo "Error: 1st arument has to be -noC or -noIn followed by a filename if 2 arguments are provided"
+         echo "To run all benchmarks: ./run [opt: -noC]"
+         echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
+      fi
+elif [[ $# -eq 3 ]]
+   then
+      if [[ $1 = "-noC" ]]
+         then
+            if [[ $2 = "-noIn" ]]
+               then
+                  if [[ -f $3 ]]
+                     then
+                        java MiniCompiler $3 && y=${3%.*}
+                        clang -m32 "$y.ll" ast/util.c
+                        par=$(dirname "$3")
+                        echo "=======$3======="
+                        ./a.out > "$y.myout"
+                        diff "$y.myout" "$par/output"
+                  else
+                     echo "Error: $3 is not a file"
+                     echo "To run all benchmarks: ./run [opt: -noC]"
+                     echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
+                  fi
+            else
+               echo "Error: 2nd OPTIONAL argument has to be -noIn if 3 arguments are provided"
+               echo "To run all benchmarks: ./run [opt: -noC]"
+               echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
+            fi
+      else
+         echo "Error: 1st OPTIONAL argument has to be -noC if 3 arguments are provided"
+         echo "To run all benchmarks: ./run [opt: -noC]"
+         echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
       fi
 else
-   echo -e "Error: Too many arguments\nUsage: ./run [opt: -noC] [filename.mini]"
+   echo "Error: Too many arguments"
+   echo "To run all benchmarks: ./run [opt: -noC]"
+   echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
 fi
