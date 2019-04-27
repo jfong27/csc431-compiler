@@ -37,7 +37,7 @@ public class ReturnStatement
       // Add a store instruction from retExpr to %ret_val
       RegisterValue retReg = new RegisterValue("_retval_", retExpr.getType());
       entryNode.addInstruction(new StoreInstruction(retExpr.getType(), retExpr.getType(), 
-                                                    retExpr, retReg));
+                                                    retExpr, retReg, false));
       entryNode.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
       if (!exitNode.isFinished()) {
          exitNode.addInstruction(new ReturnInstruction(retExpr.getType(), retExpr));

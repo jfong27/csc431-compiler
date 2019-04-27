@@ -26,11 +26,9 @@ public class LvalueDot
       Type structIdType = structTable.get(leftStruct.getName()).getFieldMap().get(id);
       List<String> fieldOrder = structTable.get(leftStruct.getName()).getFieldOrder();
       RegisterValue tmpReg = new RegisterValue(structIdType);
-      //RegisterValue returnReg = new RegisterValue(structIdType);
 
       node.addInstruction(new GetElemPtrInstruction(tmpReg, leftStruct, 
                                                     leftVal, structIdType, fieldOrder.indexOf(id)));
-      //node.addInstruction(new LoadInstruction(returnReg, structIdType, tmpReg));
       return tmpReg;
    }
 

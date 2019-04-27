@@ -4,7 +4,8 @@ public class VoidType
    implements Type
 {
    public boolean canConvertTo(Type t) {
-      return t instanceof VoidType;
+      return (t instanceof VoidType ||
+              t instanceof StructType);
    }
 
    public String getTypeString() {

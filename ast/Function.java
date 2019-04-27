@@ -71,7 +71,7 @@ public class Function
          RegisterValue paramReg = new RegisterValue("_P_" + decl.getName(), decl.getType());
 
          entryNode.addInstruction(new AllocateInstruction(reg, type));
-         entryNode.addInstruction(new StoreInstruction(type, type, paramReg, reg));
+         entryNode.addInstruction(new StoreInstruction(type, type, paramReg, reg, false));
       }
 
       Block finalBlock = body.createCFG(entryNode, exitNode, localSymTable, structTable);
@@ -86,7 +86,7 @@ public class Function
          exitNode.addInstruction(new ReturnEmptyInstruction());
       } else {
          RegisterValue tmpReg = new RegisterValue(retType);
-         exitNode.addInstruction(new LoadInstruction(tmpReg, retType, retReg));
+         exitNode.addInstruction(new LoadInstruction(tmpReg, retType, retReg, false));
          exitNode.addInstruction(new ReturnInstruction(retType, tmpReg));
       }
 
@@ -99,11 +99,11 @@ public class Function
       Map<String, IdProperties> localTable = (Map)symTable.clone();
 
       for (Declaration decl : params) {
-         localTable.put(decl.getName(), new IdProperties(decl.getType(), false, null));
+         localTable.put(decl.getName(), new IdProperties(decl.getType(), false, false, null));
       }
 
       for (Declaration decl : locals) {
-         localTable.put(decl.getName(), new IdProperties(decl.getType(), false, null));
+         localTable.put(decl.getName(), new IdProperties(decl.getType(), false, false, null));
       }
 
       return localTable;
@@ -116,10 +116,10 @@ public class Function
       Map<String, IdProperties> symTableClone = (Map)symTable.clone();
 
       for (Declaration decl : params) {
-         symTableClone.put(decl.getName(), new IdProperties(decl.getType(), false, null));
+         symTableClone.put(decl.getName(), new IdProperties(decl.getType(), false, false, null));
       }
       for (Declaration decl : locals) {
-         symTableClone.put(decl.getName(), new IdProperties(decl.getType(), false, null));
+         symTableClone.put(decl.getName(), new IdProperties(decl.getType(), false, false, null));
       }
 
       body.typeCheck(symTableClone, structTable, retType);

@@ -39,8 +39,18 @@ public class AssignmentStatement
 
       Value sourceReg = source.addInstructions(entryNode, symTable, structTable);
       Value targetReg = target.addInstructions(entryNode, symTable, structTable);
-      StoreInstruction instr = new StoreInstruction(sourceReg.getType(), targetReg.getType(), 
-                                                    sourceReg, targetReg);
+
+      String targetName = ((RegisterValue)targetReg).getName();
+      IdProperties targetProperties = symTable.get(targetName);
+      StoreInstruction instr = null;
+      if (targetProperties == null) {
+         instr = new StoreInstruction(sourceReg.getType(), targetReg.getType(), 
+                                                       sourceReg, targetReg, false);
+      } else {
+         boolean isTargetGlobal = targetProperties.isGlobal();
+         instr = new StoreInstruction(sourceReg.getType(), targetReg.getType(), 
+                                                       sourceReg, targetReg, isTargetGlobal);
+      }
       entryNode.addInstruction(instr);
       return entryNode;
    }

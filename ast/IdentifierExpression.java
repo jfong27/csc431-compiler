@@ -22,7 +22,8 @@ public class IdentifierExpression
       RegisterValue resultReg = new RegisterValue(idType);
       RegisterValue idReg = new RegisterValue(id, idType);
 
-      node.addInstruction(new LoadInstruction(resultReg, idType, idReg));
+      node.addInstruction(new LoadInstruction(resultReg, idType,
+                                              idReg, symTable.get(id).isGlobal()));
       return resultReg;
    }
 

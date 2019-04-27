@@ -29,7 +29,7 @@ public class DotExpression
 
       node.addInstruction(new GetElemPtrInstruction(tmpReg, leftStruct, 
                                                     leftVal, structIdType, fieldOffset));
-      node.addInstruction(new LoadInstruction(returnReg, structIdType, tmpReg));
+      node.addInstruction(new LoadInstruction(returnReg, structIdType, tmpReg, false));
       return returnReg;
    }
 

@@ -49,8 +49,13 @@ public class Program
       sb.append("\n");
 
       for (Declaration decl : decls) {
-         sb.append(String.format("@%s = common global %s null, align 4\n",
-                                  decl.getName(), decl.toString()));
+         if (decl.getType() instanceof StructType) {
+            sb.append(String.format("@%s = common global %s null, align 4\n",
+                     decl.getName(), decl.toString()));
+         } else {
+            sb.append(String.format("@%s = common global %s 0, align 4\n",
+                     decl.getName(), decl.toString()));
+         }
       }
       sb.append("\n");
 
@@ -133,12 +138,12 @@ public class Program
 
       for (Declaration currDecl : decls) {
          symTable.put(currDecl.getName(), 
-               new IdProperties(currDecl.getType(), false, null));
+               new IdProperties(currDecl.getType(), true, false, null));
       }
 
       for (Function func : funcs) {
          symTable.put(func.getName(), 
-               new IdProperties(func.getRetType(), true, func.getParams()));
+               new IdProperties(func.getRetType(), false, true, func.getParams()));
       }
 
       return symTable;

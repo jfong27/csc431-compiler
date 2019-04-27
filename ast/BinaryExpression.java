@@ -95,7 +95,7 @@ public class BinaryExpression
          case NE:
             res = new RegisterValue(new BoolType());
             node.addInstruction(new ComparisonInstruction(res, "ne",
-                                                           new IntType(), leftVal, rightVal));
+                                                          leftVal.getType(), leftVal, rightVal));
             resultReg = new RegisterValue(new BoolType());
             node.addInstruction(new ZextInstruction(resultReg, res));
             break;
@@ -126,7 +126,7 @@ public class BinaryExpression
                  operator == Operator.DIVIDE ||
                  operator == Operator.PLUS || 
                  operator == Operator.MINUS) {
-         //If operator is <>, ==, !=, etc. then return BoolType()
+         //If operator is <>, ==, !=, etc. )then return BoolType()
          if (leftType instanceof IntType && rightType instanceof IntType) {
             return new IntType();
          } else {
@@ -138,6 +138,8 @@ public class BinaryExpression
          }
       } else {
          if (leftType instanceof IntType && rightType instanceof IntType) {
+            return new BoolType();
+         } else if (leftType.canConvertTo(rightType)) {
             return new BoolType();
          } else {
             System.out.printf("%d: Expected two ints, found %s and %s\n",
