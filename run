@@ -96,7 +96,7 @@ elif [[ $# -eq 2 ]]
                   par=$(dirname "$2")
                   echo "=======$2======="
                   ./a.out > "$y.myout"
-                  diff "$y.myout" "$par/output"
+                  cat "$y.myout"
             else
                echo "Error: $2 is not a file"
                echo "To run all benchmarks: ./run [opt: -noC]"
@@ -120,7 +120,7 @@ elif [[ $# -eq 3 ]]
                         par=$(dirname "$3")
                         echo "=======$3======="
                         ./a.out > "$y.myout"
-                        diff "$y.myout" "$par/output"
+                        cat "$y.myout"
                   else
                      echo "Error: $3 is not a file"
                      echo "To run all benchmarks: ./run [opt: -noC]"
