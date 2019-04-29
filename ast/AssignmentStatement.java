@@ -42,14 +42,21 @@ public class AssignmentStatement
 
       String targetName = ((RegisterValue)targetReg).getName();
       IdProperties targetProperties = symTable.get(targetName);
-      StoreInstruction instr = null;
+
+      Type targetType = targetReg.getType();
+      Type sourceType = sourceReg.getType();
+      if (sourceType instanceof NullType) {
+         sourceType = targetType;
+      }
+
+      StoreInstruction instr;
       if (targetProperties == null) {
-         instr = new StoreInstruction(sourceReg.getType(), targetReg.getType(), 
-                                                       sourceReg, targetReg, false);
+         instr = new StoreInstruction(sourceType, targetType,
+                                      sourceReg, targetReg, false);
       } else {
          boolean isTargetGlobal = targetProperties.isGlobal();
-         instr = new StoreInstruction(sourceReg.getType(), targetReg.getType(), 
-                                                       sourceReg, targetReg, isTargetGlobal);
+         instr = new StoreInstruction(sourceType, targetType,
+                                      sourceReg, targetReg, isTargetGlobal);
       }
       entryNode.addInstruction(instr);
       return entryNode;

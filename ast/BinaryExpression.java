@@ -87,6 +87,20 @@ public class BinaryExpression
             break;
          case EQ:
             res = new RegisterValue(new BoolType());
+ 
+            if (leftVal.getType() instanceof StructType &&
+                rightVal.getType() instanceof NullType) {
+               node.addInstruction(new ComparisonInstruction(res, "ne",
+                                   leftVal.getType(), leftVal, rightVal));
+            } else if (leftVal.getType() instanceof NullType &&
+                       rightVal.getType() instanceof StructType) {
+               node.addInstruction(new ComparisonInstruction(res, "ne",
+                                   rightVal.getType(), leftVal, rightVal));
+            } else {
+               node.addInstruction(new ComparisonInstruction(res, "ne",
+                        leftVal.getType(), leftVal, rightVal));
+            }
+
             node.addInstruction(new ComparisonInstruction(res, "eq",
                                                            new IntType(), leftVal, rightVal));
             resultReg = new RegisterValue(new BoolType());
@@ -94,18 +108,19 @@ public class BinaryExpression
             break;
          case NE:
             res = new RegisterValue(new BoolType());
-            /*
-            System.out.println(leftVal.getType());
-            System.out.println(rightVal.getType());
-            RegisterValue nullReg = new RegisterValue(new StructPointerType());
-            if (leftVal.getType() instanceof StructType &&
-                rightVal.getType() instanceof IntType) {
-               node.addInstruction(
 
+            if (leftVal.getType() instanceof StructType &&
+                rightVal.getType() instanceof NullType) {
+               node.addInstruction(new ComparisonInstruction(res, "ne",
+                                   leftVal.getType(), leftVal, rightVal));
+            } else if (leftVal.getType() instanceof NullType &&
+                       rightVal.getType() instanceof StructType) {
+               node.addInstruction(new ComparisonInstruction(res, "ne",
+                                   rightVal.getType(), leftVal, rightVal));
+            } else {
+               node.addInstruction(new ComparisonInstruction(res, "ne",
+                        leftVal.getType(), leftVal, rightVal));
             }
-            */
-            node.addInstruction(new ComparisonInstruction(res, "ne",
-                                                          leftVal.getType(), leftVal, rightVal));
             resultReg = new RegisterValue(new BoolType());
             node.addInstruction(new ZextInstruction(resultReg, res));
             break;

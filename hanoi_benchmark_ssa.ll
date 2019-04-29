@@ -6,7 +6,7 @@ target triple="i686"
 @peg3 = common global %struct.plate* null, align 4
 @numMoves = common global i32 0, align 4
 
-define void @move(i32 %_P_from, i32 %_P_to)
+define void @move(i32 %from, i32 %to)
 {
 LU1:
 	%plateToMove = alloca %struct.plate*
@@ -98,7 +98,7 @@ LU7:
 	br label %LU4
 }
 
-define void @hanoi(i32 %_P_n, i32 %_P_from, i32 %_P_to, i32 %_P_other)
+define void @hanoi(i32 %n, i32 %from, i32 %to, i32 %other)
 {
 LU15:
 	%n = alloca i32
@@ -142,7 +142,7 @@ LU14:
 	ret void
 }
 
-define void @printPeg(%struct.plate* %_P_peg)
+define void @printPeg(%struct.plate* %peg)
 {
 LU20:
 	%aPlate = alloca %struct.plate*

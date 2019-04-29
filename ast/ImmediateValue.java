@@ -16,6 +16,8 @@ public class ImmediateValue implements Value {
             return "false";
          } 
          return "true";
+      } else if (type instanceof NullType) {
+         return "null";
       }
       return Integer.toString(val);
    }
