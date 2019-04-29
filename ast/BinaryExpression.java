@@ -90,19 +90,16 @@ public class BinaryExpression
  
             if (leftVal.getType() instanceof StructType &&
                 rightVal.getType() instanceof NullType) {
-               node.addInstruction(new ComparisonInstruction(res, "ne",
+               node.addInstruction(new ComparisonInstruction(res, "eq",
                                    leftVal.getType(), leftVal, rightVal));
             } else if (leftVal.getType() instanceof NullType &&
                        rightVal.getType() instanceof StructType) {
-               node.addInstruction(new ComparisonInstruction(res, "ne",
+               node.addInstruction(new ComparisonInstruction(res, "eq",
                                    rightVal.getType(), leftVal, rightVal));
             } else {
-               node.addInstruction(new ComparisonInstruction(res, "ne",
+               node.addInstruction(new ComparisonInstruction(res, "eq",
                         leftVal.getType(), leftVal, rightVal));
             }
-
-            node.addInstruction(new ComparisonInstruction(res, "eq",
-                                                           new IntType(), leftVal, rightVal));
             resultReg = new RegisterValue(new BoolType());
             node.addInstruction(new ZextInstruction(resultReg, res));
             break;
