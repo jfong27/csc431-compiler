@@ -16,15 +16,23 @@ public class Program
    private final List<Declaration> decls;
    private final List<Function> funcs;
    private final HashMap<String, IdProperties> symTable;
-
+   private String utilFuncString;
+   private String declStrings;
+  
    public Program(List<TypeDeclaration> types, List<Declaration> decls,
-      List<Function> funcs)
-   {
+                  List<Function> funcs) {
       this.types = types;
       this.decls = decls;
       this.funcs = funcs;
       this.symTable = initSymTable();
-   }
+      this.utilFuncString = "declare i8* @malloc(i32)\n" + 
+                            "declare void @printf_int(i32 %x)\n" +
+                            "declare void @printf_newline(i32 %x)\n" + 
+                            "declare void @free(i8* %x)\n" +
+                            "declare i32 @read()\n";
+      this.declStrings = getDeclStrings();
+
+  }
 
    public List<Block> createCFGraphs(Map<String, StructProperties> structTable) {
 
@@ -38,26 +46,47 @@ public class Program
 
    }
 
+   public String toStringSSA(Map<String, StructProperties> structTable) {
+
+      StringBuilder sb = new StringBuilder();
+      List<Block> functionCFGs = createCFGraphs(structTable);
+
+      sb.append(declStrings);
+
+      int f = 0;
+      for (Block functionEntry : functionCFGs) {
+         Function currFunc = funcs.get(f++);
+         sb.append(String.format("define %s @%s(", 
+                                 currFunc.getRetType().toString(), 
+                                 currFunc.getName()));
+         for (Declaration decl : currFunc.getParams()) {
+            sb.append(String.format("%s %%%s, ", 
+                                    decl.getType().toString(),
+                                    decl.getName()));
+         }
+         if (currFunc.getNumParams() > 0) {
+            sb.delete(sb.length() - 2, sb.length());
+         }
+         sb.append(")\n{\n");
+         Queue<Block> blockOrder = new LinkedList<>();
+         blockOrder = functionEntry.BFS(blockOrder);
+         for (Block block : blockOrder) {
+            sb.append(block.toString());
+         }
+         sb.append("}\n\n");
+      }
+
+      sb.append(utilFuncString);
+
+      return sb.toString();
+
+   }
+
    public String toString(Map<String, StructProperties> structTable) {
       StringBuilder sb = new StringBuilder();
       List<Block> functionCFGs = createCFGraphs(structTable);
 
-      sb.append("target triple=\"i686\"\n");
-      for (TypeDeclaration decl : types) {
-         sb.append(decl.toString());
-      }
-      sb.append("\n");
-
-      for (Declaration decl : decls) {
-         if (decl.getType() instanceof StructType) {
-            sb.append(String.format("@%s = common global %s null, align 4\n",
-                     decl.getName(), decl.toString()));
-         } else {
-            sb.append(String.format("@%s = common global %s 0, align 4\n",
-                     decl.getName(), decl.toString()));
-         }
-      }
-      sb.append("\n");
+      sb.append(declStrings);
 
       int f = 0;
       for (Block functionEntry : functionCFGs) {
@@ -81,12 +110,39 @@ public class Program
          }
          sb.append("}\n\n");
       }
-      sb.append("declare i8* @malloc(i32)\n");
-      sb.append("declare void @printf_int(i32 %x)\n");
-      sb.append("declare void @printf_newline(i32 %x)\n");
-      sb.append("declare void @free(i8* %x)\n");
-      sb.append("declare i32 @read()\n");
+      sb.append(utilFuncString);
 
+      return sb.toString();
+   }
+
+   private String utilFuncStrings() {
+      return ("declare i8* @malloc(i32)\n" + 
+              "declare void @printf_int(i32 %x)\n" +
+              "declare void @printf_newline(i32 %x)\n" + 
+              "declare void @free(i8* %x)\n" +
+              "declare i32 @read()\n");
+   }
+
+   private String getDeclStrings() {
+      StringBuilder sb = new StringBuilder();
+
+      sb.append("target triple=\"i686\"\n");
+      for (TypeDeclaration decl : types) {
+         sb.append(decl.toString());
+      }
+      sb.append("\n");
+
+      for (Declaration decl : decls) {
+         if (decl.getType() instanceof StructType) {
+            sb.append(String.format("@%s = common global %s null, align 4\n",
+                     decl.getName(), decl.toString()));
+         } else {
+            sb.append(String.format("@%s = common global %s 0, align 4\n",
+                     decl.getName(), decl.toString()));
+         }
+      }
+      sb.append("\n");
+      
       return sb.toString();
    }
 

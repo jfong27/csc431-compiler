@@ -94,6 +94,16 @@ public class BinaryExpression
             break;
          case NE:
             res = new RegisterValue(new BoolType());
+            /*
+            System.out.println(leftVal.getType());
+            System.out.println(rightVal.getType());
+            RegisterValue nullReg = new RegisterValue(new StructPointerType());
+            if (leftVal.getType() instanceof StructType &&
+                rightVal.getType() instanceof IntType) {
+               node.addInstruction(
+
+            }
+            */
             node.addInstruction(new ComparisonInstruction(res, "ne",
                                                           leftVal.getType(), leftVal, rightVal));
             resultReg = new RegisterValue(new BoolType());
