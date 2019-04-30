@@ -34,7 +34,7 @@ public class Program
 
   }
 
-   public List<Block> createCFGraphs(Map<String, StructProperties> structTable) {
+   public List<Block> createCFGs(Map<String, StructProperties> structTable) {
 
       ArrayList<Block> funcGraphs = new ArrayList<>();
 
@@ -46,10 +46,23 @@ public class Program
 
    }
 
+   public List<Block> createCFGsSSA(Map<String, StructProperties> structTable) {
+
+      ArrayList<Block> funcGraphs = new ArrayList<>();
+
+      for (Function func : funcs) {
+         funcGraphs.add(func.createCFGSSA(symTable, structTable));
+      }
+
+      return funcGraphs;
+
+   }
+
+
    public String toStringSSA(Map<String, StructProperties> structTable) {
 
       StringBuilder sb = new StringBuilder();
-      List<Block> functionCFGs = createCFGraphs(structTable);
+      List<Block> functionCFGs = createCFGsSSA(structTable);
 
       sb.append(declStrings);
 
@@ -71,7 +84,7 @@ public class Program
          Queue<Block> blockOrder = new LinkedList<>();
          blockOrder = functionEntry.BFS(blockOrder);
          for (Block block : blockOrder) {
-            sb.append(block.toString());
+            sb.append(block.toStringSSA());
          }
          sb.append("}\n\n");
       }
@@ -84,7 +97,7 @@ public class Program
 
    public String toString(Map<String, StructProperties> structTable) {
       StringBuilder sb = new StringBuilder();
-      List<Block> functionCFGs = createCFGraphs(structTable);
+      List<Block> functionCFGs = createCFGs(structTable);
 
       sb.append(declStrings);
 

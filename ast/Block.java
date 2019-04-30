@@ -50,11 +50,8 @@ public class Block {
    }
 
    public String toString() {
-      if (alreadyPrinted) {
-         return ""; 
-      } else {
-         alreadyPrinted = true;
-      }
+      if (alreadyPrinted) { return "" ; }
+      alreadyPrinted = true;
 
       StringBuilder blockString = new StringBuilder();
 
