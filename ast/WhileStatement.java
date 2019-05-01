@@ -47,7 +47,7 @@ public class WhileStatement
       entryNode.addInstruction(new BranchInstruction(truncatedGuard,
                                                      bodyEntry.getLabel(),
                                                      joinBlock.getLabel()));
-      Block bodyExit = body.createCFG(bodyEntry, exitNode,
+      Block bodyExit = body.createCFGSSA(bodyEntry, exitNode,
                                       symTable, structTable);
       Value bodyGuardVal = guard.addInstructions(bodyExit, symTable, structTable);
       Value truncatedBodyGuard = new RegisterValue(new BoolType());
@@ -71,7 +71,8 @@ public class WhileStatement
 
    public Block createCFG(Block entryNode, Block exitNode, 
                           Map<String, IdProperties> symTable,
-                          Map<String, StructProperties> structTable) {
+                          Map<String, StructProperties> structTable,
+                          Type retType) {
       Block bodyEntry = new Block("LU" + Integer.toString(Counter.getBlockCount()));
       Block joinBlock = new Block("LU" + Integer.toString(Counter.getBlockCount()));
       entryNode.addSuccessor(bodyEntry);
@@ -83,7 +84,7 @@ public class WhileStatement
                                                      bodyEntry.getLabel(),
                                                      joinBlock.getLabel()));
       Block bodyExit = body.createCFG(bodyEntry, exitNode,
-                                      symTable, structTable);
+                                      symTable, structTable, retType);
       Value bodyGuardVal = guard.addInstructions(bodyExit, symTable, structTable);
       Value truncatedBodyGuard = new RegisterValue(new BoolType());
       bodyExit.addSuccessor(joinBlock);

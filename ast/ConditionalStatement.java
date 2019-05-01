@@ -64,7 +64,8 @@ public class ConditionalStatement
 
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
-                          Map<String, StructProperties> structTable) {
+                          Map<String, StructProperties> structTable,
+                          Type retType) {
 
       Block thenEntry = new Block("LU" + Counter.getBlockCount());
       Block elseEntry = new Block("LU" + Counter.getBlockCount());
@@ -82,9 +83,9 @@ public class ConditionalStatement
                                                      elseEntry.getLabel()));
 
       Block thenExit = thenBlock.createCFG(thenEntry, exitNode, 
-                                           symTable, structTable);
+                                           symTable, structTable, retType);
       Block elseExit = elseBlock.createCFG(elseEntry, exitNode,
-                                           symTable, structTable);
+                                           symTable, structTable, retType);
 
       if (!thenExit.isFinished()) {
          thenExit.addInstruction(new UnconditionalBranchInstruction(joinEntry.getLabel()));

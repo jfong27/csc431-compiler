@@ -52,12 +52,13 @@ public class ReturnStatement
 
    public Block createCFG(Block entryNode, Block exitNode, 
                           Map<String, IdProperties> symTable,
-                          Map<String, StructProperties> structTable) {
+                          Map<String, StructProperties> structTable,
+                          Type retType) {
 
       Value retExpr = expression.addInstructions(entryNode, symTable, structTable);
 
       RegisterValue retReg = new RegisterValue("_retval_", retExpr.getType());
-      entryNode.addInstruction(new StoreInstruction(retExpr.getType(), retExpr.getType(), 
+      entryNode.addInstruction(new StoreInstruction(retType, retType, 
                                                     retExpr, retReg, false));
       entryNode.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
       if (!exitNode.isFinished()) {

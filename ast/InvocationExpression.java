@@ -36,7 +36,7 @@ public class InvocationExpression
          args.add(arg.addInstructionsSSA(node, symTable, structTable));
       }
       node.addInstruction(new CallInstruction(resultReg, func.getType(),
-                                              name, args));
+                                              name, args, func.getParams()));
 
       return resultReg;
    }
@@ -47,7 +47,6 @@ public class InvocationExpression
                                 Map<String, StructProperties> structTable) {
 
       IdProperties func = symTable.get(name);
-
       RegisterValue resultReg;
      
       if (func.getType() instanceof VoidType) {
@@ -60,7 +59,7 @@ public class InvocationExpression
          args.add(arg.addInstructions(node, symTable, structTable));
       }
       node.addInstruction(new CallInstruction(resultReg, func.getType(),
-                                              name, args));
+                                              name, args, func.getParams()));
 
       return resultReg;
    }

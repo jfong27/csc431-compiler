@@ -9,7 +9,8 @@ public interface Statement
                          Type retType);
    public Block createCFG(Block entry, Block exit, 
                           Map<String, IdProperties> symTable, 
-                          Map<String, StructProperties> structTable);
+                          Map<String, StructProperties> structTable,
+                          Type retType);
    public Block createCFGSSA(Block entry, Block exit, 
                              Map<String, IdProperties> symTable, 
                              Map<String, StructProperties> structTable);

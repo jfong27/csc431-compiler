@@ -151,7 +151,7 @@ LU20:
 	%u60 = load %struct.plate** %peg
 	store %struct.plate* %u60, %struct.plate** %aPlate
 	%u61 = load %struct.plate** %aPlate
-	%u62 = icmp ne %struct.plate* %u61, -1
+	%u62 = icmp ne %struct.plate* %u61, null
 	%u63 = zext i1 %u62 to i32
 	%u64 = trunc i32 %u63 to i1
 	br i1 %u64, label %LU21, label %LU22
@@ -165,7 +165,7 @@ LU21:
 	%u70 = load %struct.plate** %u69
 	store %struct.plate* %u70, %struct.plate** %aPlate
 	%u71 = load %struct.plate** %aPlate
-	%u72 = icmp ne %struct.plate* %u71, -1
+	%u72 = icmp ne %struct.plate* %u71, null
 	%u73 = zext i1 %u72 to i32
 	%u74 = trunc i32 %u73 to i1
 	br i1 %u74, label %LU21, label %LU22
@@ -182,9 +182,9 @@ LU24:
 	%count = alloca i32
 	%numPlates = alloca i32
 	%aPlate = alloca %struct.plate*
-	store i32 -1, %struct.plate** @peg1
-	store i32 -1, %struct.plate** @peg2
-	store i32 -1, %struct.plate** @peg3
+	store %struct.plate* null, %struct.plate** @peg1
+	store %struct.plate* null, %struct.plate** @peg2
+	store %struct.plate* null, %struct.plate** @peg3
 	store i32 0, i32* @numMoves
 	%u75 = call i32 @read()
 	store i32 %u75, i32* %numPlates
@@ -249,7 +249,7 @@ LU29:
 	%u107 = load i32* @numMoves
 	call void @printf_newline(i32 %u107)
 	%u108 = load %struct.plate** @peg3
-	%u109 = icmp ne %struct.plate* %u108, -1
+	%u109 = icmp ne %struct.plate* %u108, null
 	%u110 = zext i1 %u109 to i32
 	%u111 = trunc i32 %u110 to i1
 	br i1 %u111, label %LU30, label %LU31
@@ -264,7 +264,7 @@ LU30:
 	%u117 = bitcast %struct.plate* %u116 to i8*
 	call void @free(i8* %u117)
 	%u118 = load %struct.plate** @peg3
-	%u119 = icmp ne %struct.plate* %u118, -1
+	%u119 = icmp ne %struct.plate* %u118, null
 	%u120 = zext i1 %u119 to i32
 	%u121 = trunc i32 %u120 to i1
 	br i1 %u121, label %LU30, label %LU31

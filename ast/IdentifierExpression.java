@@ -28,7 +28,8 @@ public class IdentifierExpression
       if (idMap.containsKey(id)) {
          return idMap.get(id);
       }
-      return readVariableFromPredecessors(id, idType, node);
+      //return readVariableFromPredecessors(id, idType, node);
+      return readVariableFromPredecessors(id, type, block);
    }
 
    private Value readVariableFromPredecessors(String variable, Type type, Block block) {

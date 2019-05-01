@@ -34,7 +34,8 @@ public class PrintLnStatement
 
    public Block createCFG(Block entryNode, Block exitNode, 
                           Map<String, IdProperties> symTable,
-                          Map<String, StructProperties> structTable) {
+                          Map<String, StructProperties> structTable,
+                          Type retType) {
       
          Value exprResult = expression.addInstructions(entryNode, symTable, structTable);
 

@@ -1,16 +1,11 @@
-struct Brent
-{
-   int i;
-};
-
 fun main() void {
-   struct Brent b;
-   int c;
-   c = 3;
-   if (b != null) {
+   bool x;
+   bool y;
+   x = true;
+   y = true;
+   if (!(x == y)) {
       print 0 endl;
-   }
-   else {
+   } else {
       print 1 endl;
    }
 }

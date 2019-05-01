@@ -48,10 +48,11 @@ public class BlockStatement
 
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
-                          Map<String, StructProperties> structTable) {
+                          Map<String, StructProperties> structTable,
+                          Type retType) {
       Block currNode = entryNode;
       for (Statement stmt : statements) {
-         currNode = stmt.createCFG(currNode, exitNode, symTable, structTable);
+         currNode = stmt.createCFG(currNode, exitNode, symTable, structTable, retType);
       }
 
       return currNode;

@@ -49,7 +49,8 @@ public class AssignmentStatement
 
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
-                          Map<String, StructProperties> structTable) {
+                          Map<String, StructProperties> structTable,
+                          Type retType) {
 
       Value sourceReg = source.addInstructions(entryNode, symTable, structTable);
       Value targetReg = target.addInstructions(entryNode, symTable, structTable);

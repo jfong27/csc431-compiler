@@ -13,9 +13,9 @@ public class ImmediateValue implements Value {
    public String toString() {
       if (type instanceof BoolType) {
          if (val == 0) {
-            return "false";
+            return "0";
          } 
-         return "true";
+         return "1";
       } else if (type instanceof NullType) {
          return "null";
       }

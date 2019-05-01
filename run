@@ -4,9 +4,9 @@ if [[ $# -eq 0 ]]
    then
       make clean
       make
-      for file in benchmarks/fact_sum/*.mini
+      for file in benchmarks/*/*.mini
          do
-            java MiniCompiler $file && y=${file%.*}
+            java MiniCompiler -stack $file && y=${file%.*}
             clang -m32 "$y.ll" ast/util.c
             par=$(dirname "$file")
             echo "=======$file======="
@@ -20,9 +20,9 @@ elif [[ $# -eq 1 ]]
    then
       if [[ $1 = "-noC" ]]
          then
-            for file in benchmarks/fact_sum/*.mini
+            for file in benchmarks/stats/*.mini
                do
-                  java MiniCompiler $file && y=${file%.*}
+                  java MiniCompiler -stack $file && y=${file%.*}
                   clang -m32 "$y.ll" ast/util.c
                   par=$(dirname "$file")
                   echo "=======$file======="
@@ -45,7 +45,7 @@ elif [[ $# -eq 1 ]]
       else
          make clean
          make
-         java MiniCompiler $1 && y=${1%.*}
+         java MiniCompiler -stack $1 && y=${1%.*}
          clang -m32 "$y.ll" ast/util.c
          par=$(dirname "$1")
          echo "=======$1======="
@@ -66,7 +66,7 @@ elif [[ $# -eq 2 ]]
                   echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
             elif [[ -f $2 ]]
                then
-                  java MiniCompiler $2 && y=${2%.*}
+                  java MiniCompiler -stack $2 && y=${2%.*}
                   clang -m32 "$y.ll" ast/util.c
                   par=$(dirname "$2")
                   echo "=======$2======="
@@ -91,7 +91,7 @@ elif [[ $# -eq 2 ]]
                then
                   make clean
                   make
-                  java MiniCompiler $2 && y=${2%.*}
+                  java MiniCompiler -stack $2 && y=${2%.*}
                   clang -m32 "$y.ll" ast/util.c
                   par=$(dirname "$2")
                   echo "=======$2======="
@@ -115,7 +115,7 @@ elif [[ $# -eq 3 ]]
                then
                   if [[ -f $3 ]]
                      then
-                        java MiniCompiler $3 && y=${3%.*}
+                        java MiniCompiler -stack $3 && y=${3%.*}
                         clang -m32 "$y.ll" ast/util.c
                         par=$(dirname "$3")
                         echo "=======$3======="

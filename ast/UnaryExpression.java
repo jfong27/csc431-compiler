@@ -47,7 +47,6 @@ public class UnaryExpression
       return addInstructions(node, symTable, structTable);
    }
 
-   //TODO: NOT
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, StructProperties> structTable) {
@@ -58,7 +57,7 @@ public class UnaryExpression
       switch (operator) {
          case NOT:
             resultReg = new RegisterValue(new BoolType());
-            node.addInstruction(new TestInstruction("How to do NOT? UnaryExpr"));
+            node.addInstruction(new NotInstruction(resultReg, oprndVal));
             break;
          case MINUS:
             resultReg = new RegisterValue(new IntType());

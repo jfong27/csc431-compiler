@@ -102,7 +102,7 @@ public class Function
          entryNode.addInstruction(new StoreInstruction(type, type, paramReg, reg, false));
       }
 
-      Block finalBlock = body.createCFG(entryNode, exitNode, localSymTable, structTable);
+      Block finalBlock = body.createCFG(entryNode, exitNode, localSymTable, structTable, retType);
 
       finalBlock.addSuccessor(exitNode);
       if (!finalBlock.isFinished()) {

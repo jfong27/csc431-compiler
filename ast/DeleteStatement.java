@@ -35,7 +35,8 @@ public class DeleteStatement
 
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
-                          Map<String, StructProperties> structTable) {
+                          Map<String, StructProperties> structTable,
+                          Type retType) {
 
       Value resultVal = expression.addInstructions(entryNode, symTable, structTable);
 
@@ -44,7 +45,8 @@ public class DeleteStatement
       BitcastInstruction bitcastInstr = new BitcastInstruction(bitcastResult, resultVal.getType(),
                                                                resultVal, new StructPointerType());
       args.add(bitcastResult);
-      CallInstruction callInstr = new CallInstruction(new VoidType(), "free", args);
+      List<Declaration> decls = new ArrayList<>();
+      CallInstruction callInstr = new CallInstruction(new VoidType(), "free", args, decls);
                                                        
       entryNode.addInstruction(bitcastInstr);
       entryNode.addInstruction(callInstr);

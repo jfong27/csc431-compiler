@@ -28,8 +28,9 @@ public class NewExpression
       Value arg = new ImmediateValue(4 * struct.size(), new IntType());
       List<Value> args = new ArrayList<>();
       args.add(arg);
+      List<Declaration> decls = new ArrayList<>();
       Instruction callInstr = new CallInstruction(mallocResult, new PointerType(), 
-                                                  "malloc", args);
+                                                  "malloc", args, decls);
 
       Instruction bitcastInstr = new BitcastInstruction(bitcastResult, mallocResult.getType(),
                                                         mallocResult, structType);
@@ -55,8 +56,9 @@ public class NewExpression
       Value arg = new ImmediateValue(4 * struct.size(), new IntType());
       List<Value> args = new ArrayList<>();
       args.add(arg);
+      List<Declaration> decls = new ArrayList<>();
       Instruction callInstr = new CallInstruction(mallocResult, new PointerType(), 
-                                                  "malloc", args);
+                                                  "malloc", args, decls);
 
       Instruction bitcastInstr = new BitcastInstruction(bitcastResult, mallocResult.getType(),
                                                         mallocResult, structType);

@@ -8,20 +8,24 @@ public class CallInstruction implements Instruction {
    private final Type ty;
    private final String funName;
    private final List<Value> args;
+   private final List<Declaration> params;
    
    public CallInstruction(RegisterValue result, Type ty, 
-                          String funName, List<Value> args) {
+                          String funName, List<Value> args,
+                          List<Declaration> params) {
       this.result = result;
       this.ty = ty;
       this.funName = funName;
       this.args = args;
+      this.params = params;
    }
 
-   public CallInstruction(Type ty, String funName, List<Value> args) {
+   public CallInstruction(Type ty, String funName, List<Value> args, List<Declaration> params) {
       this.result = null;
       this.ty = ty;
       this.funName = funName;
       this.args = args;
+      this.params = params;
    }
 
    public String toString() {
@@ -33,11 +37,25 @@ public class CallInstruction implements Instruction {
          sb.append(" = call ");
       }
       sb.append(String.format("%s @%s(", ty.toString(), funName));
-
-      for (Value arg : args) {
-         sb.append(arg.getType().toString() + " ");
-         sb.append(arg.toString() + ", ");
+      for (int i = 0; i < args.size(); i++) {
+         Value arg = args.get(i);
+         if (arg.getType().toString().equals("null")) {
+            sb.append(params.get(i).getType().toString());
+            sb.append(arg.toString() + ", ");
+         } else {
+            sb.append(arg.getType().toString() + " ");
+            sb.append(arg.toString() + ", ");
+         }
       }
+      //for (Value arg : args) {
+      //   if (arg.getType().toString().equals("null")) {
+      //      sb.append(arg.getType().toString() + " ");
+      //      sb.append(arg.toString() + ", ");
+      //   } else {
+      //      sb.append(arg.getType().toString() + " ");
+      //      sb.append(arg.toString() + ", ");
+      //   }
+      //}
       if (args.size() > 0) {
          sb.delete(sb.length() - 2, sb.length());
       }
