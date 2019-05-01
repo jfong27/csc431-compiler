@@ -3,28 +3,37 @@ package ast;
 import java.lang.StringBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 public class Block {
 
    private final String label;
+   private List<Block> predecessors;
    private List<Block> successors;
    private List<Instruction> instructions;
+   private Map<String, Value> idMap;
    private boolean alreadyPrinted = false;
    private boolean visited = false;
+   private boolean isSealed = false;
 
-   public Block(String label, List<Block> successors,
-                List<Instruction> instructions) {
+   public Block(String label, List<Block> predecessors,
+                List<Block> successors, List<Instruction> instructions,
+                Map<String, Value> idMap) {
       this.label = label;
+      this.predecessors = predecessors;
       this.successors = successors;
       this.instructions = instructions;
+      this.idMap = idMap;
    }
 
    public Block(String label) {
       this.label = label;
       this.successors = new ArrayList<>();
       this.instructions = new ArrayList<>();
+      this.idMap = new HashMap<>();
    }
 
    public void clearInstructions() {
@@ -65,6 +74,14 @@ public class Block {
       return blockString.toString();
    }
 
+   public void seal() {
+      this.isSealed = true;
+   }
+
+   public boolean isSealed() {
+      return isSealed;
+   }
+
    public String getLabel() {
       return label;
    }
@@ -83,6 +100,18 @@ public class Block {
 
    public void addSuccessor(Block b) {
       successors.add(b);
+   }
+
+   public void getIdMap() {
+      return idMap;
+   }
+
+   public void setIdMap(Map<String, Value> idMap) {
+      this.idMap = idMap;
+   }
+
+   public void updateMap(String s, Value v) {
+      idMap.put(s, v);
    }
 
    public boolean isFinished() {

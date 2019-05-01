@@ -10,6 +10,9 @@ public interface Statement
    public Block createCFG(Block entry, Block exit, 
                           Map<String, IdProperties> symTable, 
                           Map<String, StructProperties> structTable);
+   public Block createCFGSSA(Block entry, Block exit, 
+                             Map<String, IdProperties> symTable, 
+                             Map<String, StructProperties> structTable);
 
    public boolean doesReturn();
 

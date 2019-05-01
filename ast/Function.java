@@ -40,10 +40,45 @@ public class Function
       return params.size();
    }
 
+   //TODO: Add a map.
    public Block createCFGSSA(HashMap<String, IdProperties> symTable,
                              Map<String, StructProperties> structTable) {
 
-      return null;
+      Map<String, IdProperties> localSymTable = addLocalsTo(symTable);
+
+      Block exitNode = new Block(String.format("LU%d", Counter.getBlockCount()));
+      Block entryNode = new Block(String.format("LU%d", Counter.getBlockCount()));
+
+      RegisterValue retReg = new RegisterValue("_retval_", retType);
+      if (!(retType instanceof VoidType)) {
+         entryNode.addInstruction(new AllocateInstruction(retReg, retType));
+      }
+
+      for (Declaration decl : locals) {
+         RegisterValue localReg = new RegisterValue(decl.getName(), decl.getType());
+      }
+
+      Block finalBlock = body.createCFGSSA(entryNode, exitNode, localSymTable, structTable);
+
+      finalBlock.addSuccessor(exitNode);
+      if (!finalBlock.isFinished()) {
+         finalBlock.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
+      }
+
+      exitNode.clearInstructions();
+      if (retType instanceof VoidType) {
+         exitNode.addInstruction(new ReturnEmptyInstruction());
+      } else {
+         RegisterValue tmpReg = new RegisterValue(retType);
+         exitNode.addInstruction(new LoadInstruction(tmpReg, retType, retReg, false));
+         exitNode.addInstruction(new ReturnInstruction(retType, tmpReg));
+      }
+
+
+      return entryNode;
+
+
+
    }
 
    public Block createCFG(HashMap<String, IdProperties> symTable,
