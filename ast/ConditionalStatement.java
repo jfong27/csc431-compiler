@@ -27,6 +27,35 @@ public class ConditionalStatement
       Block elseEntry = new Block("LU" + Counter.getBlockCount());
       Block joinEntry = new Block("LU" + Counter.getBlockCount());
 
+      entryNode.addSuccessor(thenEntry);
+      entryNode.addSuccessor(elseEntry);
+      thenEntry.addPredecessor(entryNode);
+      elseEntry.addPredecessor(entryNode);
+
+      RegisterValue guardResult = (RegisterValue)guard.addInstructionsSSA(entryNode, symTable, structTable);
+      Value res = new RegisterValue(new BoolType());
+      entryNode.addInstruction(new TruncInstruction(res, guardResult));
+      entryNode.addInstruction(new BranchInstruction(res,
+                                                     thenEntry.getLabel(), 
+                                                     elseEntry.getLabel()));
+
+      Block thenExit = thenBlock.createCFGSSA(thenEntry, exitNode, 
+                                              symTable, structTable);
+      Block elseExit = elseBlock.createCFGSSA(elseEntry, exitNode,
+                                              symTable, structTable);
+
+      if (!thenExit.isFinished()) {
+         thenExit.addInstruction(new UnconditionalBranchInstruction(joinEntry.getLabel()));
+      }
+      if (!elseExit.isFinished()) {
+         elseExit.addInstruction(new UnconditionalBranchInstruction(joinEntry.getLabel()));
+      }
+
+      thenExit.addSuccessor(joinEntry);
+      elseExit.addSuccessor(joinEntry);
+      joinEntry.addPredecessor(thenExit);
+      joinEntry.addPredecessor(elseExit);
+
       return joinEntry;
    }
 

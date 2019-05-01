@@ -18,12 +18,10 @@ public class IdentifierExpression
                                    Map<String, StructProperties> structTable) {
 
       Type idType = symTable.get(id).getType();
-      RegisterValue resultReg = new RegisterValue(idType);
       RegisterValue idReg = new RegisterValue(id, idType);
 
-      node.addInstruction(new LoadInstruction(resultReg, idType,
-                                              idReg, symTable.get(id).isGlobal()));
-      return resultReg;
+      //TODO: Instead of loading, get from map
+      return idReg;
    }
 
 

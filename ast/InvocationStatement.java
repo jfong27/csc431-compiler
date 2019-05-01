@@ -22,7 +22,7 @@ public class InvocationStatement
    public Block createCFGSSA(Block entryNode, Block exitNode,
                              Map<String, IdProperties> symTable,
                              Map<String, StructProperties> structTable) {
-      expression.addInstructions(entryNode, symTable, structTable);
+      expression.addInstructionsSSA(entryNode, symTable, structTable);
       return entryNode;
    }
 
