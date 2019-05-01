@@ -10,6 +10,13 @@ public class FalseExpression
       super(lineNum);
    }
 
+   public Value addInstructionsSSA(Block node, 
+                                   Map<String, IdProperties> symTable,
+                                   Map<String, StructProperties> structTable) {
+      return new ImmediateValue(0, new BoolType());
+   }
+
+
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, StructProperties> structTable) {

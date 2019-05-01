@@ -21,7 +21,19 @@ public class ReturnEmptyStatement
       return new VoidType();
    }
 
-   // I tihnk done
+   public Block createCFGSSA(Block entryNode, Block exitNode,
+                             Map<String, IdProperties> symTable,
+                             Map<String, StructProperties> structTable) {
+
+      entryNode.addSuccessor(exitNode);
+      exitNode.addPredecessor(entryNode);
+      entryNode.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
+      exitNode.addInstruction(new ReturnEmptyInstruction());
+      
+      return exitNode; 
+   }
+
+
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
                           Map<String, StructProperties> structTable) {

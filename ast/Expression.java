@@ -8,4 +8,6 @@ public interface Expression
                          Map<String, Map<String, Type>> structTable);
    public Value addInstructions(Block node, Map<String, IdProperties> symTable, 
                                 Map<String, StructProperties> structTable);
+   public Value addInstructionsSSA(Block node, Map<String, IdProperties> symTable, 
+                                   Map<String, StructProperties> structTable);
 }

@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.List;
+
 public class PhiInstruction implements Instruction {
 
    private final Value result;
@@ -10,7 +12,7 @@ public class PhiInstruction implements Instruction {
                          List<ValueLabelPair> phiValues) {
       this.result = result;
       this.ty = ty;
-      this.phiValues = phiValues
+      this.phiValues = phiValues;
    }
 
    public String toString() {
@@ -21,7 +23,8 @@ public class PhiInstruction implements Instruction {
          sb.append(String.format("[%s, %s] ", pair.getValue().toString(),
                                  pair.getLabel()));
       }
-
+      
+      return sb.toString();
    }
 
 }

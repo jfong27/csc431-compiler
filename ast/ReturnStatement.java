@@ -28,13 +28,32 @@ public class ReturnStatement
       return exprType;
    }
 
+   public Block createCFGSSA(Block entryNode, Block exitNode, 
+                             Map<String, IdProperties> symTable,
+                             Map<String, StructProperties> structTable) {
+
+      Value retExpr = expression.addInstructionsSSA(entryNode, symTable, structTable);
+
+      RegisterValue retReg = new RegisterValue("_retval_", retExpr.getType());
+      entryNode.addInstruction(new StoreInstruction(retExpr.getType(), retExpr.getType(), 
+                                                    retExpr, retReg, false));
+      entryNode.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
+      if (!exitNode.isFinished()) {
+         exitNode.addInstruction(new ReturnInstruction(retExpr.getType(), retExpr));
+      }
+      entryNode.addSuccessor(exitNode);
+      exitNode.addPredecessor(entryNode);
+
+      return exitNode;
+   }
+
+
    public Block createCFG(Block entryNode, Block exitNode, 
                           Map<String, IdProperties> symTable,
                           Map<String, StructProperties> structTable) {
 
-      //TODO: Add instruction to exitNode
       Value retExpr = expression.addInstructions(entryNode, symTable, structTable);
-      // Add a store instruction from retExpr to %ret_val
+
       RegisterValue retReg = new RegisterValue("_retval_", retExpr.getType());
       entryNode.addInstruction(new StoreInstruction(retExpr.getType(), retExpr.getType(), 
                                                     retExpr, retReg, false));

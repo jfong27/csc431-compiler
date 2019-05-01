@@ -34,7 +34,18 @@ public class BlockStatement
       return new BoolType();
    }
 
-   // This should be good
+   public Block createCFGSSA(Block entryNode, Block exitNode,
+                             Map<String, IdProperties> symTable,
+                             Map<String, StructProperties> structTable) {
+
+      Block currNode = entryNode;
+      for (Statement stmt : statements) {
+         currNode = stmt.createCFGSSA(currNode, exitNode, symTable, structTable);
+      }
+      return currNode;
+
+   }
+
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
                           Map<String, StructProperties> structTable) {

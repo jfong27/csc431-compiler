@@ -22,6 +22,15 @@ public class PrintLnStatement
          return new VoidType();
       }
 
+   public Block createCFGSSA(Block entryNode, Block exitNode, 
+                             Map<String, IdProperties> symTable,
+                             Map<String, StructProperties> structTable) {
+      
+         Value exprResult = expression.addInstructionsSSA(entryNode, symTable, structTable);
+
+         entryNode.addInstruction(new PrintlnInstruction(exprResult));
+         return entryNode;
+   }
 
    public Block createCFG(Block entryNode, Block exitNode, 
                           Map<String, IdProperties> symTable,

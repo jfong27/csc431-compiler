@@ -30,9 +30,21 @@ public class AssignmentStatement
 
       return sourceType;
 
-      }
+   }
 
-   // I think this one should be good
+   //TODO
+   public Block createCFGSSA(Block entryNode, Block exitNode,
+                             Map<String, IdProperties> symTable,
+                             Map<String, StructProperties> structTable) {
+
+      Value sourceReg = source.addInstructionsSSA(entryNode, symTable, structTable);
+      Value targetReg = target.addInstructionsSSA(entryNode, symTable, structTable);
+
+
+      return entryNode;
+   }
+                              
+
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
                           Map<String, StructProperties> structTable) {

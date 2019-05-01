@@ -84,7 +84,7 @@ public class Program
          Queue<Block> blockOrder = new LinkedList<>();
          blockOrder = functionEntry.BFS(blockOrder);
          for (Block block : blockOrder) {
-            sb.append(block.toStringSSA());
+            sb.append(block.toString());
          }
          sb.append("}\n\n");
       }

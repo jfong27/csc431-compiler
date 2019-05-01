@@ -29,6 +29,46 @@ public class WhileStatement
       return body.typeCheck(symTable, structTable, retType);
    }
 
+   //TODO
+   public Block createCFGSSA(Block entryNode, Block exitNode, 
+                             Map<String, IdProperties> symTable,
+                             Map<String, StructProperties> structTable) {
+      Block bodyEntry = new Block("LU" + Integer.toString(Counter.getBlockCount()));
+      Block joinBlock = new Block("LU" + Integer.toString(Counter.getBlockCount()));
+      entryNode.addSuccessor(bodyEntry);
+      entryNode.addSuccessor(joinBlock);
+      bodyEntry.addPredecessor(entryNode);
+      joinBlock.addPredecessor(entryNode);
+
+      Value guardVal = guard.addInstructionsSSA(entryNode, symTable, structTable);
+      Value truncatedGuard = new RegisterValue(new BoolType());
+
+      entryNode.addInstruction(new TruncInstruction(truncatedGuard, guardVal));
+      entryNode.addInstruction(new BranchInstruction(truncatedGuard,
+                                                     bodyEntry.getLabel(),
+                                                     joinBlock.getLabel()));
+      Block bodyExit = body.createCFG(bodyEntry, exitNode,
+                                      symTable, structTable);
+      Value bodyGuardVal = guard.addInstructions(bodyExit, symTable, structTable);
+      Value truncatedBodyGuard = new RegisterValue(new BoolType());
+      bodyExit.addSuccessor(joinBlock);
+      joinBlock.addPredecessor(bodyExit);
+
+      bodyExit.addInstruction(new TruncInstruction(truncatedBodyGuard, bodyGuardVal));
+      bodyExit.addInstruction(new BranchInstruction(truncatedBodyGuard,
+                                                    bodyEntry.getLabel(),
+                                                    joinBlock.getLabel()));
+      if (!bodyExit.isFinished()) {
+         bodyExit.addInstruction(new UnconditionalBranchInstruction(joinBlock.getLabel()));
+      }
+      bodyExit.addSuccessor(bodyEntry);
+      bodyEntry.addPredecessor(bodyExit);
+
+      return joinBlock;
+   }
+
+
+
    public Block createCFG(Block entryNode, Block exitNode, 
                           Map<String, IdProperties> symTable,
                           Map<String, StructProperties> structTable) {

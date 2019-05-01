@@ -13,6 +13,7 @@ public class Block {
    private final String label;
    private List<Block> predecessors;
    private List<Block> successors;
+   private List<Instruction> phis;
    private List<Instruction> instructions;
    private Map<String, Value> idMap;
    private boolean alreadyPrinted = false;
@@ -31,7 +32,9 @@ public class Block {
 
    public Block(String label) {
       this.label = label;
+      this.predecessors = new ArrayList<>();
       this.successors = new ArrayList<>();
+      this.phis = new ArrayList<>();
       this.instructions = new ArrayList<>();
       this.idMap = new HashMap<>();
    }
@@ -94,6 +97,10 @@ public class Block {
       return instructions;
    }
 
+   public List<Instruction> getPhis() {
+      return phis;
+   }
+
    public void addInstruction(Instruction s) {
       instructions.add(s);
    }
@@ -102,7 +109,15 @@ public class Block {
       successors.add(b);
    }
 
-   public void getIdMap() {
+   public void addPredecessor(Block b) {
+      predecessors.add(b);
+   }
+
+   public void addPhi(PhiInstruction phi) {
+      phis.add(phi);
+   }
+
+   public Map<String, Value> getIdMap() {
       return idMap;
    }
 

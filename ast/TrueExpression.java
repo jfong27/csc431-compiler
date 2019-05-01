@@ -15,6 +15,13 @@ public class TrueExpression
       return new BoolType();
    }
 
+   public Value addInstructionsSSA(Block node, 
+                                   Map<String, IdProperties> symTable,
+                                   Map<String, StructProperties> structTable) {
+      return new ImmediateValue(1, new BoolType());
+   }
+
+
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, StructProperties> structTable) {

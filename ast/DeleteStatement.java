@@ -25,7 +25,14 @@ public class DeleteStatement
 
    }
 
-   // Logically good? Probably bugs
+   public Block createCFGSSA(Block entryNode, Block exitNode,
+                             Map<String, IdProperties> symTable,
+                             Map<String, StructProperties> structTable) {
+
+      return entryNode;
+
+   }
+
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
                           Map<String, StructProperties> structTable) {

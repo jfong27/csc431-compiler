@@ -19,8 +19,17 @@ public class ConditionalStatement
       this.elseBlock = elseBlock;
    }
 
+   //TODO
+   public Block createCFGSSA(Block entryNode, Block exitNode,
+                             Map<String, IdProperties> symTable,
+                             Map<String, StructProperties> structTable) {
+      Block thenEntry = new Block("LU" + Counter.getBlockCount());
+      Block elseEntry = new Block("LU" + Counter.getBlockCount());
+      Block joinEntry = new Block("LU" + Counter.getBlockCount());
 
-   // I think this is done. 
+      return joinEntry;
+   }
+
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
                           Map<String, StructProperties> structTable) {
@@ -39,11 +48,6 @@ public class ConditionalStatement
       entryNode.addInstruction(new BranchInstruction(res, //originally guardResult
                                                      thenEntry.getLabel(), 
                                                      elseEntry.getLabel()));
-
-      //Value guardResult = guard.addInstructions(entryNode, symTable, structTable);
-      //entryNode.addInstruction(new BranchInstruction(guardResult, 
-      //                                               thenEntry.getLabel(), 
-      //                                               elseEntry.getLabel()));
 
       Block thenExit = thenBlock.createCFG(thenEntry, exitNode, 
                                            symTable, structTable);

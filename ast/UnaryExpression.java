@@ -41,6 +41,12 @@ public class UnaryExpression
    }
 
 
+   public Value addInstructionsSSA(Block node, 
+                                   Map<String, IdProperties> symTable,
+                                   Map<String, StructProperties> structTable) {
+      return addInstructions(node, symTable, structTable);
+   }
+
    //TODO: NOT
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
