@@ -40,7 +40,6 @@ public class Function
       return params.size();
    }
 
-   //TODO: Add a map.
    public Block createCFGSSA(HashMap<String, IdProperties> symTable,
                              Map<String, StructProperties> structTable) {
 
@@ -48,15 +47,28 @@ public class Function
 
       Block exitNode = new Block(String.format("LU%d", Counter.getBlockCount()));
       Block entryNode = new Block(String.format("LU%d", Counter.getBlockCount()));
+      entryNode.seal();
 
       RegisterValue retReg = new RegisterValue("_retval_", retType);
+
+      for (Declaration decl : params) {
+
+         RegisterValue reg = new RegisterValue(decl.getName(), decl.getType());
+         Type type = decl.getType();
+
+         entryNode.updateMap(decl.getName(), reg);
+      }
 
       Block finalBlock = body.createCFGSSA(entryNode, exitNode, localSymTable, structTable);
 
       finalBlock.addSuccessor(exitNode);
       exitNode.addPredecessor(finalBlock);
+
       if (!finalBlock.isFinished()) {
          finalBlock.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
+      }
+      if (!exitNode.isFinished()) {
+         exitNode.addInstruction(new ReturnEmptyInstruction());
       }
 
       return entryNode;

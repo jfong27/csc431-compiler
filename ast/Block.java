@@ -70,6 +70,10 @@ public class Block {
       blockString.append(label);
       blockString.append(":\n");
 
+      for (Instruction phi : phis) {
+         blockString.append("\t" + phi.toString() + "\n");
+      }
+
       for (Instruction instr : instructions) {
          blockString.append("\t" + instr.toString() + "\n");
       }
@@ -91,6 +95,18 @@ public class Block {
 
    public List<Block> getSuccessors() {
       return successors;
+   }
+
+   public List<Block> getPredecessors() {
+      return predecessors;
+   }
+
+   public int numSuccessors() {
+      return successors.size();
+   }
+
+   public int numPredecessors() {
+      return predecessors.size();
    }
 
    public List<Instruction> getInstructions() {

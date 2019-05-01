@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PhiInstruction implements Instruction {
@@ -8,11 +9,14 @@ public class PhiInstruction implements Instruction {
    private final Type ty;
    private List<ValueLabelPair> phiValues;
 
-   public PhiInstruction(Value result, Type ty,
-                         List<ValueLabelPair> phiValues) {
+   public PhiInstruction(Value result, Type ty) {
       this.result = result;
       this.ty = ty;
-      this.phiValues = phiValues;
+      this.phiValues = new ArrayList<>();
+   }
+
+   public void addPhiValue(Value value, String label) {
+      phiValues.add(new ValueLabelPair(value, label));
    }
 
    public String toString() {

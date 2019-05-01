@@ -18,169 +18,187 @@ LU3:
 LU0:
 	ret void
 LU4:
-	%u5 = sub i32 %num, 1
-	call void @tailrecursive(i32 %u5)
+	%u5 = phi i32 
+	%u3 = call i8* @malloc(i32 12)
+	%u4 = bitcast i8* %u3 to %struct.foo*
+	%u6 = sub i32 %u5, 1
+	call void @tailrecursive(i32 %u6)
 	br label %LU0
 }
 
 define i32 @add(i32 %x, i32 %y)
 {
 LU6:
-	%u6 = add i32 %x, %y
+	%u7 = add i32 %x, %y
 	br label %LU5
 LU5:
-	ret i32 %u6
+	ret i32 %u7
 }
 
 define void @domath(i32 %num)
 {
 LU8:
-	%u11 = getelementptr %struct.foo* %math1, i1 0, i32 2
-	%u16 = getelementptr %struct.foo* %math2, i1 0, i32 2
-	%u17 = getelementptr %struct.foo* %math1, i1 0, i32 0
-	%u18 = getelementptr %struct.foo* %math2, i1 0, i32 0
-	%u19 = getelementptr %struct.foo* %math1, i1 0, i32 0
-	%u20 = load i32* %u19
-	%u21 = getelementptr %struct.foo* %math1, i1 0, i32 2
-	%u22 = load %struct.simple** %u21
-	%u23 = getelementptr %struct.simple* %u22, i1 0, i32 0
-	%u24 = getelementptr %struct.foo* %math2, i1 0, i32 0
-	%u25 = load i32* %u24
-	%u26 = getelementptr %struct.foo* %math2, i1 0, i32 2
-	%u27 = load %struct.simple** %u26
-	%u28 = getelementptr %struct.simple* %u27, i1 0, i32 0
-	%u29 = icmp sgt i32 %num, 0
-	%u30 = zext i1 %u29 to i32
-	%u31 = trunc i32 %u30 to i1
-	br i1 %u31, label %LU9, label %LU10
+	%u8 = call i8* @malloc(i32 12)
+	%u9 = bitcast i8* %u8 to %struct.foo*
+	%u10 = call i8* @malloc(i32 4)
+	%u11 = bitcast i8* %u10 to %struct.simple*
+	%u12 = getelementptr %struct.foo* %u9, i1 0, i32 2
+	%u13 = call i8* @malloc(i32 12)
+	%u14 = bitcast i8* %u13 to %struct.foo*
+	%u15 = call i8* @malloc(i32 4)
+	%u16 = bitcast i8* %u15 to %struct.simple*
+	%u17 = getelementptr %struct.foo* %u14, i1 0, i32 2
+	%u18 = getelementptr %struct.foo* %u9, i1 0, i32 0
+	%u19 = getelementptr %struct.foo* %u14, i1 0, i32 0
+	%u20 = getelementptr %struct.foo* %u9, i1 0, i32 0
+	%u21 = load i32* %u20
+	%u22 = getelementptr %struct.foo* %u9, i1 0, i32 2
+	%u23 = load %struct.simple** %u22
+	%u24 = getelementptr %struct.simple* %u23, i1 0, i32 0
+	%u25 = getelementptr %struct.foo* %u14, i1 0, i32 0
+	%u26 = load i32* %u25
+	%u27 = getelementptr %struct.foo* %u14, i1 0, i32 2
+	%u28 = load %struct.simple** %u27
+	%u29 = getelementptr %struct.simple* %u28, i1 0, i32 0
+	%u30 = icmp sgt i32 %num, 0
+	%u31 = zext i1 %u30 to i32
+	%u32 = trunc i32 %u31 to i1
+	br i1 %u32, label %LU9, label %LU10
 LU9:
-	%u32 = load %struct.foo** %math1
-	%u33 = getelementptr %struct.foo* %u32, i1 0, i32 0
-	%u34 = load i32* %u33
-	%u35 = load %struct.foo** %math2
-	%u36 = getelementptr %struct.foo* %u35, i1 0, i32 0
-	%u37 = load i32* %u36
-	%u38 = mul i32 %u34, %u37
-	store i32 %u38, i32* %tmp
-	%u39 = load i32* %tmp
-	%u40 = load %struct.foo** %math1
-	%u41 = getelementptr %struct.foo* %u40, i1 0, i32 2
-	%u42 = load %struct.simple** %u41
-	%u43 = getelementptr %struct.simple* %u42, i1 0, i32 0
-	%u44 = load i32* %u43
-	%u45 = mul i32 %u39, %u44
-	%u46 = load %struct.foo** %math2
-	%u47 = getelementptr %struct.foo* %u46, i1 0, i32 0
-	%u48 = load i32* %u47
-	%u49 = sdiv i32 %u45, %u48
-	store i32 %u49, i32* %tmp
-	%u51 = load %struct.foo** %math2
-	%u52 = getelementptr %struct.foo* %u51, i1 0, i32 2
-	%u53 = load %struct.simple** %u52
-	%u54 = getelementptr %struct.simple* %u53, i1 0, i32 0
-	%u55 = load i32* %u54
-	%u56 = load %struct.foo** %math1
-	%u57 = getelementptr %struct.foo* %u56, i1 0, i32 0
-	%u58 = load i32* %u57
-	%u50 = call i32 @add(i32 %u55, i32 %u58)
+	%u33 = load %struct.foo** %math1
+	%u34 = getelementptr %struct.foo* %u33, i1 0, i32 0
+	%u35 = load i32* %u34
+	%u36 = load %struct.foo** %math2
+	%u37 = getelementptr %struct.foo* %u36, i1 0, i32 0
+	%u38 = load i32* %u37
+	%u39 = mul i32 %u35, %u38
+	store i32 %u39, i32* %tmp
+	%u40 = load i32* %tmp
+	%u41 = load %struct.foo** %math1
+	%u42 = getelementptr %struct.foo* %u41, i1 0, i32 2
+	%u43 = load %struct.simple** %u42
+	%u44 = getelementptr %struct.simple* %u43, i1 0, i32 0
+	%u45 = load i32* %u44
+	%u46 = mul i32 %u40, %u45
+	%u47 = load %struct.foo** %math2
+	%u48 = getelementptr %struct.foo* %u47, i1 0, i32 0
+	%u49 = load i32* %u48
+	%u50 = sdiv i32 %u46, %u49
 	store i32 %u50, i32* %tmp
-	%u59 = load %struct.foo** %math2
-	%u60 = getelementptr %struct.foo* %u59, i1 0, i32 0
-	%u61 = load i32* %u60
-	%u62 = load %struct.foo** %math1
-	%u63 = getelementptr %struct.foo* %u62, i1 0, i32 0
-	%u64 = load i32* %u63
-	%u65 = sub i32 %u61, %u64
-	store i32 %u65, i32* %tmp
-	%u66 = load i32* %num
-	%u67 = sub i32 %u66, 1
-	store i32 %u67, i32* %num
-	%u68 = load i32* %num
-	%u69 = icmp sgt i32 %u68, 0
-	%u70 = zext i1 %u69 to i32
-	%u71 = trunc i32 %u70 to i1
-	br i1 %u71, label %LU9, label %LU10
+	%u52 = load %struct.foo** %math2
+	%u53 = getelementptr %struct.foo* %u52, i1 0, i32 2
+	%u54 = load %struct.simple** %u53
+	%u55 = getelementptr %struct.simple* %u54, i1 0, i32 0
+	%u56 = load i32* %u55
+	%u57 = load %struct.foo** %math1
+	%u58 = getelementptr %struct.foo* %u57, i1 0, i32 0
+	%u59 = load i32* %u58
+	%u51 = call i32 @add(i32 %u56, i32 %u59)
+	store i32 %u51, i32* %tmp
+	%u60 = load %struct.foo** %math2
+	%u61 = getelementptr %struct.foo* %u60, i1 0, i32 0
+	%u62 = load i32* %u61
+	%u63 = load %struct.foo** %math1
+	%u64 = getelementptr %struct.foo* %u63, i1 0, i32 0
+	%u65 = load i32* %u64
+	%u66 = sub i32 %u62, %u65
+	store i32 %u66, i32* %tmp
+	%u67 = load i32* %num
+	%u68 = sub i32 %u67, 1
+	store i32 %u68, i32* %num
+	%u69 = load i32* %num
+	%u70 = icmp sgt i32 %u69, 0
+	%u71 = zext i1 %u70 to i32
+	%u72 = trunc i32 %u71 to i1
+	br i1 %u72, label %LU9, label %LU10
 LU10:
 	br label %LU7
 LU7:
+	ret void
 }
 
 define void @objinstantiation(i32 %num)
 {
 LU12:
-	%u72 = icmp sgt i32 %num, 0
-	%u73 = zext i1 %u72 to i32
-	%u74 = trunc i32 %u73 to i1
-	br i1 %u74, label %LU13, label %LU14
+	%u73 = icmp sgt i32 %num, 0
+	%u74 = zext i1 %u73 to i32
+	%u75 = trunc i32 %u74 to i1
+	br i1 %u75, label %LU13, label %LU14
 LU13:
-	%u75 = call i8* @malloc(i32 12)
-	%u76 = bitcast i8* %u75 to %struct.foo*
-	store %struct.foo* %u76, %struct.foo** %tmp
-	%u77 = load %struct.foo** %tmp
-	%u78 = bitcast %struct.foo* %u77 to i8*
-	call void @free(i8* %u78)
-	%u79 = load i32* %num
-	%u80 = sub i32 %u79, 1
-	store i32 %u80, i32* %num
-	%u81 = load i32* %num
-	%u82 = icmp sgt i32 %u81, 0
-	%u83 = zext i1 %u82 to i32
-	%u84 = trunc i32 %u83 to i1
-	br i1 %u84, label %LU13, label %LU14
+	%u76 = call i8* @malloc(i32 12)
+	%u77 = bitcast i8* %u76 to %struct.foo*
+	store %struct.foo* %u77, %struct.foo** %tmp
+	%u78 = load %struct.foo** %tmp
+	%u79 = bitcast %struct.foo* %u78 to i8*
+	call void @free(i8* %u79)
+	%u80 = load i32* %num
+	%u81 = sub i32 %u80, 1
+	store i32 %u81, i32* %num
+	%u82 = load i32* %num
+	%u83 = icmp sgt i32 %u82, 0
+	%u84 = zext i1 %u83 to i32
+	%u85 = trunc i32 %u84 to i1
+	br i1 %u85, label %LU13, label %LU14
 LU14:
 	br label %LU11
 LU11:
+	ret void
 }
 
 define i32 @ackermann(i32 %m, i32 %n)
 {
 LU16:
-	%u85 = icmp eq i32 %m, 0
-	%u86 = zext i1 %u85 to i32
-	%u87 = trunc i32 %u86 to i1
-	br i1 %u87, label %LU17, label %LU18
+	%u86 = icmp eq i32 %m, 0
+	%u87 = zext i1 %u86 to i32
+	%u88 = trunc i32 %u87 to i1
+	br i1 %u88, label %LU17, label %LU18
 LU17:
-	%u88 = add i32 %n, 1
+	%u89 = add i32 null, 1
 	br label %LU15
 LU18:
 	br label %LU19
 LU15:
-	ret i32 %u88
+	ret i32 %u89
 LU19:
-	%u89 = icmp eq i32 %n, 0
-	%u90 = zext i1 %u89 to i32
-	%u91 = trunc i32 %u90 to i1
-	br i1 %u91, label %LU20, label %LU21
+	%u90 = phi i32 
+	%u95 = phi i32 
+	%u98 = phi i32 
+	%u101 = phi i32 
+	%u102 = phi i32 
+	%u91 = icmp eq i32 %u90, 0
+	%u92 = zext i1 %u91 to i32
+	%u93 = trunc i32 %u92 to i1
+	br i1 %u93, label %LU20, label %LU21
 LU22:
 	br label %LU15
 LU20:
-	%u93 = sub i32 %m, 1
-	%u92 = call i32 @ackermann(i32 %u93, i32 1)
+	%u96 = sub i32 %u95, 1
+	%u94 = call i32 @ackermann(i32 %u96, i32 1)
 	br label %LU15
 LU21:
-	%u95 = sub i32 %m, 1
-	%u97 = sub i32 %n, 1
-	%u96 = call i32 @ackermann(i32 %m, i32 %u97)
-	%u94 = call i32 @ackermann(i32 %u95, i32 %u96)
+	%u99 = sub i32 %u98, 1
+	%u103 = sub i32 %u102, 1
+	%u100 = call i32 @ackermann(i32 %u101, i32 %u103)
+	%u97 = call i32 @ackermann(i32 %u99, i32 %u100)
 	br label %LU15
 }
 
 define i32 @main()
 {
 LU24:
-	%u98 = call i32 @read()
-	%u99 = call i32 @read()
-	%u100 = call i32 @read()
-	%u101 = call i32 @read()
-	%u102 = call i32 @read()
-	call void @tailrecursive(i32 %a)
-	call void @printf_newline(i32 %a)
-	call void @domath(i32 %b)
-	call void @printf_newline(i32 %b)
-	call void @objinstantiation(i32 %c)
-	call void @printf_newline(i32 %c)
-	%u103 = call i32 @ackermann(i32 %d, i32 %e)
-	call void @printf_newline(i32 %u103)
+	%u104 = call i32 @read()
+	%u105 = call i32 @read()
+	%u106 = call i32 @read()
+	%u107 = call i32 @read()
+	%u108 = call i32 @read()
+	call void @tailrecursive(i32 %u104)
+	call void @printf_newline(i32 %u104)
+	call void @domath(i32 %u105)
+	call void @printf_newline(i32 %u105)
+	call void @objinstantiation(i32 %u106)
+	call void @printf_newline(i32 %u106)
+	%u109 = call i32 @ackermann(i32 %u107, i32 %u108)
+	call void @printf_newline(i32 %u109)
 	br label %LU23
 LU23:
 	ret i32 0

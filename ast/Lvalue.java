@@ -12,4 +12,5 @@ public interface Lvalue
    public Value addInstructionsSSA(Block node, 
                                    Map<String, IdProperties> symTable,
                                    Map<String, StructProperties> structTable);
+   public String getId();
 }

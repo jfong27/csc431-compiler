@@ -40,6 +40,8 @@ public class AssignmentStatement
       Value sourceReg = source.addInstructionsSSA(entryNode, symTable, structTable);
       Value targetReg = target.addInstructionsSSA(entryNode, symTable, structTable);
 
+      entryNode.updateMap(target.getId(), sourceReg);
+
 
       return entryNode;
    }

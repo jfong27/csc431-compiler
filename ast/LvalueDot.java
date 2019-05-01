@@ -17,6 +17,10 @@ public class LvalueDot
       this.id = id;
    }
 
+   public String getId() {
+      return id;
+   }
+
    public Value addInstructionsSSA(Block node, 
                                    Map<String, IdProperties> symTable,
                                    Map<String, StructProperties> structTable) {

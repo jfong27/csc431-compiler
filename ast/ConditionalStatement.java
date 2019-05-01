@@ -27,6 +27,9 @@ public class ConditionalStatement
       Block elseEntry = new Block("LU" + Counter.getBlockCount());
       Block joinEntry = new Block("LU" + Counter.getBlockCount());
 
+      thenEntry.seal();
+      elseEntry.seal();
+
       entryNode.addSuccessor(thenEntry);
       entryNode.addSuccessor(elseEntry);
       thenEntry.addPredecessor(entryNode);
