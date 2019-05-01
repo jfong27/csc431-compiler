@@ -1,6 +1,6 @@
 #include <stdio.h>
 void printf_int(int x) {
-   printf("%d", x);
+   printf("%d ", x);
 }
 
 void printf_newline(int x) {

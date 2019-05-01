@@ -75,7 +75,7 @@ public class ConditionalStatement
       entryNode.addSuccessor(elseEntry);
       
       
-      RegisterValue guardResult = (RegisterValue)guard.addInstructions(entryNode, symTable, structTable);
+      Value guardResult = guard.addInstructions(entryNode, symTable, structTable);
       Value res = new RegisterValue(new BoolType());
       entryNode.addInstruction(new TruncInstruction(res, guardResult));
       entryNode.addInstruction(new BranchInstruction(res, //originally guardResult
