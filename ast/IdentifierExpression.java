@@ -13,7 +13,20 @@ public class IdentifierExpression
       this.id = id;
    }
 
-   // I think done
+   public Value addInstructionsSSA(Block node, 
+                                   Map<String, IdProperties> symTable,
+                                   Map<String, StructProperties> structTable) {
+
+      Type idType = symTable.get(id).getType();
+      RegisterValue resultReg = new RegisterValue(idType);
+      RegisterValue idReg = new RegisterValue(id, idType);
+
+      node.addInstruction(new LoadInstruction(resultReg, idType,
+                                              idReg, symTable.get(id).isGlobal()));
+      return resultReg;
+   }
+
+
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, StructProperties> structTable) {

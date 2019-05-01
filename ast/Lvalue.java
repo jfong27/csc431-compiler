@@ -9,4 +9,7 @@ public interface Lvalue
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, StructProperties> structTable);
+   public Value addInstructionsSSA(Block node, 
+                                   Map<String, IdProperties> symTable,
+                                   Map<String, StructProperties> structTable);
 }

@@ -18,6 +18,12 @@ public class IntegerExpression
       return new IntType();
    }
 
+   public Value addInstructionsSSA(Block node, 
+                                   Map<String, IdProperties> symTable,
+                                   Map<String, StructProperties> structTable) {
+      return new ImmediateValue(Integer.parseInt(value), new IntType());
+   }
+
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, StructProperties> structTable) {

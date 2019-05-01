@@ -17,6 +17,20 @@ public class LvalueDot
       this.id = id;
    }
 
+   public Value addInstructionsSSA(Block node, 
+                                   Map<String, IdProperties> symTable,
+                                   Map<String, StructProperties> structTable) {
+
+      Value leftVal = left.addInstructionsSSA(node, symTable, structTable);
+      StructType leftStruct = (StructType)leftVal.getType();
+      Type structIdType = structTable.get(leftStruct.getName()).getFieldMap().get(id);
+      List<String> fieldOrder = structTable.get(leftStruct.getName()).getFieldOrder();
+      RegisterValue tmpReg = new RegisterValue(structIdType);
+
+      node.addInstruction(new GetElemPtrInstruction(tmpReg, leftStruct, 
+                                                    leftVal, structIdType, fieldOrder.indexOf(id)));
+      return tmpReg;
+   }
 
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,

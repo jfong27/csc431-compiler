@@ -14,6 +14,15 @@ public class LvalueId
       this.id = id;
    }
 
+   public Value addInstructionsSSA(Block node, 
+                                   Map<String, IdProperties> symTable,
+                                   Map<String, StructProperties> structTable) {
+
+      IdProperties idResult = symTable.get(id);
+      return new RegisterValue(id, idResult.getType());
+   }
+
+
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, StructProperties> structTable) {

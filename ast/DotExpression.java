@@ -15,6 +15,25 @@ public class DotExpression
       this.id = id;
    }
 
+   public Value addInstructionsSSA(Block node, 
+                                   Map<String, IdProperties> symTable,
+                                   Map<String, StructProperties> structTable) {
+
+      Value leftVal = left.addInstructionsSSA(node, symTable, structTable);
+      StructType leftStruct = (StructType)leftVal.getType();
+      Map<String, Type> structDef = structTable.get(leftStruct.getName()).getFieldMap();
+      int fieldOffset = structTable.get(leftStruct.getName()).getFieldOrder().indexOf(id);
+      Type structIdType = structDef.get(id);
+      RegisterValue tmpReg = new RegisterValue(structIdType);
+      RegisterValue returnReg = new RegisterValue(structIdType);
+
+      node.addInstruction(new GetElemPtrInstruction(tmpReg, leftStruct, 
+                                                    leftVal, structIdType, fieldOffset));
+      node.addInstruction(new LoadInstruction(returnReg, structIdType, tmpReg, false));
+      return returnReg;
+   }
+
+
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, StructProperties> structTable) {

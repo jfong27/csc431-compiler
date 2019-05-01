@@ -18,6 +18,117 @@ public class BinaryExpression
       this.right = right;
    }
 
+   public Value addInstructionsSSA(Block node, 
+                                   Map<String, IdProperties> symTable,
+                                   Map<String, StructProperties> structTable) {
+      RegisterValue resultReg;
+      RegisterValue res;
+      Value leftVal = left.addInstructionsSSA(node, symTable, structTable);
+      Value rightVal = right.addInstructionsSSA(node, symTable, structTable);
+
+      switch (operator) {
+         case TIMES:
+            resultReg = new RegisterValue(new IntType());
+            node.addInstruction(new BinaryInstruction(resultReg, "mul",
+                                                      new IntType(), leftVal, rightVal));
+            break;
+         case DIVIDE:
+            resultReg = new RegisterValue(new IntType());
+            node.addInstruction(new BinaryInstruction(resultReg, "sdiv",
+                                                      new IntType(), leftVal, rightVal));
+            break;
+         case PLUS:
+            resultReg = new RegisterValue(new IntType());
+            node.addInstruction(new BinaryInstruction(resultReg, "add",
+                                                      new IntType(), leftVal, rightVal));
+            break;
+         case MINUS:
+            resultReg = new RegisterValue(new IntType());
+            node.addInstruction(new BinaryInstruction(resultReg, "sub",
+                                                      new IntType(), leftVal, rightVal));
+            break;
+         case AND:
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new BinaryInstruction(resultReg, "and",
+                                                      new IntType(), leftVal, rightVal));
+            break;
+         case OR:
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new BinaryInstruction(resultReg, "or",
+                                                      new IntType(), leftVal, rightVal));
+            break;
+         case LT:
+            res = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(res, "slt",
+                                                           new IntType(), leftVal, rightVal));
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ZextInstruction(resultReg, res));
+            break;
+         case GT:
+            res = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(res, "sgt",
+                                                           new IntType(), leftVal, rightVal));
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ZextInstruction(resultReg, res));
+            break;
+         case LE:
+            res = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(res, "sle",
+                                                           new IntType(), leftVal, rightVal));
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ZextInstruction(resultReg, res));
+            break;
+         case GE:
+            res = new RegisterValue(new BoolType());
+            node.addInstruction(new ComparisonInstruction(res, "sge",
+                                                           new IntType(), leftVal, rightVal));
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ZextInstruction(resultReg, res));
+            break;
+         case EQ:
+            res = new RegisterValue(new BoolType());
+ 
+            if (leftVal.getType() instanceof StructType &&
+                rightVal.getType() instanceof NullType) {
+               node.addInstruction(new ComparisonInstruction(res, "eq",
+                                   leftVal.getType(), leftVal, rightVal));
+            } else if (leftVal.getType() instanceof NullType &&
+                       rightVal.getType() instanceof StructType) {
+               node.addInstruction(new ComparisonInstruction(res, "eq",
+                                   rightVal.getType(), leftVal, rightVal));
+            } else {
+               node.addInstruction(new ComparisonInstruction(res, "eq",
+                        leftVal.getType(), leftVal, rightVal));
+            }
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ZextInstruction(resultReg, res));
+            break;
+         case NE:
+            res = new RegisterValue(new BoolType());
+
+            if (leftVal.getType() instanceof StructType &&
+                rightVal.getType() instanceof NullType) {
+               node.addInstruction(new ComparisonInstruction(res, "ne",
+                                   leftVal.getType(), leftVal, rightVal));
+            } else if (leftVal.getType() instanceof NullType &&
+                       rightVal.getType() instanceof StructType) {
+               node.addInstruction(new ComparisonInstruction(res, "ne",
+                                   rightVal.getType(), leftVal, rightVal));
+            } else {
+               node.addInstruction(new ComparisonInstruction(res, "ne",
+                        leftVal.getType(), leftVal, rightVal));
+            }
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new ZextInstruction(resultReg, res));
+            break;
+         default:
+            resultReg = new RegisterValue(new IntType());
+            break;
+
+      }
+      return resultReg;
+   }
+
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, StructProperties> structTable) {

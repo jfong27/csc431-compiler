@@ -17,7 +17,31 @@ public class InvocationExpression
       this.name = name;
       this.arguments = arguments;
    }
-   
+
+   public Value addInstructionsSSA(Block node, 
+                                   Map<String, IdProperties> symTable,
+                                   Map<String, StructProperties> structTable) {
+
+      IdProperties func = symTable.get(name);
+
+      RegisterValue resultReg;
+     
+      if (func.getType() instanceof VoidType) {
+         resultReg = null;
+      } else {
+         resultReg = new RegisterValue(func.getType());
+      }
+      List<Value> args = new ArrayList<>();
+      for (Expression arg : arguments) {
+         args.add(arg.addInstructionsSSA(node, symTable, structTable));
+      }
+      node.addInstruction(new CallInstruction(resultReg, func.getType(),
+                                              name, args));
+
+      return resultReg;
+   }
+
+  
    public Value addInstructions(Block node, 
                                 Map<String, IdProperties> symTable,
                                 Map<String, StructProperties> structTable) {

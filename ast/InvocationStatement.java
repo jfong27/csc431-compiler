@@ -19,7 +19,14 @@ public class InvocationStatement
       return expression.typeCheck(symTable, structTable);
    }
 
-   // I think ok
+   public Block createCFGSSA(Block entryNode, Block exitNode,
+                             Map<String, IdProperties> symTable,
+                             Map<String, StructProperties> structTable) {
+      expression.addInstructions(entryNode, symTable, structTable);
+      return entryNode;
+   }
+
+
    public Block createCFG(Block entryNode, Block exitNode,
                           Map<String, IdProperties> symTable,
                           Map<String, StructProperties> structTable) {
