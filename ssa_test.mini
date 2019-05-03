@@ -1,0 +1,11 @@
+fun foo(int num) void {
+   int tmp;
+   while(num > 0) {
+      tmp = 1;
+      num = num - 1;
+   }
+}
+
+fun main() void {
+
+}

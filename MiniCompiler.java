@@ -29,9 +29,11 @@ public class MiniCompiler
             and the next phase of the compiler can read the JSON to build
             a language-specific AST representation.
          */
-         //MiniToJsonVisitor jsonVisitor = new MiniToJsonVisitor();
-         //JsonValue json = jsonVisitor.visit(tree);
-         //System.out.println(json);
+         /*
+         MiniToJsonVisitor jsonVisitor = new MiniToJsonVisitor();
+         JsonValue json = jsonVisitor.visit(tree);
+         System.out.println(json);
+         */
 
          /*
             This visitor will build an object representation of the AST
@@ -42,7 +44,6 @@ public class MiniCompiler
          ast.Program program = programVisitor.visit(tree);
       
          Map<String, StructProperties> structTable = program.typeCheck();
-
          
          String inputName = _inputFile.substring(0, _inputFile.length() - 5);
          BufferedWriter out;
@@ -50,7 +51,6 @@ public class MiniCompiler
          //change true back to -stack after testing
          if (stack) { //-stack was provided in command line
             programString = program.toString(structTable);
-            //System.out.println(programString);
             out = new BufferedWriter(new FileWriter(inputName + ".ll"));
          } else { //-stack was NOT provided in command line
             programString = program.toStringSSA(structTable);

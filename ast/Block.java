@@ -95,11 +95,7 @@ public class Block {
 
       return blockString.toString();
    }
-
-   public void seal() {
-      this.isSealed = true;
-   }
-
+   
    public boolean isSealed() {
       return isSealed;
    }
@@ -173,6 +169,75 @@ public class Block {
               lastInstruction instanceof ReturnInstruction);
 
    }
+
+   private void writeVariable(String variable, Value value, Block block) {
+      System.out.println("Writing variable " + variable + " <- " + value.toString());
+      block.updateMap(variable, value);
+   }
+
+   private Value readVariable(String variable, Type type, Block block) {
+
+      Map<String, Value> idMap = block.getIdMap();
+      if (idMap.containsKey(variable)) {
+         System.out.println("Found in block " + block.getLabel());
+         return idMap.get(variable);
+      }
+      System.out.println("Reading from predecessors of " + block.getLabel());
+      System.out.println("Predecessors: ");
+      for (Block b : block.getPredecessors()) {
+         System.out.println(b.getLabel());
+      }
+      return readVariableFromPredecessors(variable, type, block);
+
+   }
+
+   private Value readVariableFromPredecessors(String variable, Type type, Block block) {
+      Value val;
+      if (!block.isSealed()) {
+         System.out.println("Block is not sealed");
+         val = new RegisterValue(variable + "0", type);
+         PhiInstruction phiInstr = new PhiInstruction(val, type);
+         block.addPhi(variable, phiInstr);
+      } else if (block.numPredecessors() == 0) {
+         System.out.println("Variable was not set");
+         val = new ImmediateValue(-1, new NullType());
+      } else if (block.numPredecessors() == 1) {
+         System.out.println("Only 1 predecessor, reading from pred");
+         val = readVariable(variable, type, block.getPredecessors().get(0));
+      } else {
+         System.out.println("Block not sealed, multiple predecessors");
+         val = new RegisterValue(variable + "0", type);
+         PhiInstruction phiInstr = new PhiInstruction(val, type);
+         block.addPhi(variable, phiInstr);
+         writeVariable(variable, val, block);
+         addPhiOperands(variable, block);
+      } 
+
+      writeVariable(variable, val, block);
+      System.out.println("Returning val: " + val.toString());
+      return val;
+   }
+
+   private void addPhiOperands(String variable, Block block) {
+      PhiInstruction currPhi = phis.get(variable);
+
+      for (Block predecessor : predecessors) {
+         currPhi.addPhiValue(readVariable(variable, currPhi.getType(), predecessor), 
+                             predecessor.getLabel());
+      }
+
+   }
+
+   public void seal() {
+      Iterator iter = phis.entrySet().iterator();
+      while (iter.hasNext()) {
+         Map.Entry pair = (Map.Entry)iter.next();
+         String variable = (String)pair.getKey();
+         addPhiOperands(variable, this);
+      }
+      isSealed = true;
+   }
+
 
 
 }

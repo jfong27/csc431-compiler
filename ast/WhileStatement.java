@@ -63,6 +63,10 @@ public class WhileStatement
       }
       bodyExit.addSuccessor(bodyEntry);
       bodyEntry.addPredecessor(bodyExit);
+      //bodyEntry.addPredecessor(joinBlock);
+      bodyEntry.seal();
+      bodyExit.seal();
+      joinBlock.seal();
 
       return joinBlock;
    }
