@@ -4,6 +4,7 @@ import java.lang.StringBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -13,9 +14,10 @@ public class Block {
    private final String label;
    private List<Block> predecessors;
    private List<Block> successors;
-   private List<Instruction> phis;
+   private Map<String, PhiInstruction> phis;
    private List<Instruction> instructions;
    private Map<String, Value> idMap;
+//   private Map<String, List<ValueLabelPair>> incompletePhis;
    private boolean alreadyPrinted = false;
    private boolean visited = false;
    private boolean isSealed = false;
@@ -34,10 +36,21 @@ public class Block {
       this.label = label;
       this.predecessors = new ArrayList<>();
       this.successors = new ArrayList<>();
-      this.phis = new ArrayList<>();
+      this.phis = new HashMap<>();
       this.instructions = new ArrayList<>();
       this.idMap = new HashMap<>();
+   //   this.incompletePhis = new HashMap<>();
    }
+
+   /*
+   public Map<String, List<ValueLabelPair>> getIncompletePhis() {
+      return incompletePhis;
+   }
+
+   public void addToIncompletePhi(String variable, ValueLabelPair value) {
+      incompletePhis.put(variable, value);
+   }
+   */
 
    public void clearInstructions() {
       instructions.clear();
@@ -70,8 +83,10 @@ public class Block {
       blockString.append(label);
       blockString.append(":\n");
 
-      for (Instruction phi : phis) {
-         blockString.append("\t" + phi.toString() + "\n");
+      Iterator iter = phis.entrySet().iterator();
+      while (iter.hasNext()) {
+         Map.Entry pair = (Map.Entry)iter.next();
+         blockString.append("\t" + pair.getValue().toString() + "\n");
       }
 
       for (Instruction instr : instructions) {
@@ -101,20 +116,20 @@ public class Block {
       return predecessors;
    }
 
+   public List<Instruction> getInstructions() {
+      return instructions;
+   }
+
+   public Map<String, PhiInstruction> getPhis() {
+      return phis;
+   }
+
    public int numSuccessors() {
       return successors.size();
    }
 
    public int numPredecessors() {
       return predecessors.size();
-   }
-
-   public List<Instruction> getInstructions() {
-      return instructions;
-   }
-
-   public List<Instruction> getPhis() {
-      return phis;
    }
 
    public void addInstruction(Instruction s) {
@@ -129,8 +144,8 @@ public class Block {
       predecessors.add(b);
    }
 
-   public void addPhi(PhiInstruction phi) {
-      phis.add(phi);
+   public void addPhi(String variable, PhiInstruction phi) {
+      phis.put(variable, phi);
    }
 
    public Map<String, Value> getIdMap() {

@@ -40,6 +40,7 @@ public class AssignmentStatement
       Value sourceReg = source.addInstructionsSSA(entryNode, symTable, structTable);
       Value targetReg = target.addInstructionsSSA(entryNode, symTable, structTable);
 
+      System.out.println("Update mapping: " + target.getId());
       entryNode.updateMap(target.getId(), sourceReg);
 
 

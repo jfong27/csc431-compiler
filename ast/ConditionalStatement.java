@@ -58,6 +58,7 @@ public class ConditionalStatement
       elseExit.addSuccessor(joinEntry);
       joinEntry.addPredecessor(thenExit);
       joinEntry.addPredecessor(elseExit);
+      joinEntry.seal();
 
       return joinEntry;
    }
@@ -73,6 +74,8 @@ public class ConditionalStatement
 
       entryNode.addSuccessor(thenEntry);
       entryNode.addSuccessor(elseEntry);
+      thenEntry.addPredecessor(entryNode);
+      elseEntry.addPredecessor(entryNode);
       
       
       Value guardResult = guard.addInstructions(entryNode, symTable, structTable);
@@ -96,6 +99,7 @@ public class ConditionalStatement
 
       thenExit.addSuccessor(joinEntry);
       elseExit.addSuccessor(joinEntry);
+
       return joinEntry;
    }
 

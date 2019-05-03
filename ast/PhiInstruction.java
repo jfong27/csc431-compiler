@@ -19,6 +19,10 @@ public class PhiInstruction implements Instruction {
       phiValues.add(new ValueLabelPair(value, label));
    }
 
+   public Value getResult() { return result; }
+
+   public Type getType() { return ty; }
+
    public String toString() {
       StringBuilder sb = new StringBuilder(result.toString());
       sb.append(String.format(" = phi %s ", ty.toString()));
