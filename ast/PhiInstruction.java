@@ -28,9 +28,11 @@ public class PhiInstruction implements Instruction {
       sb.append(String.format(" = phi %s ", ty.toString()));
 
       for (ValueLabelPair pair : phiValues) {
-         sb.append(String.format("[%s, %s] ", pair.getValue().toString(),
+         sb.append(String.format("[%s, %%%s], ", pair.getValue().toString(),
                                  pair.getLabel()));
       }
+
+      sb.deleteCharAt(sb.length() - 2);
       
       return sb.toString();
    }
