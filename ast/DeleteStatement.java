@@ -29,8 +29,21 @@ public class DeleteStatement
                              Map<String, IdProperties> symTable,
                              Map<String, StructProperties> structTable) {
 
-      return entryNode;
+      Value resultVal = expression.addInstructionsSSA(entryNode, symTable, structTable);
 
+      List<Value> args = new ArrayList<>();
+      RegisterValue bitcastResult = new RegisterValue(new StructPointerType());
+      BitcastInstruction bitcastInstr = new BitcastInstruction(bitcastResult, resultVal.getType(),
+                                                               resultVal, new StructPointerType());
+      args.add(bitcastResult);
+      List<Declaration> decls = new ArrayList<>();
+      CallInstruction callInstr = new CallInstruction(new VoidType(), "free", args, decls);
+                                                       
+      entryNode.addInstruction(bitcastInstr);
+      entryNode.addInstruction(callInstr);
+      
+
+      return entryNode;
    }
 
    public Block createCFG(Block entryNode, Block exitNode,

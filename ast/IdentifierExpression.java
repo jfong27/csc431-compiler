@@ -17,13 +17,13 @@ public class IdentifierExpression
    public Value addInstructionsSSA(Block node, 
                                    Map<String, IdProperties> symTable,
                                    Map<String, StructProperties> structTable) {
-      System.out.println("Fetching id: " + id);
       Type idType = symTable.get(id).getType();
-      return readVariable(id, idType, node);
+      Value idVal = readVariable(id, idType, node);
+      node.updateMap(id, idVal);
+      return idVal;
    }
 
    private void writeVariable(String variable, Value value, Block block) {
-      System.out.println("Writing variable " + variable + " <- " + value.toString());
       block.updateMap(variable, value);
    }
 
@@ -31,13 +31,7 @@ public class IdentifierExpression
 
       Map<String, Value> idMap = block.getIdMap();
       if (idMap.containsKey(id)) {
-         System.out.println("Found in block " + block.getLabel());
          return idMap.get(id);
-      }
-      System.out.println("Reading from predecessors of " + block.getLabel());
-      System.out.println("Predecessors: ");
-      for (Block b : block.getPredecessors()) {
-         System.out.println(b.getLabel());
       }
       return readVariableFromPredecessors(id, type, block);
 
@@ -46,19 +40,15 @@ public class IdentifierExpression
    private Value readVariableFromPredecessors(String variable, Type type, Block block) {
       Value val;
       if (!block.isSealed()) {
-         System.out.println("Block is not sealed");
-         val = new RegisterValue(variable + "0", type);
+         val = new RegisterValue(variable + Counter.getVariableCount(variable), type);
          PhiInstruction phiInstr = new PhiInstruction(val, type);
          block.addPhi(variable, phiInstr);
       } else if (block.numPredecessors() == 0) {
-         System.out.println("Variable was not set");
          val = new ImmediateValue(-1, new NullType());
       } else if (block.numPredecessors() == 1) {
-         System.out.println("Only 1 predecessor, reading from pred");
          val = readVariable(variable, type, block.getPredecessors().get(0));
       } else {
-         System.out.println("Block not sealed, multiple predecessors");
-         val = new RegisterValue(variable + "0", type);
+         val = new RegisterValue(variable + Counter.getVariableCount(variable), type);
          PhiInstruction phiInstr = new PhiInstruction(val, type);
          block.addPhi(variable, phiInstr);
          writeVariable(variable, val, block);
@@ -66,7 +56,6 @@ public class IdentifierExpression
       } 
 
       writeVariable(variable, val, block);
-      System.out.println("Returning val: " + val.toString());
       return val;
    }
 
@@ -74,8 +63,10 @@ public class IdentifierExpression
       PhiInstruction currPhi = block.getPhis().get(variable);
 
       for (Block predecessor : block.getPredecessors()) {
-         currPhi.addPhiValue(readVariable(variable, currPhi.getType(), predecessor), 
-                             predecessor.getLabel());
+         Value val = readVariable(variable, currPhi.getType(), predecessor);
+         if (!(val.getType() instanceof NullType)) {
+            currPhi.addPhiValue(val, predecessor.getLabel());
+         }
       }
 
    }

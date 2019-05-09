@@ -24,6 +24,10 @@ public class BlockStatement
       return statements;
    }
 
+   public String toString() {
+      return "Block statement w/ " + Integer.toString(statements.size()) + "statements";
+   }
+
    public Type typeCheck(Map<String, IdProperties> symTable,
                          Map<String, Map<String, Type>> structTable, 
                          Type retType) {

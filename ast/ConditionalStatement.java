@@ -8,7 +8,6 @@ public class ConditionalStatement
    private final Expression guard;
    private final Statement thenBlock;
    private final Statement elseBlock;
- //  private static int condCount = 0;
 
    public ConditionalStatement(int lineNum, Expression guard,
       Statement thenBlock, Statement elseBlock)
@@ -19,21 +18,25 @@ public class ConditionalStatement
       this.elseBlock = elseBlock;
    }
 
-   //TODO
    public Block createCFGSSA(Block entryNode, Block exitNode,
                              Map<String, IdProperties> symTable,
                              Map<String, StructProperties> structTable) {
       Block thenEntry = new Block("LU" + Counter.getBlockCount());
       Block elseEntry = new Block("LU" + Counter.getBlockCount());
-      Block joinEntry = new Block("LU" + Counter.getBlockCount());
-
-      thenEntry.seal();
-      elseEntry.seal();
+      Block joinEntry;
+      if (((BlockStatement)elseBlock).getStatements().size() > 0) {
+         joinEntry = new Block("LU" + Counter.getBlockCount());
+      } else {
+         joinEntry = elseEntry;
+      }
 
       entryNode.addSuccessor(thenEntry);
       entryNode.addSuccessor(elseEntry);
       thenEntry.addPredecessor(entryNode);
       elseEntry.addPredecessor(entryNode);
+
+      thenEntry.seal();
+      elseEntry.seal();
 
       RegisterValue guardResult = (RegisterValue)guard.addInstructionsSSA(entryNode, symTable, structTable);
       Value res = new RegisterValue(new BoolType());
@@ -47,18 +50,23 @@ public class ConditionalStatement
       Block elseExit = elseBlock.createCFGSSA(elseEntry, exitNode,
                                               symTable, structTable);
 
-      if (!thenExit.isFinished()) {
+      if (!thenExit.isFinished() && thenExit != exitNode) {
          thenExit.addInstruction(new UnconditionalBranchInstruction(joinEntry.getLabel()));
+         if (joinEntry != elseEntry) {
+            joinEntry.addPredecessor(thenExit);
+            thenExit.addSuccessor(joinEntry);
+         }
       }
-      if (!elseExit.isFinished()) {
+      /*
+      if (!elseExit.isFinished() && elseExit != exitNode) {
          elseExit.addInstruction(new UnconditionalBranchInstruction(joinEntry.getLabel()));
-      }
+         joinEntry.addPredecessor(elseExit);
+         elseExit.addSuccessor(joinEntry);
+      }*/
 
-      thenExit.addSuccessor(joinEntry);
-      elseExit.addSuccessor(joinEntry);
-      joinEntry.addPredecessor(thenExit);
-      joinEntry.addPredecessor(elseExit);
-      joinEntry.seal();
+      if (joinEntry != elseEntry) {
+         joinEntry.seal();
+      }
 
       return joinEntry;
    }

@@ -42,14 +42,15 @@ public class WhileStatement
 
       Value guardVal = guard.addInstructionsSSA(entryNode, symTable, structTable);
       Value truncatedGuard = new RegisterValue(new BoolType());
-
       entryNode.addInstruction(new TruncInstruction(truncatedGuard, guardVal));
       entryNode.addInstruction(new BranchInstruction(truncatedGuard,
                                                      bodyEntry.getLabel(),
                                                      joinBlock.getLabel()));
+
       Block bodyExit = body.createCFGSSA(bodyEntry, exitNode,
                                       symTable, structTable);
-      Value bodyGuardVal = guard.addInstructions(bodyExit, symTable, structTable);
+
+      Value bodyGuardVal = guard.addInstructionsSSA(bodyExit, symTable, structTable);
       Value truncatedBodyGuard = new RegisterValue(new BoolType());
       bodyExit.addSuccessor(joinBlock);
       joinBlock.addPredecessor(bodyExit);
@@ -61,11 +62,8 @@ public class WhileStatement
       if (!bodyExit.isFinished()) {
          bodyExit.addInstruction(new UnconditionalBranchInstruction(joinBlock.getLabel()));
       }
-      bodyExit.addSuccessor(bodyEntry);
-      bodyEntry.addPredecessor(bodyExit);
-      //bodyEntry.addPredecessor(joinBlock);
+      bodyExit.addPredecessor(bodyEntry);
       bodyEntry.seal();
-      bodyExit.seal();
       joinBlock.seal();
 
       return joinBlock;

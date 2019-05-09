@@ -74,7 +74,4 @@ public class LvalueDot
 
    }
 
-   public String toString() {
-      return "IMPLEMENT LVALUE DOT TOSTRING";
-   }
 }

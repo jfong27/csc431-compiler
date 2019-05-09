@@ -52,6 +52,7 @@ public class Program
 
       for (Function func : funcs) {
          funcGraphs.add(func.createCFGSSA(symTable, structTable));
+         Counter.resetVariableCounter();
       }
 
       return funcGraphs;

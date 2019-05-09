@@ -17,7 +17,6 @@ public class Block {
    private Map<String, PhiInstruction> phis;
    private List<Instruction> instructions;
    private Map<String, Value> idMap;
-//   private Map<String, List<ValueLabelPair>> incompletePhis;
    private boolean alreadyPrinted = false;
    private boolean visited = false;
    private boolean isSealed = false;
@@ -39,18 +38,7 @@ public class Block {
       this.phis = new HashMap<>();
       this.instructions = new ArrayList<>();
       this.idMap = new HashMap<>();
-   //   this.incompletePhis = new HashMap<>();
    }
-
-   /*
-   public Map<String, List<ValueLabelPair>> getIncompletePhis() {
-      return incompletePhis;
-   }
-
-   public void addToIncompletePhi(String variable, ValueLabelPair value) {
-      incompletePhis.put(variable, value);
-   }
-   */
 
    public void clearInstructions() {
       instructions.clear();
@@ -86,6 +74,10 @@ public class Block {
       Iterator iter = phis.entrySet().iterator();
       while (iter.hasNext()) {
          Map.Entry pair = (Map.Entry)iter.next();
+         List<ValueLabelPair> phiOps = ((PhiInstruction)pair.getValue()).getPhis();
+         if (phiOps.size() == 0) {
+            continue;
+         }
          blockString.append("\t" + pair.getValue().toString() + "\n");
       }
 
@@ -95,7 +87,7 @@ public class Block {
 
       return blockString.toString();
    }
-   
+
    public boolean isSealed() {
       return isSealed;
    }
@@ -171,19 +163,15 @@ public class Block {
    }
 
    private void writeVariable(String variable, Value value, Block block) {
-      System.out.println("Writing variable " + variable + " <- " + value.toString());
       block.updateMap(variable, value);
    }
 
-   private Value readVariable(String variable, Type type, Block block) {
+   public Value readVariable(String variable, Type type, Block block) {
 
       Map<String, Value> idMap = block.getIdMap();
       if (idMap.containsKey(variable)) {
-         System.out.println("Found in block " + block.getLabel());
          return idMap.get(variable);
       }
-      System.out.println("Reading from predecessors of " + block.getLabel());
-      System.out.println("Predecessors: ");
       for (Block b : block.getPredecessors()) {
          System.out.println(b.getLabel());
       }
@@ -194,19 +182,15 @@ public class Block {
    private Value readVariableFromPredecessors(String variable, Type type, Block block) {
       Value val;
       if (!block.isSealed()) {
-         System.out.println("Block is not sealed");
-         val = new RegisterValue(variable + "0", type);
+         val = new RegisterValue(variable + Counter.getVariableCount(variable), type);
          PhiInstruction phiInstr = new PhiInstruction(val, type);
          block.addPhi(variable, phiInstr);
       } else if (block.numPredecessors() == 0) {
-         System.out.println("Variable was not set");
          val = new ImmediateValue(-1, new NullType());
       } else if (block.numPredecessors() == 1) {
-         System.out.println("Only 1 predecessor, reading from pred");
          val = readVariable(variable, type, block.getPredecessors().get(0));
       } else {
-         System.out.println("Block not sealed, multiple predecessors");
-         val = new RegisterValue(variable + "0", type);
+         val = new RegisterValue(variable + Counter.getVariableCount(variable), type);
          PhiInstruction phiInstr = new PhiInstruction(val, type);
          block.addPhi(variable, phiInstr);
          writeVariable(variable, val, block);
@@ -214,7 +198,6 @@ public class Block {
       } 
 
       writeVariable(variable, val, block);
-      System.out.println("Returning val: " + val.toString());
       return val;
    }
 
@@ -222,8 +205,13 @@ public class Block {
       PhiInstruction currPhi = phis.get(variable);
 
       for (Block predecessor : predecessors) {
-         currPhi.addPhiValue(readVariable(variable, currPhi.getType(), predecessor), 
-                             predecessor.getLabel());
+         System.out.println(variable);
+         System.out.println(currPhi);
+         System.out.println("CurrPhi: " + currPhi.toString());
+         Value val = readVariable(variable, currPhi.getType(), predecessor);
+         if (!(val.getType() instanceof NullType)) {
+            currPhi.addPhiValue(val, predecessor.getLabel());
+         } 
       }
 
    }
@@ -236,6 +224,10 @@ public class Block {
          addPhiOperands(variable, this);
       }
       isSealed = true;
+   }
+
+   public void removeTrivialPhis() {
+
    }
 
 

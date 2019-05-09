@@ -21,6 +21,10 @@ public class PhiInstruction implements Instruction {
 
    public Value getResult() { return result; }
 
+   public List<ValueLabelPair> getPhis() {
+      return phiValues;
+   }
+
    public Type getType() { return ty; }
 
    public String toString() {

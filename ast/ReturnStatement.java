@@ -34,15 +34,9 @@ public class ReturnStatement
 
       Value retExpr = expression.addInstructionsSSA(entryNode, symTable, structTable);
 
-      //TODO: Instead of storing in retvalue, update map
-      /*RegisterValue retReg = new RegisterValue("_retval_", retExpr.getType());
-      entryNode.addInstruction(new StoreInstruction(retExpr.getType(), retExpr.getType(), 
-                                                    retExpr, retReg, false));
-                                                    */
+      entryNode.updateMap("_retval_", retExpr);
       entryNode.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
-      if (!exitNode.isFinished()) {
-         exitNode.addInstruction(new ReturnInstruction(retExpr.getType(), retExpr));
-      }
+
       entryNode.addSuccessor(exitNode);
       exitNode.addPredecessor(entryNode);
 

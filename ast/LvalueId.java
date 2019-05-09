@@ -28,34 +28,34 @@ public class LvalueId
    }
 
    private void writeVariable(String variable, Value value, Block block) {
-      block.updateMap(variable, value);
-   }
-
-   private Value readVariable(String variable, Type type, Block block) {
-
-      Map<String, Value> idMap = block.getIdMap();
-      if (idMap.containsKey(id)) {
-         return idMap.get(id);
+         block.updateMap(variable, value);
       }
-      return readVariableFromPredecessors(id, type, block);
 
-   }
+      private Value readVariable(String variable, Type type, Block block) {
 
-   private Value readVariableFromPredecessors(String variable, Type type, Block block) {
-      Value val;
-      if (!block.isSealed()) {
-         val = new RegisterValue(variable + "0", type);
-         PhiInstruction phiInstr = new PhiInstruction(val, type);
-         block.addPhi(variable, phiInstr);
-      } else if (block.numPredecessors() == 0) {
-         val = new ImmediateValue(-1, new NullType());
-      } else if (block.numPredecessors() == 1) {
-         val = readVariable(variable, type, block.getPredecessors().get(0));
-      } else {
-         val = new RegisterValue(variable + "0", type);
-         PhiInstruction phiInstr = new PhiInstruction(val, type);
-         block.addPhi(variable, phiInstr);
-         writeVariable(variable, val, block);
+         Map<String, Value> idMap = block.getIdMap();
+         if (idMap.containsKey(id)) {
+            return idMap.get(id);
+         }
+         return readVariableFromPredecessors(id, type, block);
+
+      }
+
+      private Value readVariableFromPredecessors(String variable, Type type, Block block) {
+         Value val;
+         if (!block.isSealed()) {
+            val = new RegisterValue(variable + Counter.getVariableCount(variable), type);
+            PhiInstruction phiInstr = new PhiInstruction(val, type);
+            block.addPhi(variable, phiInstr);
+         } else if (block.numPredecessors() == 0) {
+            val = new ImmediateValue(-1, new NullType());
+         } else if (block.numPredecessors() == 1) {
+            val = readVariable(variable, type, block.getPredecessors().get(0));
+         } else {
+            val = new RegisterValue(variable + Counter.getVariableCount(variable), type);
+            PhiInstruction phiInstr = new PhiInstruction(val, type);
+            block.addPhi(variable, phiInstr);
+            writeVariable(variable, val, block);
          addPhiOperands(variable, block);
       } 
 
@@ -67,8 +67,10 @@ public class LvalueId
       PhiInstruction currPhi = block.getPhis().get(variable);
 
       for (Block predecessor : block.getPredecessors()) {
-         currPhi.addPhiValue(readVariable(variable, currPhi.getType(), predecessor), 
-                             predecessor.getLabel());
+         Value val = readVariable(variable, currPhi.getType(), predecessor);
+         if (!(val.getType() instanceof NullType)) {
+            currPhi.addPhiValue(val, predecessor.getLabel());
+         }
       }
 
    }

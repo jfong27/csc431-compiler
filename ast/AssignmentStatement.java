@@ -32,6 +32,8 @@ public class AssignmentStatement
 
    }
 
+   //TODO: IF left is a struct dot, we need to STORE, if it's just
+   //an id, we update teh map. 
    public Block createCFGSSA(Block entryNode, Block exitNode,
                              Map<String, IdProperties> symTable,
                              Map<String, StructProperties> structTable) {
@@ -39,7 +41,22 @@ public class AssignmentStatement
       Value sourceReg = source.addInstructionsSSA(entryNode, symTable, structTable);
       Value targetReg = target.addInstructionsSSA(entryNode, symTable, structTable);
 
-      entryNode.updateMap(target.getId(), sourceReg);
+      System.out.println(entryNode.getLabel());
+
+      if (target instanceof LvalueId) {
+         System.out.println("AAAAAAA");
+         entryNode.updateMap(target.getId(), sourceReg);
+      } else if (target instanceof LvalueDot) {
+         System.out.println("BBBBBB");
+         RegisterValue ptrReg = new RegisterValue(targetReg.getType());
+
+         StoreInstruction strInstr = new StoreInstruction(sourceReg.getType(), 
+                                                          targetReg.getType(), 
+                                                          sourceReg, targetReg, false);
+         entryNode.addInstruction(strInstr);
+      } else {
+         System.out.println("CCCCC");
+      }
 
       return entryNode;
    }

@@ -63,12 +63,17 @@ public class Function
 
       finalBlock.addSuccessor(exitNode);
       exitNode.addPredecessor(finalBlock);
+      exitNode.seal();
 
-      if (!finalBlock.isFinished()) {
+      if (!finalBlock.isFinished() && finalBlock != exitNode) {
          finalBlock.addInstruction(new UnconditionalBranchInstruction(exitNode.getLabel()));
       }
-      if (!exitNode.isFinished()) {
+
+      if (retType instanceof VoidType) {
          exitNode.addInstruction(new ReturnEmptyInstruction());
+      } else {
+         Value retVal = exitNode.readVariable("_retval_", retType, exitNode);
+         exitNode.addInstruction(new ReturnInstruction(retType, retVal));
       }
 
       return entryNode;
