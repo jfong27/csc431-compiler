@@ -9,6 +9,6 @@ public class ArmUnconditionalBranchInstruction implements Instruction {
    }
 
    public String toString() {
-      return "br " + blockLabel;
+      return "br " + blockLabel + "\n";
    }
 }

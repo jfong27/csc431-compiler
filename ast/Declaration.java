@@ -39,8 +39,4 @@ public class Declaration
 
       return "%struct." + struct.getName() + "*";
    }
-
-   public String toStringArm() {
-      
-   }
 }

@@ -3,9 +3,10 @@ fun main() void {
    bool y;
    x = true;
    y = true;
-   if (!(x == y)) {
-      print 0 endl;
+   if (true) {
+      x = true;
    } else {
-      print 1 endl;
+      x = false;
    }
+   print 3;
 }
