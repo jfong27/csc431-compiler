@@ -38,6 +38,9 @@ public class Declaration
       StructType struct = (StructType)type;
 
       return "%struct." + struct.getName() + "*";
+   }
 
+   public String toStringArm() {
+      
    }
 }

@@ -30,8 +30,8 @@ public class Program
                             "declare void @printf_newline(i32 %x)\n" + 
                             "declare void @free(i8* %x)\n" +
                             "declare i32 @read()\n";
-      this.declStrings = getDeclStrings();
-
+      //this.declStrings = getDeclStrings();
+      this.declStrings = "";
   }
 
    public List<Block> createCFGs(Map<String, StructProperties> structTable) {
@@ -93,13 +93,45 @@ public class Program
       sb.append(utilFuncString);
 
       return sb.toString();
+   }
 
+   public String toStringArm(Map<String, StructProperties> structTable) {
+      StringBuilder sb = new StringBuilder();
+      List<Block> functionCFGs = createCFGs(structTable);
+      int f = 0;
+      declStrings = getDeclStringsArm();
+      sb.append(declStrings);
+      for (Block fEntry : functionCFGs) {
+         Function currFunc = funcs.get(f++);
+         sb.append("\t.align 2\n");
+         sb.append("\t.global "+currFunc.getName()+"\n");
+         sb.append(currFunc.getName()+":\n");
+         if (currFunc.getNumParams() > 0) {
+            sb.delete(sb.length() - 2, sb.length());
+         }
+         Queue<Block> blockOrder = new LinkedList<>();
+         blockOrder = fEntry.BFS(blockOrder);
+         for (Block block: blockOrder) {
+            sb.append(block.toStringArm());
+         }
+         sb.append(String.format("\t.%s, .-%s\n\n",
+                                  currFunc.getName(),
+                                  currFunc.getName()));
+      }
+      return sb.toString();
+   }
+
+   public String toStringSSAArm(Map<String, StructProperties> structTable) {
+      StringBuilder sb = new StringBuilder();
+      List<Block> functionCFGs = createCFGsSSA(structTable);
+      //TODO after SSA for LLVM is finished
+      return sb.toString();
    }
 
    public String toString(Map<String, StructProperties> structTable) {
       StringBuilder sb = new StringBuilder();
       List<Block> functionCFGs = createCFGs(structTable);
-
+      declStrings = getDeclStrings();
       sb.append(declStrings);
 
       int f = 0;
@@ -157,6 +189,17 @@ public class Program
       }
       sb.append("\n");
       
+      return sb.toString();
+   }
+
+   private String getDeclStringsArm() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("\t.arch armv7-a\n");
+      for (Declaration decl : decls) {
+         sb.append(String.format("\t.comm %s,4,4\n", decl.getName()));
+      }
+      sb.append("\n");
+      sb.append("\t.text\n");
       return sb.toString();
    }
 

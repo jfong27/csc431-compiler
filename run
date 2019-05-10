@@ -6,138 +6,115 @@ if [[ $# -eq 0 ]]
       make
       for file in benchmarks/*/*.mini
          do
-            java MiniCompiler -stack $file && y=${file%.*}
+            java MiniCompiler -llvm -stack $file && y=${file%.*}
             clang -m32 "$y.ll" ast/util.c
             par=$(dirname "$file")
-            echo "=======$file======="
-            ./a.out < "$par/input" > "$y.myout"
-            diff "$y.myout" "$par/output"
-            echo "=======$file longer======="
-            ./a.out < "$par/input.longer" > "$y.mylonger"
-            diff "$y.mylonger" "$par/output.longer"
+            echo "======= $file stack-based ======="
+            ./a.out < "$par/input" > "$y.myoutStack"
+            diff "$y.myoutStack" "$par/output"
+            echo "======= $file longer stack-based ======="
+            ./a.out < "$par/input.longer" > "$y.mylongerStack"
+            diff "$y.mylongerStack" "$par/output.longer"
+            #java MiniCompiler $file
+            #clang -m32 "$y_ssa.ll" ast/util.c
+            #echo "======= $file register-based ======="
+            #./a.out < "$par/input" > "$y.myoutReg"
+            #diff "$y.myoutReg" "$par/output"
+            #echo "======= $file longer register-based ======="
+            #./a.out < "$par/input.longer" > "$y.mylongerReg"
+            #diff "$y.mylongerReg" "$par/output.longer"
       done
 elif [[ $# -eq 1 ]]
    then
       if [[ $1 = "-noC" ]]
          then
-            for file in benchmarks/stats/*.mini
+            for file in benchmarks/*/*.mini
                do
                   java MiniCompiler -stack $file && y=${file%.*}
                   clang -m32 "$y.ll" ast/util.c
                   par=$(dirname "$file")
-                  echo "=======$file======="
-                  ./a.out < "$par/input" > "$y.myout"
-                  diff "$y.myout" "$par/output"
-                  echo "=======$file longer======="
-                  ./a.out < "$par/input.longer" > "$y.mylonger"
-                  diff "$y.mylonger" "$par/output.longer"
+                  echo "======= $file stack-based ======="
+                  ./a.out < "$par/input" > "$y.myoutStack"
+                  diff "$y.myoutStack" "$par/output"
+                  echo "======= $file longer stack-based ======="
+                  ./a.out < "$par/input.longer" > "$y.mylongerStack"
+                  diff "$y.mylongerStack" "$par/output.longer"
+                  java MiniCompiler $file
+                  clang -m32 "$y_ssa.ll" ast.util.c
+                  echo "======= $file register-based ======="
+                  ./a.out < "$par/input" > "$y.myoutReg"
+                  diff "$y.myoutReg" "$par/output"
+                  echo "======= $file longer register-based ======="
+                  ./a.out < "$par/input.longer" > "$y.mylongerReg"
+                  diff "$y.mylongerReg" "$par/output.longer"
             done
-      elif [[ $1 = "-noIn" ]]
+      elif [[ $1 = "-stack" ]]
          then
-            echo "Error: No file was given"
-            echo "To run all benchmarks: ./run [opt: -noC]"
-            echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
-      elif [[ ! -f "$1" ]]
-         then
-            echo "Error: "$1" is not a regular file"
-            echo "To run all benchmarks: ./run [opt: -noC]"
-            echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
+            make clean
+            make
+            for file in benchmarks/*/*.mini
+               do
+                  java MiniCompiler -stack $file && y=${file%.*}
+                  clang -m32 "$y.ll" ast/util.c
+                  par=$(dirname "$file")
+                  echo "======= $file stack-based ======="
+                  ./a.out < "$par/input" > "$y.myoutStack"
+                  diff "$y.myoutStack" "$par/output"
+                  echo "======= $file longer stack-based ======="
+                  ./a.out < "$par/input.longer" > "$y.mylongerStack"
+                  diff "$y.mylongerStack" "$par/output.longer"
+            done
       else
-         make clean
-         make
-         java MiniCompiler -stack $1 && y=${1%.*}
-         clang -m32 "$y.ll" ast/util.c
-         par=$(dirname "$1")
-         echo "=======$1======="
-         ./a.out < "$par/input" > "$y.myout"
-         diff "$y.myout" "$par/output"
-         echo "=======$1 longer======="
-         ./a.out < "$par/input.longer" > "$y.mylonger"
-         diff "$y.mylonger" "$par/output.longer"
+         echo "Error: $1 is not a valid option"
+         echo "Usage: ./run [opt: -noC] [opt: -stack]"
       fi
 elif [[ $# -eq 2 ]]
    then
       if [[ $1 = "-noC" ]]
          then
-            if [[ $2 = "-noIn" ]]
+            if [[ $2 = "-stack" ]]
                then
-                  echo "Error: No file was given"
-                  echo "To run all benchmarks: ./run [opt: -noC]"
-                  echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
-            elif [[ -f $2 ]]
-               then
-                  java MiniCompiler -stack $2 && y=${2%.*}
-                  clang -m32 "$y.ll" ast/util.c
-                  par=$(dirname "$2")
-                  echo "=======$2======="
-                  ./a.out < "$par/input" > "$y.myout"
-                  diff "$y.myout" "$par/output"
-                  echo "=======$2 longer======="
-                  ./a.out < "$par/input.longer" > "$y.mylonger"
-                  diff "$y.mylonger" "$par/output.longer"
+                  for file in benchmarks/*/*.mini
+                     do
+                        java MiniCompiler -stack $file && y=${file%.*}
+                        clang -m32 "$y.ll" ast/util.c
+                        par=$(dirname "$file")
+                        echo "======= $file stack-based ======="
+                        ./a.out < "$par/input" > "$y.myoutStack"
+                        diff "$y.myoutStack" "$par/output"
+                        echo "======= $file longer stack-based ======="
+                        ./a.out < "$par/input.longer" > "$y.mylongerStack"
+                        diff "$y.mylongerStack" "$par/output.longer"
+                  done
             else
-               echo "Error: $2 is not a file"
-               echo "To run all benchmarks: ./run [opt: -noC]"
-               echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
+               echo "Error: $2 is not a valid option"
+               echo "Usage: ./run [opt: -noC] [opt: -stack]"
             fi
-      elif [[ $1 = "-noIn" ]]
+      elif [[ $1 = "-stack" ]]
          then
             if [[ $2 = "-noC" ]]
                then
-                  echo "Error: No file was given"
-                  echo "To run all benchmarks: ./run [opt: -noC]"
-                  echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
-            elif [[ -f $2 ]]
-               then
-                  make clean
-                  make
-                  java MiniCompiler -stack $2 && y=${2%.*}
-                  clang -m32 "$y.ll" ast/util.c
-                  par=$(dirname "$2")
-                  echo "=======$2======="
-                  ./a.out > "$y.myout"
-                  cat "$y.myout"
-            else
-               echo "Error: $2 is not a file"
-               echo "To run all benchmarks: ./run [opt: -noC]"
-               echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
-            fi
-      else
-         echo "Error: 1st arument has to be -noC or -noIn followed by a filename if 2 arguments are provided"
-         echo "To run all benchmarks: ./run [opt: -noC]"
-         echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
-      fi
-elif [[ $# -eq 3 ]]
-   then
-      if [[ $1 = "-noC" ]]
-         then
-            if [[ $2 = "-noIn" ]]
-               then
-                  if [[ -f $3 ]]
-                     then
-                        java MiniCompiler -stack $3 && y=${3%.*}
+                  for file in benchmarks/*/*.mini
+                     do
+                        java MiniCompiler -stack $file && y=${file%.*}
                         clang -m32 "$y.ll" ast/util.c
-                        par=$(dirname "$3")
-                        echo "=======$3======="
-                        ./a.out > "$y.myout"
-                        cat "$y.myout"
-                  else
-                     echo "Error: $3 is not a file"
-                     echo "To run all benchmarks: ./run [opt: -noC]"
-                     echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
-                  fi
+                        par=$(dirname "$file")
+                        echo "======= $file stack-based ======="
+                        ./a.out < "$par/input" > "$y.myoutStack"
+                        diff "$y.myoutStack" "$par/output"
+                        echo "======= $file longer stack-based ======="
+                        ./a.out < "$par/input.longer" > "$y.mylongerStack"
+                        diff "$y.mylongerStack" "$par/output.longer"
+                  done
             else
-               echo "Error: 2nd OPTIONAL argument has to be -noIn if 3 arguments are provided"
-               echo "To run all benchmarks: ./run [opt: -noC]"
-               echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
+               echo "Error: $2 is not a valid option"
+               echo "Usage: ./run [opt: -noC] [opt: -stack]"
             fi
       else
-         echo "Error: 1st OPTIONAL argument has to be -noC if 3 arguments are provided"
-         echo "To run all benchmarks: ./run [opt: -noC]"
-         echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
+         echo "Error: $1 is not a valid option"
+         echo "Usage: ./run [opt: -noC] [opt: -stack]"
       fi
 else
    echo "Error: Too many arguments"
-   echo "To run all benchmarks: ./run [opt: -noC]"
-   echo "To test specific case: ./run [opt: -noC] [opt: -noIn] [filename.mini]"
+   echo "Usage: ./run [opt: -noC] [opt: -stack]"
 fi

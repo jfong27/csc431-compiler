@@ -61,6 +61,30 @@ public class Block {
 
       return qu;
    }
+   
+   public String toStringArm() {
+      if (alreadyPrinted) { return "" ; }
+      alreadyPrinted = true;
+
+      StringBuilder blockString = new StringBuilder();
+
+      blockString.append(label);
+      blockString.append(":\n");
+      blockString.append("\tpush {fp, lr}\n");
+
+      Iterator iter = phis.entrySet().iterator();
+      while (iter.hasNext()) {
+         Map.Entry pair = (Map.Entry)iter.next();
+         blockString.append("\t" + pair.getValue().toString() + "\n");
+      }
+
+      for (Instruction instr : instructions) {
+         blockString.append("\t" + instr.toString() + "\n");
+      }
+      blockString.append("\tpop {fp, pc}\n");
+
+      return blockString.toString();
+   }
 
    public String toString() {
       if (alreadyPrinted) { return "" ; }

@@ -22,4 +22,4 @@ antlr.generated : Mini.g4
 	touch antlr.generated
 
 clean:
-	\rm -rf *generated* ${GENERATED} *.class ast/*.class benchmarks/*/*.ll benchmarks/*/*.myout benchmarks/*/*.mylonger
+	\rm -rf *generated* ${GENERATED} *.class ast/*.class benchmarks/*/*.ll benchmarks/*/*.myoutStack benchmarks/*/*.mylongerStack *.myout benchmarks/*/*.myoutReg benchmarks/*/*.mylongerReg

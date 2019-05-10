@@ -12,6 +12,7 @@ import java.util.Map;
 public class MiniCompiler
 {
    private static boolean stack = false;
+   private static boolean llvm = false;
    private static String _inputFile = null;
    
    public static void main(String[] args) throws IOException
@@ -49,12 +50,29 @@ public class MiniCompiler
          BufferedWriter out;
          String programString;
          //change true back to -stack after testing
-         if (stack) { //-stack was provided in command line
+         /*if (stack) { //-stack was provided in command line
             programString = program.toString(structTable);
             out = new BufferedWriter(new FileWriter(inputName + ".ll"));
          } else { //-stack was NOT provided in command line
             programString = program.toStringSSA(structTable);
             out = new BufferedWriter(new FileWriter(inputName + "_ssa.ll"));
+         }*/
+         if (llvm) {
+            if (stack) { //-stack -llvm was provided in command line
+               programString = program.toString(structTable); //old stack based model
+               out = new BufferedWriter(new FileWriter(inputName + ".ll"));
+            } else { //-llvm was not provided 
+               programString = program.toStringSSA(structTable); //old register based model (incomplete)
+               out = new BufferedWriter(new FileWriter(inputName + "_ssa.ll"));
+            }
+         } else {
+            if (stack) { //-stack
+               programString = program.toStringArm(structTable); //test this one until mile3 is finished
+               out = new BufferedWriter(new FileWriter(inputName + ".s"));
+            } else { //default register-based llvm in ARM
+               programString = program.toStringSSAArm(structTable);
+               out = new BufferedWriter(new FileWriter(inputName + "_ssa.s"));
+            }
          }
          try {
             out.write(programString);
@@ -74,6 +92,10 @@ public class MiniCompiler
          if (args[i].equals("-stack"))
          {
             stack = true;
+         }
+         else if (args[i].equals("-llvm"))
+         {
+            llvm = true;
          }
          else if (args[i].charAt(0) == '-')
          {
