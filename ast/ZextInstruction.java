@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ZextInstruction implements Instruction {
 
    private RegisterValue result;
@@ -14,5 +17,9 @@ public class ZextInstruction implements Instruction {
       String retString = String.format("%s = zext i1 %s to i32",
                                        result.toString(), from.toString());
       return retString;
+   }
+
+   public List<ArmInstruction> toArm() {
+      return new ArrayList<>();
    }
 }

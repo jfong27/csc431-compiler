@@ -1,6 +1,6 @@
 package ast;
 
-public class ArmMovInstruction implements Instruction {
+public class ArmMovInstruction implements ArmInstruction {
 
    private final RegisterValue result;
    private final RegisterValue source;

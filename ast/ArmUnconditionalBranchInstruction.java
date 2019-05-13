@@ -1,6 +1,6 @@
 package ast;
 
-public class ArmUnconditionalBranchInstruction implements Instruction {
+public class ArmUnconditionalBranchInstruction implements ArmInstruction {
 
    private final String blockLabel;
 

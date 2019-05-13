@@ -1,6 +1,6 @@
 package ast;
 
-public class ArmPrintInstruction implements Instruction {
+public class ArmPrintInstruction implements ArmInstruction {
 
    Value x;
 

@@ -62,6 +62,8 @@ public class Block {
       return qu;
    }
    
+   //Instructions are LLVM. Need to convert each instruction to
+   //list of ARM instructions, then call toString for each.  
    public String toStringArm() {
       if (alreadyPrinted) { return "" ; }
       alreadyPrinted = true;
@@ -70,18 +72,22 @@ public class Block {
 
       blockString.append(label);
       blockString.append(":\n");
+      /* Push should only go in entry node
       blockString.append("\tpush {fp, lr}\n");
+      */
 
-      Iterator iter = phis.entrySet().iterator();
-      while (iter.hasNext()) {
-         Map.Entry pair = (Map.Entry)iter.next();
-         blockString.append("\t" + pair.getValue().toString() + "\n");
+      List<ArmInstruction> armInstructions = new ArrayList<>();
+      for (Instruction instr : instructions) {
+         armInstructions.append(instr.toArm());
       }
 
-      for (Instruction instr : instructions) {
+      for (ArmInstruction instr : armInstructions) {
          blockString.append("\t" + instr.toString() + "\n");
       }
+
+      /* Pop should only go in exit node
       blockString.append("\tpop {fp, pc}\n");
+      */
 
       return blockString.toString();
    }

@@ -1,6 +1,6 @@
 package ast;
 
-public class ArmBinaryInstruction implements Instruction {
+public class ArmBinaryInstruction implements ArmInstruction {
 
    private final RegisterValue result;
    private final String operator;

@@ -24,4 +24,8 @@ public class BinaryInstruction implements Instruction {
                            ty.toString(), op1.toString(), 
                            op2.toString());
    }
+
+   public List<ArmInstruction> toArm() {
+      return new ArrayList<>(new ARMAdd(operator, result, op1, op2));
+   }
 }
