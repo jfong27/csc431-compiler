@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NotInstruction implements Instruction {
 
    private final RegisterValue result;
@@ -14,6 +17,15 @@ public class NotInstruction implements Instruction {
       return String.format("%s = xor %s 1, %s",
                             result.toString(),
                             result.getType().toString(), opnd.toString());
+   }
+
+   public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+
+      armInstrucs.add(new ArmNotInstruction(result, opnd));
+
+      return armInstrucs;
+
    }
 
 }

@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TruncInstruction implements Instruction {
 
    private Value result;
@@ -14,5 +17,10 @@ public class TruncInstruction implements Instruction {
       String retString = String.format("%s = trunc i32 %s to i1",
                                        result.toString(), from.toString());
       return retString;
+   }
+
+   public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+      return armInstrucs;
    }
 }

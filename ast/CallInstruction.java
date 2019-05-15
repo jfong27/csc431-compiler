@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CallInstruction implements Instruction {
@@ -26,6 +27,21 @@ public class CallInstruction implements Instruction {
       this.funName = funName;
       this.args = args;
       this.params = params;
+   }
+
+   public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+
+      RegisterValue r0 = new RegisterValue("r0", new IntType());
+      RegisterValue r1 = new RegisterValue("r1", new IntType());
+
+      armInstrucs.add(new ArmMoveInstruction(r0, args.get(0)));
+      armInstrucs.add(new ArmMoveInstruction(r1, args.get(1)));
+      armInstrucs.add(new ArmUnconditionalBranchInstruction(funName));
+      armInstrucs.add(new ArmMoveInstruction(result, r0));
+
+      return armInstrucs;
+
    }
 
    public String toString() {

@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PrintlnInstruction implements Instruction {
 
    Value x;
@@ -10,8 +13,11 @@ public class PrintlnInstruction implements Instruction {
 
    public String toString() {
       return String.format("call void @printf_newline(i32 %s)", x.toString());
-      //return String.format("store %s %s, %s* %s",
-      //                     fromType.toString(), from.toString(),
-      //                     toType.toString(), to.toString());
    }
+   
+   public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+      return armInstrucs;
+   }
+
 }

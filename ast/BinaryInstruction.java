@@ -26,6 +26,10 @@ public class BinaryInstruction implements Instruction {
    }
 
    public List<ArmInstruction> toArm() {
-      return new ArrayList<>(new ARMAdd(operator, result, op1, op2));
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+
+      armInstrucs.add(new ArmBinaryInstruction(result, operator, op1, op2));
+
+      return armInstrucs;
    }
 }

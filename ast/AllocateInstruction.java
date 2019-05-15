@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AllocateInstruction implements Instruction {
 
    private final RegisterValue reg;
@@ -11,14 +14,11 @@ public class AllocateInstruction implements Instruction {
    }
 
    public String toString() {
-      String typeString = type.toString();
-      /*
-      if (type instanceof StructType) {
-         typeString += "*";
-      }
-      */
+      return String.format("%s = alloca %s", reg.toString(), type.toString());
+   }
 
-      return String.format("%s = alloca %s", reg.toString(), typeString);
+   public List<ArmInstruction> toArm() {
+
    }
 
 }

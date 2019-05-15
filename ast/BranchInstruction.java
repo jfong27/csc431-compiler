@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BranchInstruction implements Instruction {
 
    private final Value cond;
@@ -18,6 +21,18 @@ public class BranchInstruction implements Instruction {
       return String.format("br i1 %s, label %%%s, label %%%s",
                            cond.toString(), thenBlockLabel,
                            elseBlockLabel);
+   }
+
+   public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+
+      ImmediateValue t = new ImmediateValue(1, new IntType());
+      armInstrucs.add(new ArmComparisonInstruction(cond, t));
+      armInstrucs.add(new ArmBranchEQInstruction(thenBlockLabel));
+      armInstrucs.add(new ArmBranchInstruction(elseBlockLabel));
+
+      return armInstrucs;
+      
    }
 
 }

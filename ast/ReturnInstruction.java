@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ReturnInstruction implements Instruction {
 
    private final Type ty;
@@ -13,5 +16,14 @@ public class ReturnInstruction implements Instruction {
    public String toString() {
       return String.format("ret %s %s",
                            ty.toString(), val.toString());
+   }
+
+   public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+
+      RegisterValue returnReg = new RegisterValue("r0", new IntType());
+      armInstrucs.add(new ArmMoveInstruction(returnReg, val));
+
+      return armInstrucs;
    }
 }

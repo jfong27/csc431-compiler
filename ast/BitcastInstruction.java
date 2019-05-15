@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BitcastInstruction implements Instruction {
 
    private final RegisterValue result;
@@ -21,4 +24,9 @@ public class BitcastInstruction implements Instruction {
                             val.toString(), ty2.toString());
    }
 
+   public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+
+      return armInstrucs;
+   }
 }

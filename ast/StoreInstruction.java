@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StoreInstruction implements Instruction {
 
    private final Type fromType;
@@ -35,4 +38,9 @@ public class StoreInstruction implements Instruction {
                            toTypeStr, toString);
    }
 
+   public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+      
+      return armInstrucs;
+   }
 }

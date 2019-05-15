@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GetElemPtrInstruction implements Instruction {
 
    private final RegisterValue result;
@@ -23,5 +26,14 @@ public class GetElemPtrInstruction implements Instruction {
                                           result.toString(), type.toString(), 
                                           ptrVal.toString(), index);
       return resultString;
+   }
+
+   public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+
+      ImmediateValue imm = new ImmediateValue(4 * index, new IntType());
+      armInstrucs.add(new ArmAddInstruction(result, ptrVal, imm));
+
+      return armInstrucs;
    }
 }

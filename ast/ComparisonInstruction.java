@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ComparisonInstruction implements Instruction {
 
    private final RegisterValue result;
@@ -23,5 +26,19 @@ public class ComparisonInstruction implements Instruction {
                            result.toString(), cond, 
                            ty.toString(), op1.toString(), 
                            op2.toString());
+   }
+
+   public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+
+      ImmediateValue zero = new ImmediateValue(0, new IntType());
+      ImmediateValue one = new ImmediateValue(1, new IntType());
+
+      armInstrucs.add(new ArmMoveInstruction(result, zero));
+      armInstrucs.add(new ArmComparisonInstruction(op1, op2));
+      armInstrucs.add(new ArmMoveGTInstruction(result, one));
+
+      return armInstrucs;
+
    }
 }

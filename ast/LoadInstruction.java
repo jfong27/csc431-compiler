@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoadInstruction implements Instruction {
 
    private RegisterValue result;
@@ -29,5 +32,11 @@ public class LoadInstruction implements Instruction {
                                        result.toString(), tyString,
                                        pointerString);
       return retString;
+   }
+   
+   public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+      //armInstrucs.add(new ArmLoadInstruction(
+      return armInstrucs;
    }
 }
