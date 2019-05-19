@@ -61,8 +61,14 @@ public class Function
 
       Block finalBlock = body.createCFGSSA(entryNode, exitNode, localSymTable, structTable);
 
-      finalBlock.addSuccessor(exitNode);
-      exitNode.addPredecessor(finalBlock);
+      System.out.println("Final Block: " + finalBlock.getLabel());
+      System.out.println("Exit Block: " + exitNode.getLabel());
+      if (finalBlock != exitNode) {
+         System.out.println("Not equal");
+         finalBlock.addSuccessor(exitNode);
+         exitNode.addPredecessor(finalBlock);
+      }
+      System.out.println(String.format("Adding %s as pred of %s", finalBlock.getLabel(), exitNode.getLabel()));
       exitNode.seal();
 
       if (!finalBlock.isFinished() && finalBlock != exitNode) {

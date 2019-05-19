@@ -2,17 +2,17 @@ package ast;
 
 public class ArmMoveInstruction implements ArmInstruction {
 
-   private final RegisterValue result;
+   private final Value result;
    private final Value source;
    private final String cond;
 
-   public ArmMoveInstruction(RegisterValue result, Value source) {
+   public ArmMoveInstruction(Value result, Value source) {
       this.result = result;
       this.source = source;
       this.cond = null;
    }
 
-   public ArmMoveInstruction(RegisterValue result, Value source, String cond) {
+   public ArmMoveInstruction(Value result, Value source, String cond) {
       this.result = result;
       this.source = source;
       this.cond = cond;

@@ -21,7 +21,7 @@ public class ReturnInstruction implements Instruction {
    public List<ArmInstruction> toArm() {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
 
-      RegisterValue returnReg = new RegisterValue("r0", new IntType());
+      ArmRegister returnReg = new ArmRegister(0);
       armInstrucs.add(new ArmMoveInstruction(returnReg, val));
 
       return armInstrucs;
