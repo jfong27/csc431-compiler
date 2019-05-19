@@ -22,6 +22,11 @@ public class ImmediateValue implements Value {
       return Integer.toString(val);
    }
 
+
+   public String toStringArm() {
+      return "#" + Integer.toString(val);
+   }
+
    public Type getType() {
       return type;
    }

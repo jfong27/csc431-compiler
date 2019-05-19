@@ -1,9 +1,3 @@
-target triple="i686"
-%struct.simple = type {i32}
-%struct.foo = type {i32, i32, %struct.simple*}
-
-@globalfoo = common global %struct.foo* null, align 4
-
 define void @tailrecursive(i32 %num)
 {
 LU1:
@@ -20,7 +14,6 @@ LU3:
 	call void @tailrecursive(i32 %u5)
 	br label %LU0
 LU0:
-	ret void
 	ret void
 }
 

@@ -28,6 +28,7 @@ public class ComparisonInstruction implements Instruction {
                            op2.toString());
    }
 
+   //Move 0 into target reg, 
    public List<ArmInstruction> toArm() {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
 
@@ -35,8 +36,9 @@ public class ComparisonInstruction implements Instruction {
       ImmediateValue one = new ImmediateValue(1, new IntType());
 
       armInstrucs.add(new ArmMoveInstruction(result, zero));
+
       armInstrucs.add(new ArmComparisonInstruction(op1, op2));
-      armInstrucs.add(new ArmMoveGTInstruction(result, one));
+      armInstrucs.add(new ArmMoveInstruction(result, one, cond));
 
       return armInstrucs;
 

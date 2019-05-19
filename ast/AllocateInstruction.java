@@ -18,7 +18,9 @@ public class AllocateInstruction implements Instruction {
    }
 
    public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
 
+      return armInstrucs;
    }
 
 }

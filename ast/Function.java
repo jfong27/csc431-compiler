@@ -70,7 +70,9 @@ public class Function
       }
 
       if (retType instanceof VoidType) {
-         exitNode.addInstruction(new ReturnEmptyInstruction());
+         if (!exitNode.isFinished()) {
+            exitNode.addInstruction(new ReturnEmptyInstruction());
+         }
       } else {
          Value retVal = exitNode.readVariable("_retval_", retType, exitNode);
          exitNode.addInstruction(new ReturnInstruction(retType, retVal));

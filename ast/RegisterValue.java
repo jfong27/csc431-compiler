@@ -19,6 +19,10 @@ public class RegisterValue implements Value {
       return "%" + name;
    }
 
+   public String toStringArm() {
+      return "%" + name;
+   }
+
    public String getName() {
       return name;
    }

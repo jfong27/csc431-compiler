@@ -16,5 +16,7 @@ public class ReturnEmptyInstruction implements Instruction {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
 
       armInstrucs.add(new ArmPopInstruction());
+
+      return armInstrucs;
    }
 }

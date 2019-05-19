@@ -101,30 +101,59 @@ public class Program
       int f = 0;
       declStrings = getDeclStringsArm();
       sb.append(declStrings);
+      boolean isFirst = true;
       for (Block fEntry : functionCFGs) {
          Function currFunc = funcs.get(f++);
-         sb.append("\t.align 2\n");
-         sb.append("\t.global "+currFunc.getName()+"\n");
-         sb.append(currFunc.getName()+":\n");
+         sb.append("\t\t.align 2\n");
+         sb.append("\t\t.global "+currFunc.getName()+"\n");
+         sb.append(currFunc.getName()+": \n\n\n");
          if (currFunc.getNumParams() > 0) {
             sb.delete(sb.length() - 2, sb.length());
          }
          Queue<Block> blockOrder = new LinkedList<>();
          blockOrder = fEntry.BFS(blockOrder);
+
          for (Block block: blockOrder) {
-            sb.append(block.toStringArm());
+            sb.append(block.toStringArm(isFirst, currFunc));
+            isFirst = false;
          }
-         sb.append(String.format("\t.%s, .-%s\n\n",
+         isFirst = true;
+         sb.append(String.format("\t\t.size %s, .-%s\n",
                                   currFunc.getName(),
                                   currFunc.getName()));
       }
       return sb.toString();
    }
 
+   //TODO: Move args from r0,r1,etc. into their local names
+   //Ex: move %num, r0
    public String toStringSSAArm(Map<String, StructProperties> structTable) {
       StringBuilder sb = new StringBuilder();
       List<Block> functionCFGs = createCFGsSSA(structTable);
-      //TODO after SSA for LLVM is finished
+      int f = 0;
+      declStrings = getDeclStringsArm();
+      sb.append(declStrings);
+      boolean isFirst = true;
+      for (Block fEntry : functionCFGs) {
+         Function currFunc = funcs.get(f++);
+         sb.append("\t\t.align 2\n");
+         sb.append("\t\t.global "+currFunc.getName()+"\n");
+         sb.append(currFunc.getName()+": \n\n\n");
+         if (currFunc.getNumParams() > 0) {
+            sb.delete(sb.length() - 2, sb.length());
+         }
+         Queue<Block> blockOrder = new LinkedList<>();
+         blockOrder = fEntry.BFS(blockOrder);
+
+         for (Block block: blockOrder) {
+            sb.append(block.toStringArm(isFirst, currFunc));
+            isFirst = false;
+         }
+         isFirst = true;
+         sb.append(String.format("\t\t.size %s, .-%s\n",
+                                  currFunc.getName(),
+                                  currFunc.getName()));
+      }
       return sb.toString();
    }
 
@@ -194,12 +223,12 @@ public class Program
 
    private String getDeclStringsArm() {
       StringBuilder sb = new StringBuilder();
-      sb.append("\t.arch armv7-a\n");
+      sb.append("\t\t.arch armv7-a\n");
       for (Declaration decl : decls) {
-         sb.append(String.format("\t.comm %s,4,4\n", decl.getName()));
+         sb.append(String.format("\t\t.comm %s,4,4\n", decl.getName()));
       }
       sb.append("\n");
-      sb.append("\t.text\n");
+      sb.append("\t\t.text\n");
       return sb.toString();
    }
 

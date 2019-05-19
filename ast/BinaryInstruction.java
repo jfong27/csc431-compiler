@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinaryInstruction implements Instruction {
 
    private final RegisterValue result;

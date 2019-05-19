@@ -41,4 +41,10 @@ public class PhiInstruction implements Instruction {
       return sb.toString();
    }
 
+   public List<ArmInstruction> toArm() {
+      List<ArmInstruction> armInstrucs = new ArrayList<>();
+
+      return armInstrucs;
+   }
+
 }

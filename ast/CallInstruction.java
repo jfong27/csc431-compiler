@@ -32,13 +32,11 @@ public class CallInstruction implements Instruction {
    public List<ArmInstruction> toArm() {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
 
-      RegisterValue r0 = new RegisterValue("r0", new IntType());
+      ArmRegister r0 = new ArmRegister(0);
       RegisterValue r1 = new RegisterValue("r1", new IntType());
 
-      armInstrucs.add(new ArmMoveInstruction(r0, args.get(0)));
-      armInstrucs.add(new ArmMoveInstruction(r1, args.get(1)));
-      armInstrucs.add(new ArmUnconditionalBranchInstruction(funName));
-      armInstrucs.add(new ArmMoveInstruction(result, r0));
+      armInstrucs.add(new ArmMoveWInstruction(r0, args.get(0)));
+      armInstrucs.add(new ArmBranchLInstruction(funName));
 
       return armInstrucs;
 

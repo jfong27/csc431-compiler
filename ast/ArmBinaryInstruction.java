@@ -19,7 +19,7 @@ public class ArmBinaryInstruction implements ArmInstruction {
 
       return String.format("%s %s, %s, %s",   
                            operator, result.toString(),
-                           op1.toString(), 
-                           op2.toString());
+                           op1.toStringArm(), 
+                           op2.toStringArm());
    }
 }

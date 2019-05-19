@@ -11,6 +11,6 @@ public class ArmComparisonInstruction implements ArmInstruction {
    }
 
    public String toString() {
-      return String.format("cmp %s, %s", val1.toString(), val2.toString());
+      return String.format("cmp %s, %s", val1.toStringArm(), val2.toStringArm());
    }
 }

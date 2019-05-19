@@ -136,7 +136,6 @@ public class BinaryExpression
       RegisterValue res;
       Value leftVal = left.addInstructions(node, symTable, structTable);
       Value rightVal = right.addInstructions(node, symTable, structTable);
-      System.out.println("ADD INSTRUC\n\n\n");
 
       switch (operator) {
          case TIMES:

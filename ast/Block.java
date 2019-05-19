@@ -64,25 +64,28 @@ public class Block {
    
    //Instructions are LLVM. Need to convert each instruction to
    //list of ARM instructions, then call toString for each.  
-   public String toStringArm() {
+   public String toStringArm(boolean isFirst, Function func) {
       if (alreadyPrinted) { return "" ; }
       alreadyPrinted = true;
 
       StringBuilder blockString = new StringBuilder();
 
-      blockString.append(label);
+      blockString.append("." + label);
       blockString.append(":\n");
-      /* Push should only go in entry node
-      blockString.append("\tpush {fp, lr}\n");
-      */
+      
+      if (isFirst) {
+         blockString.append("\t\tpush {fp, lr}\n");
+         blockString.append("\t\tadd fp, sp, #4\n");
+         blockString.append(moveArgs(func));
+      }
 
       List<ArmInstruction> armInstructions = new ArrayList<>();
       for (Instruction instr : instructions) {
-         armInstructions.append(instr.toArm());
+         armInstructions.addAll(instr.toArm());
       }
 
       for (ArmInstruction instr : armInstructions) {
-         blockString.append("\t" + instr.toString() + "\n");
+         blockString.append("\t\t" + instr.toString() + "\n");
       }
 
       /* Pop should only go in exit node
@@ -90,6 +93,17 @@ public class Block {
       */
 
       return blockString.toString();
+   }
+
+   private String moveArgs(Function func) {
+      StringBuilder sb = new StringBuilder();
+
+      int counter = 0;
+      for (Declaration decl : func.getParams()) {
+         sb.append(String.format("\t\tmov %%%s, r%s\n",
+                                  decl.getName(), counter++));
+      }
+      return sb.toString();
    }
 
    public String toString() {
