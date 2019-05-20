@@ -9,6 +9,9 @@ public class ArmPrintLnInstruction implements ArmInstruction {
    }
 
    public String toString() {
-      return String.format(".PRINT_FMT:\n\t.asciz %s\\n\n\t.align 2\n", x.toString());
+      String str = "";
+      str += String.format("\tmov r0, %s\n", x.toString());
+      str += "\tbl printf_newline\n";
+      return str;
    }
 }
