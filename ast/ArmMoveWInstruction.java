@@ -2,10 +2,10 @@ package ast;
 
 public class ArmMoveWInstruction implements ArmInstruction {
 
-   private final ArmRegister r;
+   private final Value r;
    private final Value val;
 
-   public ArmMoveWInstruction(ArmRegister r, Value val) {
+   public ArmMoveWInstruction(Value r, Value val) {
       this.r = r;
       this.val = val;
    }

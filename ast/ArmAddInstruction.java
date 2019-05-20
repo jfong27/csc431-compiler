@@ -14,8 +14,8 @@ public class ArmAddInstruction implements ArmInstruction {
    }
 
    public String toString() {
-      return String.format("add %s, %s, %s", resultReg.toString(),
-                            reg1.toString(), reg2.toString());
+      return String.format("add %s, %s, %s", resultReg.toStringArm(),
+                            reg1.toStringArm(), reg2.toStringArm());
    }
 
 }

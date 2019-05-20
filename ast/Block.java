@@ -80,6 +80,12 @@ public class Block {
       }
 
       List<ArmInstruction> armInstructions = new ArrayList<>();
+
+      for (Object value : phis.values()) {
+         PhiInstruction phiInstr = (PhiInstruction)value;
+         armInstructions.addAll(phiInstr.toArm());
+      }
+
       for (Instruction instr : instructions) {
          armInstructions.addAll(instr.toArm());
       }
@@ -87,10 +93,6 @@ public class Block {
       for (ArmInstruction instr : armInstructions) {
          blockString.append("\t\t" + instr.toString() + "\n");
       }
-
-      /* Pop should only go in exit node
-      blockString.append("\tpop {fp, pc}\n");
-      */
 
       return blockString.toString();
    }

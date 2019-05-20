@@ -31,8 +31,12 @@ public class GetElemPtrInstruction implements Instruction {
    public List<ArmInstruction> toArm() {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
 
-      ImmediateValue imm = new ImmediateValue(4 * index, new IntType());
-      armInstrucs.add(new ArmAddInstruction(result, ptrVal, imm));
+      if (index > 0) {
+         ImmediateValue imm = new ImmediateValue(4 * index, new IntType());
+         armInstrucs.add(new ArmAddInstruction(result, ptrVal, imm));
+      } else {
+         armInstrucs.add(new ArmMoveInstruction(result, ptrVal));
+      }
 
       return armInstrucs;
    }

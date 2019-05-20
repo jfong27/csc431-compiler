@@ -44,6 +44,9 @@ public class PhiInstruction implements Instruction {
    public List<ArmInstruction> toArm() {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
 
+      String phiRegName = "_phi" + Integer.toString(Counter.getPhiCount());
+      RegisterValue phi = new RegisterValue(phiRegName, new IntType());
+      armInstrucs.add(new ArmMoveInstruction(result, phi));
       return armInstrucs;
    }
 

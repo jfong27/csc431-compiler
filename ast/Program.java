@@ -150,10 +150,13 @@ public class Program
             isFirst = false;
          }
          isFirst = true;
+         sb.append("\t\tpop {fp, pc}\n");
          sb.append(String.format("\t\t.size %s, .-%s\n",
                                   currFunc.getName(),
                                   currFunc.getName()));
       }
+      sb.append("\t\t.section\t\t\t.rodata\n");
+      sb.append("\t\t.align   2\n");
       return sb.toString();
    }
 

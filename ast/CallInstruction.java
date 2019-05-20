@@ -37,6 +37,7 @@ public class CallInstruction implements Instruction {
 
       armInstrucs.add(new ArmMoveWInstruction(r0, args.get(0)));
       armInstrucs.add(new ArmBranchLInstruction(funName));
+      armInstrucs.add(new ArmMoveInstruction(result, r0));
 
       return armInstrucs;
 

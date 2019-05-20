@@ -30,4 +30,8 @@ public class ImmediateValue implements Value {
    public Type getType() {
       return type;
    }
+
+   public int getVal() {
+      return val;
+   }
 }

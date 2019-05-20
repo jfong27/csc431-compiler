@@ -41,6 +41,13 @@ public class StoreInstruction implements Instruction {
    public List<ArmInstruction> toArm() {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
       
+      if (from instanceof ImmediateValue) {
+         RegisterValue tmp = new RegisterValue("t0", new IntType());
+         armInstrucs.add(new ArmMoveWInstruction(tmp, from));
+         armInstrucs.add(new ArmStoreInstruction(tmp, to));
+      } else {
+         armInstrucs.add(new ArmStoreInstruction(from, to));
+      }
       return armInstrucs;
    }
 }

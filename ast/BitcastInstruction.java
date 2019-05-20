@@ -24,8 +24,13 @@ public class BitcastInstruction implements Instruction {
                             val.toString(), ty2.toString());
    }
 
+   //Move r0 into val. Move val into result
    public List<ArmInstruction> toArm() {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
+
+      ArmRegister r0 = new ArmRegister(0);
+      armInstrucs.add(new ArmMoveInstruction(result, val)); 
+
 
       return armInstrucs;
    }

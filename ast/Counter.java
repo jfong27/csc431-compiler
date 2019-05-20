@@ -7,6 +7,7 @@ public class Counter {
    private static int counter;
    private static int blockCounter;
    private static int regCounter;
+   private static int phiCounter;
    private static Map<String, Integer> variables = new HashMap<>();
 
    public static int getCount() {
@@ -19,6 +20,10 @@ public class Counter {
 
    public static int getRegCount() {
       return regCounter++;
+   }
+
+   public static int getPhiCount() {
+      return phiCounter++;
    }
 
    public static String getVariableCount(String variable) {
