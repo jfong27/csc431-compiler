@@ -18,4 +18,8 @@ public class ValueLabelPair {
       return label;
    }
 
+   public String toString() {
+      return "Value: " + value.toString() + "\nLabel: " + label;
+   }
+
 }

@@ -8,11 +8,13 @@ public class PhiInstruction implements Instruction {
    private final Value result;
    private final Type ty;
    private List<ValueLabelPair> phiValues;
+   private final int armPhiNum;
 
    public PhiInstruction(Value result, Type ty) {
       this.result = result;
       this.ty = ty;
       this.phiValues = new ArrayList<>();
+      this.armPhiNum = Counter.getPhiCount();
    }
 
    public void addPhiValue(Value value, String label) {
@@ -26,6 +28,10 @@ public class PhiInstruction implements Instruction {
    }
 
    public Type getType() { return ty; }
+
+   public int getPhiNum() {
+      return armPhiNum;
+   }
 
    public String toString() {
       StringBuilder sb = new StringBuilder(result.toString());
@@ -44,7 +50,7 @@ public class PhiInstruction implements Instruction {
    public List<ArmInstruction> toArm() {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
 
-      String phiRegName = "_phi" + Integer.toString(Counter.getPhiCount());
+      String phiRegName = "_phi" + Integer.toString(armPhiNum);
       RegisterValue phi = new RegisterValue(phiRegName, new IntType());
       armInstrucs.add(new ArmMoveInstruction(result, phi));
       return armInstrucs;

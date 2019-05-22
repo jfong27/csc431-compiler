@@ -17,19 +17,11 @@ public class Block {
    private Map<String, PhiInstruction> phis;
    private List<Instruction> instructions;
    private Map<String, Value> idMap;
+   private List<ArmInstruction> armPhiMoves; 
    private boolean alreadyPrinted = false;
    private boolean visited = false;
    private boolean isSealed = false;
 
-   public Block(String label, List<Block> predecessors,
-                List<Block> successors, List<Instruction> instructions,
-                Map<String, Value> idMap) {
-      this.label = label;
-      this.predecessors = predecessors;
-      this.successors = successors;
-      this.instructions = instructions;
-      this.idMap = idMap;
-   }
 
    public Block(String label) {
       this.label = label;
@@ -38,6 +30,7 @@ public class Block {
       this.phis = new HashMap<>();
       this.instructions = new ArrayList<>();
       this.idMap = new HashMap<>();
+      this.armPhiMoves = new ArrayList<>();
    }
 
    public void clearInstructions() {
@@ -51,9 +44,6 @@ public class Block {
         visited = true;
       } 
       qu.add(this);
-      for (Block successor : successors) {
-         qu.add(successor);
-      }
 
       for (Block successor : successors) {
          qu = successor.BFS(qu);
@@ -61,6 +51,11 @@ public class Block {
 
       return qu;
    }
+
+   public void addArmPhiMove(ArmInstruction move) {
+      armPhiMoves.add(move);
+   }
+
    
    //Instructions are LLVM. Need to convert each instruction to
    //list of ARM instructions, then call toString for each.  
@@ -72,6 +67,12 @@ public class Block {
 
       blockString.append("." + label);
       blockString.append(":\n");
+
+      //blockString.append("\n------ Phi Moves ------\n");
+      //for (ArmInstruction i : armPhiMoves) {
+        // blockString.append(i.toString() + "\n");
+     // }
+      //blockString.append("-----------------------\n");
       
       if (isFirst) {
          blockString.append("\t\tpush {fp, lr}\n");
@@ -81,14 +82,22 @@ public class Block {
 
       List<ArmInstruction> armInstructions = new ArrayList<>();
 
+      System.out.println("Curr block: " + label);
       for (Object value : phis.values()) {
          PhiInstruction phiInstr = (PhiInstruction)value;
+         for (ValueLabelPair phis : phiInstr.getPhis()) {
+            System.out.println(phis.getLabel() + phis.getValue().toString());
+         }
          armInstructions.addAll(phiInstr.toArm());
       }
 
+      //TODO: Need to add the arm phi moves before the last instruction (Branch)
+      Instruction lastInstr = instructions.remove(instructions.size() -1);
       for (Instruction instr : instructions) {
          armInstructions.addAll(instr.toArm());
       }
+      armInstructions.addAll(armPhiMoves);
+      armInstructions.addAll(lastInstr.toArm());
 
       for (ArmInstruction instr : armInstructions) {
          blockString.append("\t\t" + instr.toString() + "\n");
