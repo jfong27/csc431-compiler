@@ -1,0 +1,116 @@
+LU3
+AAAAAAA
+Adding LU3 as pred of LU0
+Adding LU4 as pred of LU4
+LU5
+LU4
+_retval_
+%_retval_0 = phi i3 
+CurrPhi: %_retval_0 = phi i3 
+_retval_
+%_retval_0 = phi i32 [%u6, %LU5] 
+CurrPhi: %_retval_0 = phi i32 [%u6, %LU5] 
+LU7
+AAAAAAA
+LU7
+BBBBBB
+LU7
+AAAAAAA
+LU7
+BBBBBB
+LU7
+BBBBBB
+LU7
+BBBBBB
+LU7
+BBBBBB
+LU7
+BBBBBB
+LU8
+AAAAAAA
+LU8
+AAAAAAA
+LU8
+AAAAAAA
+LU8
+AAAAAAA
+LU8
+AAAAAAA
+math1
+%math10 = phi %struct.foo 
+CurrPhi: %math10 = phi %struct.foo 
+math1
+%math10 = phi %struct.foo* [%u8, %LU7] 
+CurrPhi: %math10 = phi %struct.foo* [%u8, %LU7] 
+tmp
+%tmp0 = phi i3 
+CurrPhi: %tmp0 = phi i3 
+tmp
+%tmp0 = phi i3 
+CurrPhi: %tmp0 = phi i3 
+math2
+%math20 = phi %struct.foo 
+CurrPhi: %math20 = phi %struct.foo 
+math2
+%math20 = phi %struct.foo* [%u14, %LU7] 
+CurrPhi: %math20 = phi %struct.foo* [%u14, %LU7] 
+num
+%num0 = phi i3 
+CurrPhi: %num0 = phi i3 
+num
+%num0 = phi i32 [%num, %LU7] 
+CurrPhi: %num0 = phi i32 [%num, %LU7] 
+Adding LU9 as pred of LU6
+LU12
+AAAAAAA
+LU12
+AAAAAAA
+tmp
+%tmp0 = phi %struct.foo 
+CurrPhi: %tmp0 = phi %struct.foo 
+tmp
+%tmp0 = phi %struct.foo 
+CurrPhi: %tmp0 = phi %struct.foo 
+num
+%num0 = phi i3 
+CurrPhi: %num0 = phi i3 
+num
+%num0 = phi i32 [%num, %LU11] 
+CurrPhi: %num0 = phi i32 [%num, %LU11] 
+Adding LU13 as pred of LU10
+Adding LU20 as pred of LU14
+LU16
+LU18
+LU19
+LU20
+_retval_
+%_retval_0 = phi i3 
+CurrPhi: %_retval_0 = phi i3 
+_retval_
+%_retval_0 = phi i32 [%u82, %LU16] 
+CurrPhi: %_retval_0 = phi i32 [%u82, %LU16] 
+_retval_
+%_retval_0 = phi i32 [%u82, %LU16], [%u86, %LU18] 
+CurrPhi: %_retval_0 = phi i32 [%u82, %LU16], [%u86, %LU18] 
+_retval_
+%_retval_0 = phi i32 [%u82, %LU16], [%u86, %LU18], [%u88, %LU19] 
+CurrPhi: %_retval_0 = phi i32 [%u82, %LU16], [%u86, %LU18], [%u88, %LU19] 
+LU22
+AAAAAAA
+LU22
+AAAAAAA
+LU22
+AAAAAAA
+LU22
+AAAAAAA
+LU22
+AAAAAAA
+Adding LU21 as pred of LU21
+LU22
+LU21
+_retval_
+%_retval_0 = phi i3 
+CurrPhi: %_retval_0 = phi i3 
+_retval_
+%_retval_0 = phi i32 [0, %LU22] 
+CurrPhi: %_retval_0 = phi i32 [0, %LU22] 

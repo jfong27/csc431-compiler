@@ -49,14 +49,6 @@ public class MiniCompiler
          String inputName = _inputFile.substring(0, _inputFile.length() - 5);
          BufferedWriter out;
          String programString;
-         //change true back to -stack after testing
-         /*if (stack) { //-stack was provided in command line
-            programString = program.toString(structTable);
-            out = new BufferedWriter(new FileWriter(inputName + ".ll"));
-         } else { //-stack was NOT provided in command line
-            programString = program.toStringSSA(structTable);
-            out = new BufferedWriter(new FileWriter(inputName + "_ssa.ll"));
-         }*/
          if (llvm) {
             if (stack) { //-stack -llvm was provided in command line
                programString = program.toString(structTable); //old stack based model

@@ -39,15 +39,11 @@ public class AssignmentStatement
                              Map<String, StructProperties> structTable) {
 
       Value sourceReg = source.addInstructionsSSA(entryNode, symTable, structTable);
-      Value targetReg = target.addInstructionsSSA(entryNode, symTable, structTable);
-
-      System.out.println(entryNode.getLabel());
 
       if (target instanceof LvalueId) {
-         System.out.println("AAAAAAA");
          entryNode.updateMap(target.getId(), sourceReg);
       } else if (target instanceof LvalueDot) {
-         System.out.println("BBBBBB");
+         Value targetReg = target.addInstructionsSSA(entryNode, symTable, structTable);
          RegisterValue ptrReg = new RegisterValue(targetReg.getType());
 
          StoreInstruction strInstr = new StoreInstruction(sourceReg.getType(), 
@@ -55,7 +51,6 @@ public class AssignmentStatement
                                                           sourceReg, targetReg, false);
          entryNode.addInstruction(strInstr);
       } else {
-         System.out.println("CCCCC");
       }
 
       return entryNode;

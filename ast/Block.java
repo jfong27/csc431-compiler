@@ -5,6 +5,7 @@ import java.lang.StringBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -51,6 +52,31 @@ public class Block {
 
       return qu;
    }
+
+
+   public Queue<Block> moveExitBlock(Queue<Block> qu) {
+      Block exitBlock = (Block)qu.remove();
+      int blockNum = Integer.parseInt(exitBlock.getLabel().split("LU")[1]);
+      int lowestBlockNum = blockNum;
+
+      Queue<Block> tmp = new LinkedList<>();
+      if (qu.peek() != null) {
+         tmp.add(exitBlock);
+      }
+      while (qu.peek() != null) {
+         Block currBlock = qu.remove();
+         blockNum = Integer.parseInt(currBlock.getLabel().split("LU")[1]);
+         if (blockNum < lowestBlockNum) {
+            exitBlock = currBlock;
+            lowestBlockNum = blockNum;
+         } else {
+            tmp.add(currBlock);
+         }
+      }
+      tmp.add(exitBlock);
+
+      return tmp;
+   } 
 
    public void addArmPhiMove(ArmInstruction move) {
       armPhiMoves.add(move);
@@ -100,7 +126,10 @@ public class Block {
       armInstructions.addAll(lastInstr.toArm());
 
       for (ArmInstruction instr : armInstructions) {
-         blockString.append("\t\t" + instr.toString() + "\n");
+         String instrString = instr.toString();
+         if (instrString != null) {
+            blockString.append("\t\t" + instr.toString() + "\n");
+         }
       }
 
       return blockString.toString();
@@ -217,7 +246,7 @@ public class Block {
 
    }
 
-   private void writeVariable(String variable, Value value, Block block) {
+   public void writeVariable(String variable, Value value, Block block) {
       block.updateMap(variable, value);
    }
 
@@ -260,9 +289,6 @@ public class Block {
       PhiInstruction currPhi = phis.get(variable);
 
       for (Block predecessor : predecessors) {
-         System.out.println(variable);
-         System.out.println(currPhi);
-         System.out.println("CurrPhi: " + currPhi.toString());
          Value val = readVariable(variable, currPhi.getType(), predecessor);
          if (!(val.getType() instanceof NullType)) {
             currPhi.addPhiValue(val, predecessor.getLabel());

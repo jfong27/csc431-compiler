@@ -14,48 +14,48 @@ public class LvalueId
       this.lineNum = lineNum;
       this.id = id;
    }
-   
+
    public String getId() {
       return id;
    }
 
    public Value addInstructionsSSA(Block node, 
-                                   Map<String, IdProperties> symTable,
-                                   Map<String, StructProperties> structTable) {
+         Map<String, IdProperties> symTable,
+         Map<String, StructProperties> structTable) {
 
       Type idType = symTable.get(id).getType();
       return readVariable(id, idType, node);
    }
 
    private void writeVariable(String variable, Value value, Block block) {
-         block.updateMap(variable, value);
+      block.updateMap(variable, value);
+   }
+
+   private Value readVariable(String variable, Type type, Block block) {
+   
+      Map<String, Value> idMap = block.getIdMap();
+      if (idMap.containsKey(id)) {
+         return idMap.get(id);
       }
+      return readVariableFromPredecessors(id, type, block);
 
-      private Value readVariable(String variable, Type type, Block block) {
+   }
 
-         Map<String, Value> idMap = block.getIdMap();
-         if (idMap.containsKey(id)) {
-            return idMap.get(id);
-         }
-         return readVariableFromPredecessors(id, type, block);
-
-      }
-
-      private Value readVariableFromPredecessors(String variable, Type type, Block block) {
-         Value val;
-         if (!block.isSealed()) {
-            val = new RegisterValue(variable + Counter.getVariableCount(variable), type);
-            PhiInstruction phiInstr = new PhiInstruction(val, type);
-            block.addPhi(variable, phiInstr);
-         } else if (block.numPredecessors() == 0) {
-            val = new ImmediateValue(-1, new NullType());
-         } else if (block.numPredecessors() == 1) {
-            val = readVariable(variable, type, block.getPredecessors().get(0));
-         } else {
-            val = new RegisterValue(variable + Counter.getVariableCount(variable), type);
-            PhiInstruction phiInstr = new PhiInstruction(val, type);
-            block.addPhi(variable, phiInstr);
-            writeVariable(variable, val, block);
+   private Value readVariableFromPredecessors(String variable, Type type, Block block) {
+      Value val;
+      if (!block.isSealed()) {
+         val = new RegisterValue(variable + Counter.getVariableCount(variable), type);
+         PhiInstruction phiInstr = new PhiInstruction(val, type);
+         block.addPhi(variable, phiInstr);
+      } else if (block.numPredecessors() == 0) {
+         val = new ImmediateValue(-1, new NullType());
+      } else if (block.numPredecessors() == 1) {
+         val = readVariable(variable, type, block.getPredecessors().get(0));
+      } else {
+         val = new RegisterValue(variable + Counter.getVariableCount(variable), type);
+         PhiInstruction phiInstr = new PhiInstruction(val, type);
+         block.addPhi(variable, phiInstr);
+         writeVariable(variable, val, block);
          addPhiOperands(variable, block);
       } 
 
@@ -87,15 +87,15 @@ public class LvalueId
 
 
    public Value addInstructions(Block node, 
-                                Map<String, IdProperties> symTable,
-                                Map<String, StructProperties> structTable) {
+         Map<String, IdProperties> symTable,
+         Map<String, StructProperties> structTable) {
 
       IdProperties idResult = symTable.get(id);
       return new RegisterValue(id, idResult.getType());
    }
 
    public Type typeCheck(Map<String, IdProperties> symTable,
-                         Map<String, Map<String, Type>> structTable) {
+         Map<String, Map<String, Type>> structTable) {
       if (!symTable.containsKey(id)) {
          System.out.println("Variable '"+id+"' is undeclared");
          System.exit(-1);

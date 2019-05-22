@@ -36,7 +36,7 @@ public class LoadInstruction implements Instruction {
    
    public List<ArmInstruction> toArm() {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
-      //armInstrucs.add(new ArmLoadInstruction(
+      armInstrucs.add(new ArmLoadInstruction(result, pointer));
       return armInstrucs;
    }
 }

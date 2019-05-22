@@ -143,6 +143,7 @@ public class Program
          }
          Queue<Block> blockOrder = new LinkedList<>();
          blockOrder = fEntry.BFS(blockOrder);
+         blockOrder = fEntry.moveExitBlock(blockOrder);
 
 //         System.out.println("-----------------------_");
 //         System.out.println(blockOrder.size());

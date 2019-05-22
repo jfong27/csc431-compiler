@@ -7,14 +7,14 @@ LU1:
 	br i1 %u2, label %LU2, label %LU3
 LU2:
 	br label %LU0
+LU0:
+	ret void
 LU3:
 	%u3 = call i8* @malloc(i32 12)
 	%u4 = bitcast i8* %u3 to %struct.foo*
 	%u5 = sub i32 %num, 1
 	call void @tailrecursive(i32 %u5)
 	br label %LU0
-LU0:
-	ret void
 }
 
 define i32 @add(i32 %x, i32 %y)
@@ -23,8 +23,7 @@ LU5:
 	%u6 = add i32 %x, %y
 	br label %LU4
 LU4:
-	%_retval_0 = phi i32 [%u6, %LU5], [%_retval_0, %LU4] 
-	ret i32 %_retval_0
+	ret i32 %u6
 }
 
 define void @domath(i32 %num)
@@ -64,7 +63,6 @@ LU7:
 	br i1 %u37, label %LU8, label %LU9
 LU8:
 	%math10 = phi %struct.foo* [%u8, %LU7], [%math10, %LU8] 
-	%tmp0 = phi i32 [%u62, %LU8] 
 	%math20 = phi %struct.foo* [%u14, %LU7], [%math20, %LU8] 
 	%num0 = phi i32 [%num, %LU7], [%u63, %LU8] 
 	%u38 = getelementptr %struct.foo* %math10, i1 0, i32 0
@@ -117,7 +115,6 @@ LU11:
 	%u71 = trunc i32 %u70 to i1
 	br i1 %u71, label %LU12, label %LU13
 LU12:
-	%tmp0 = phi %struct.foo* [%u73, %LU12] 
 	%num0 = phi i32 [%num, %LU11], [%u75, %LU12] 
 	%u72 = call i8* @malloc(i32 12)
 	%u73 = bitcast i8* %u72 to %struct.foo*
@@ -144,14 +141,14 @@ LU15:
 LU16:
 	%u82 = add i32 %n, 1
 	br label %LU14
+LU14:
+	%_retval_0 = phi i32 [%u82, %LU16], [%u86, %LU18], [%u88, %LU19] 
+	ret i32 %_retval_0
 LU17:
 	%u83 = icmp eq i32 %n, 0
 	%u84 = zext i1 %u83 to i32
 	%u85 = trunc i32 %u84 to i1
 	br i1 %u85, label %LU18, label %LU19
-LU14:
-	%_retval_0 = phi i32 [%u82, %LU16], [%u86, %LU18], [%u88, %LU19] 
-	ret i32 %_retval_0
 LU18:
 	%u87 = sub i32 %m, 1
 	%u86 = call i32 @ackermann(i32 %u87, i32 1)
@@ -182,8 +179,7 @@ LU22:
 	call void @printf_newline(i32 %u97)
 	br label %LU21
 LU21:
-	%_retval_0 = phi i32 [0, %LU22], [%_retval_0, %LU21] 
-	ret i32 %_retval_0
+	ret i32 0
 }
 
 declare i8* @malloc(i32)
