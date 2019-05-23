@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ArmBranchInstruction implements ArmInstruction {
 
    private final String label;
@@ -12,4 +15,11 @@ public class ArmBranchInstruction implements ArmInstruction {
       return "b ." + label;
    } 
 
+   public Set<Value> getSources() {
+       return new HashSet<>();
+   }
+
+   public Value getTarget() {
+      return null;
+   }
 }

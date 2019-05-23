@@ -37,7 +37,7 @@ public class BinaryInstruction implements Instruction {
             RegisterValue t0 = new RegisterValue("t0", new IntType());
             UpperValue upper = new UpperValue(op1Val.getVal());
             LowerValue lower = new LowerValue(op1Val.getVal());
-            armInstrucs.add(new ArmMoveWInstruction(t0, lower));
+            armInstrucs.add(new ArmMoveInstruction(t0, lower, "w"));
             armInstrucs.add(new ArmMoveInstruction(t0, lower, "t"));
             op1 = t0;
          }
@@ -49,7 +49,7 @@ public class BinaryInstruction implements Instruction {
             RegisterValue t1 = new RegisterValue("t1", new IntType());
             UpperValue upper = new UpperValue(op2Val.getVal());
             LowerValue lower = new LowerValue(op2Val.getVal());
-            armInstrucs.add(new ArmMoveWInstruction(t1, lower));
+            armInstrucs.add(new ArmMoveInstruction(t1, lower, "w"));
             armInstrucs.add(new ArmMoveInstruction(t1, lower, "t"));
             op2 = t1;
          }

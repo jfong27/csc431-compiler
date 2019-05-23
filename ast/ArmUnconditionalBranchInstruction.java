@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ArmUnconditionalBranchInstruction implements ArmInstruction {
 
    private final String blockLabel;
@@ -10,5 +13,13 @@ public class ArmUnconditionalBranchInstruction implements ArmInstruction {
 
    public String toString() {
       return "b ." + blockLabel;
+   }
+
+   public Set<Value> getSources() {
+      return new HashSet<>();
+   }
+
+   public Value getTarget() {
+      return null;
    }
 }

@@ -10,9 +10,9 @@ tailrecursive:
 		add fp, sp, #4
 		mov %num, r0
 		mov %u0, #0
-		cmp %num, #0
+		cmp %num, %num
 		movle %u0, #1
-		cmp %u2, #1
+		cmp %u2, %u2
 		beq .LU2
 		b .LU3
 .LU2:
@@ -88,14 +88,14 @@ domath:
 		mov %u33, %u32
 		str %u30, [%u33]
 		mov %u35, #0
-		cmp %num, #0
+		cmp %num, %num
 		movgt %u35, #1
 		mov %_phi0, %u8
 		mov %_phi1, %u14
 		mov %_phi2, %num
 		mov %_phi3, %u8
 		mov %_phi4, %u14
-		cmp %u37, #1
+		cmp %u37, %u37
 		beq .LU8
 		b .LU9
 .LU8:
@@ -134,14 +134,14 @@ domath:
 		sub %u62, %u59, %u61
 		sub %u63, %num0, #1
 		mov %u64, #0
-		cmp %u63, #0
+		cmp %u63, %u63
 		movgt %u64, #1
 		mov %_phi0, %math10
 		mov %_phi1, %math20
 		mov %_phi2, %u63
 		mov %_phi3, %math10
 		mov %_phi4, %math20
-		cmp %u66, #1
+		cmp %u66, %u66
 		beq .LU8
 		b .LU9
 .LU9:
@@ -165,10 +165,10 @@ objinstantiation:
 		add fp, sp, #4
 		mov %num, r0
 		mov %u69, #0
-		cmp %num, #0
+		cmp %num, %num
 		movgt %u69, #1
 		mov %_phi5, %num
-		cmp %u71, #1
+		cmp %u71, %u71
 		beq .LU12
 		b .LU13
 .LU12:
@@ -182,10 +182,10 @@ objinstantiation:
 		bl free
 		sub %u75, %num0, #1
 		mov %u76, #0
-		cmp %u75, #0
+		cmp %u75, %u75
 		movgt %u76, #1
 		mov %_phi5, %u75
-		cmp %u78, #1
+		cmp %u78, %u78
 		beq .LU12
 		b .LU13
 .LU13:
@@ -202,9 +202,9 @@ ackermann:
 		mov %m, r0
 		mov %n, r1
 		mov %u79, #0
-		cmp %m, #0
+		cmp %m, %m
 		moveq %u79, #1
-		cmp %u81, #1
+		cmp %u81, %u81
 		beq .LU16
 		b .LU17
 .LU16:
@@ -213,9 +213,9 @@ ackermann:
 		b .LU14
 .LU17:
 		mov %u83, #0
-		cmp %n, #0
+		cmp %n, %n
 		moveq %u83, #1
-		cmp %u85, #1
+		cmp %u85, %u85
 		beq .LU18
 		b .LU19
 .LU18:
@@ -249,20 +249,33 @@ main:
 .LU22:
 		push {fp, lr}
 		add fp, sp, #4
-		movw r0, #0
-		movw r0, #0
-		movw r0, #0
-		movw r0, #0
-		movw r0, #0
+		bl read
+		movw %u92, r0
+		bl read
+		movw %u93, r0
+		bl read
+		movw %u94, r0
+		bl read
+		movw %u95, r0
+		bl read
+		movw %u96, r0
 		movw r0, %u92
 		bl tailrecursive
+		mov r0, %u92
+		bl printf_newline
 		movw r0, %u93
 		bl domath
+		mov r0, %u93
+		bl printf_newline
 		movw r0, %u94
 		bl objinstantiation
+		mov r0, %u94
+		bl printf_newline
 		movw r0, %u95
 		bl ackermann
 		mov %u97, r0
+		mov r0, %u97
+		bl printf_newline
 		b .LU21
 .LU21:
 		mov r0, #0

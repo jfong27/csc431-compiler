@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.Objects;
+
 public class LowerValue implements Value {
 
    private final int val;
@@ -30,7 +32,7 @@ public class LowerValue implements Value {
    }
 
    @Override
-   public int hashCode {
+   public int hashCode() {
       return Objects.hash(toStringArm());
    }
 

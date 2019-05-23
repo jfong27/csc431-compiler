@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ArmLoadRegisterInstruction implements ArmInstruction {
 
    private final Value target;
@@ -13,6 +16,16 @@ public class ArmLoadRegisterInstruction implements ArmInstruction {
 
    public String toString() {
       return String.format("ldr %s, [%s]");
+   }
+
+   public Set<Value> getSources() {
+      Set<Value> sources = new HashSet<>();
+      sources.add(source);
+      return sources;
+   }
+
+   public Value getTarget() {
+      return target;
    }
 
 }

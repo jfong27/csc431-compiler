@@ -5,16 +5,16 @@ import java.util.List;
 
 public class GetElemPtrInstruction implements Instruction {
 
-   private final RegisterValue result;
+   private final Value target;
    private final Type type;
    private final Value ptrVal;
    private final Type fieldType;
    private final int index;
 
-   public GetElemPtrInstruction(RegisterValue result, Type type,
+   public GetElemPtrInstruction(Value target, Type type,
                                 Value ptrVal, Type fieldType,
                                 int index) {
-      this.result = result;
+      this.target = target;
       this.type = type;
       this.ptrVal = ptrVal;
       this.fieldType = fieldType;
@@ -23,7 +23,7 @@ public class GetElemPtrInstruction implements Instruction {
 
    public String toString() {
       String resultString = String.format("%s = getelementptr %s %s, i1 0, i32 %d",
-                                          result.toString(), type.toString(), 
+                                          target.toString(), type.toString(), 
                                           ptrVal.toString(), index);
       return resultString;
    }
@@ -33,9 +33,9 @@ public class GetElemPtrInstruction implements Instruction {
 
       if (index > 0) {
          ImmediateValue imm = new ImmediateValue(4 * index, new IntType());
-         armInstrucs.add(new ArmAddInstruction(result, ptrVal, imm));
+         armInstrucs.add(new ArmBinaryInstruction(target, "add", ptrVal, imm));
       } else {
-         armInstrucs.add(new ArmMoveInstruction(result, ptrVal));
+         armInstrucs.add(new ArmMoveInstruction(target, ptrVal));
       }
 
       return armInstrucs;

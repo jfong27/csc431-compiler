@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ArmPrintLnInstruction implements ArmInstruction {
 
    Value x;
@@ -14,4 +17,15 @@ public class ArmPrintLnInstruction implements ArmInstruction {
       str += "\tbl printf_newline\n";
       return str;
    }
+
+   public Set<Value> getSources() {
+      Set<Value> sources = new HashSet<>();
+      sources.add(x);
+      return sources;
+   }
+
+   public Value getTarget() {
+      return null;
+   }
+
 }

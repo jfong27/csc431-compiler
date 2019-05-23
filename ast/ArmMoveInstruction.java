@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ArmMoveInstruction implements ArmInstruction {
 
    private final Value target;
@@ -38,22 +41,26 @@ public class ArmMoveInstruction implements ArmInstruction {
       if (cond != null) {
          if (cond.equals("eq")) {
             return String.format("moveq %s, %s", 
-                                 target.toString(),
+                                 target.toStringArm(),
                                  source.toStringArm());
          } else if (cond.equals("ne")) {
             return String.format("movne %s, %s",
                                  target.toString(),
                                  source.toStringArm());
+         } else if (cond.equals("w")) {
+            return String.format("movw %s, %s",
+                                 target.toStringArm(),
+                                 source.toStringArm());
          } else {
             String mov = cond.substring(1);
             return String.format("mov%s %s, %s",
-                                 mov, target.toString(),
+                                 mov, target.toStringArm(),
                                  source.toStringArm());
          }
       }
 
       return String.format("mov %s, %s",   
-                           target.toString(),
+                           target.toStringArm(),
                            source.toStringArm()); 
    }
 }

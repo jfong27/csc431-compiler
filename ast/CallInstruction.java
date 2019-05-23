@@ -35,7 +35,7 @@ public class CallInstruction implements Instruction {
       ArmRegister r0 = new ArmRegister(0);
       RegisterValue r1 = new RegisterValue("r1", new IntType());
 
-      armInstrucs.add(new ArmMoveWInstruction(r0, args.get(0)));
+      armInstrucs.add(new ArmMoveInstruction(r0, args.get(0), "w"));
       armInstrucs.add(new ArmBranchLInstruction(funName));
       armInstrucs.add(new ArmMoveInstruction(result, r0));
 

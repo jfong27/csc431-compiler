@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ArmBranchEQInstruction implements ArmInstruction {
 
    private final String label;
@@ -12,4 +15,12 @@ public class ArmBranchEQInstruction implements ArmInstruction {
       return "beq ." + label;
    } 
 
+   public Set<Value> getSources() {
+      Set<Value> sources = new HashSet<>();
+      return sources;
+   }
+
+   public Value getTarget() {
+      return null;
+   }
 }

@@ -22,7 +22,7 @@ public class Block {
    private Map<String, Value> idMap;
    private List<ArmInstruction> armPhiMoves; 
    private Set<Value> gen;
-   private set<Value> kill;
+   private Set<Value> kill;
    private boolean alreadyPrinted = false;
    private boolean visited = false;
    private boolean isSealed = false;
@@ -131,7 +131,7 @@ public class Block {
             }
          }
          Value target = armInstr.getTarget();
-         if (!target instanceof ImmediateValue) {
+         if (target != null && !(target instanceof ImmediateValue)) {
             kill.add(armInstr.getTarget());
          }
       }

@@ -43,7 +43,7 @@ public class StoreInstruction implements Instruction {
       
       if (from instanceof ImmediateValue) {
          RegisterValue tmp = new RegisterValue("t0", new IntType());
-         armInstrucs.add(new ArmMoveWInstruction(tmp, from));
+         armInstrucs.add(new ArmMoveInstruction(tmp, from, "w"));
          armInstrucs.add(new ArmStoreInstruction(tmp, to));
       } else {
          armInstrucs.add(new ArmStoreInstruction(from, to));

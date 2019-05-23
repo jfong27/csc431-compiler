@@ -1,5 +1,8 @@
 package ast;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ArmStoreInstruction implements ArmInstruction {
 
    private final Value target;
@@ -15,6 +18,16 @@ public class ArmStoreInstruction implements ArmInstruction {
       return String.format("str %s, [%s]", 
                            target.toStringArm(),
                            source.toStringArm());
+   }
+
+   public Set<Value> getSources() {
+      Set<Value> sources = new HashSet<>();
+      sources.add(source);
+      return sources;
+   }
+
+   public Value getTarget() {
+      return target;
    }
 
 }
