@@ -20,4 +20,18 @@ public class UpperValue implements Value {
       return new IntType();
    }
 
+   @Override
+   public boolean equals(Object o) {
+      if (o == this) { return true; }
+      if (!(o instanceof Value)) {
+         return false;
+      }
+      return ((Value)o).toStringArm().equals(toStringArm());
+   }
+
+   @Override
+   public int hashCode {
+      return Objects.hash(toStringArm());
+   }
+
 }

@@ -2,25 +2,35 @@ package ast;
 
 public class ArmMoveInstruction implements ArmInstruction {
 
-   private final Value result;
+   private final Value target;
    private final Value source;
    private final String cond;
 
-   public ArmMoveInstruction(Value result, Value source) {
-      this.result = result;
+   public ArmMoveInstruction(Value target, Value source) {
+      this.target = target;
       this.source = source;
       this.cond = null;
    }
 
-   public ArmMoveInstruction(Value result, Value source, String cond) {
-      this.result = result;
+   public ArmMoveInstruction(Value target, Value source, String cond) {
+      this.target = target;
       this.source = source;
       this.cond = cond;
    }
 
+   public Value getTarget() {
+      return target;
+   }
+
+   public Set<Value> getSources() {
+      Set<Value> sources = new HashSet<>();
+      sources.add(source);
+      return sources;
+   }
+
    public String toString() {
 
-      if (result == null) {
+      if (target == null) {
          return null;
          //return "NULL RESULT ARM MOVE";
       }
@@ -28,22 +38,22 @@ public class ArmMoveInstruction implements ArmInstruction {
       if (cond != null) {
          if (cond.equals("eq")) {
             return String.format("moveq %s, %s", 
-                                 result.toString(),
+                                 target.toString(),
                                  source.toStringArm());
          } else if (cond.equals("ne")) {
             return String.format("movne %s, %s",
-                                 result.toString(),
+                                 target.toString(),
                                  source.toStringArm());
          } else {
             String mov = cond.substring(1);
             return String.format("mov%s %s, %s",
-                                 mov, result.toString(),
+                                 mov, target.toString(),
                                  source.toStringArm());
          }
       }
 
       return String.format("mov %s, %s",   
-                           result.toString(),
+                           target.toString(),
                            source.toStringArm()); 
    }
 }

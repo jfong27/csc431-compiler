@@ -125,7 +125,6 @@ public class Program
       return sb.toString();
    }
 
-   //TODO: Add ARM phis into predecessors
    public String toStringSSAArm(Map<String, StructProperties> structTable) {
       StringBuilder sb = new StringBuilder();
       List<Block> functionCFGs = createCFGsSSA(structTable);
@@ -145,25 +144,16 @@ public class Program
          blockOrder = fEntry.BFS(blockOrder);
          blockOrder = fEntry.moveExitBlock(blockOrder);
 
-//         System.out.println("-----------------------_");
-//         System.out.println(blockOrder.size());
          int count = 0;
          for (Block block : blockOrder) {
             Map<String, PhiInstruction> phis = block.getPhis();
             for (Map.Entry<String, PhiInstruction> entry : phis.entrySet()) {
                PhiInstruction phiInstr = entry.getValue();
-//               System.out.println("Phi Instruction: " + phiInstr.toString());
-//               System.out.println("For block " + block.getLabel());
                String phiRegString = "_phi" + Integer.toString(phiInstr.getPhiNum());
                RegisterValue phiReg = new RegisterValue(phiRegString, new IntType());
                for (ValueLabelPair phiPair : phiInstr.getPhis()) {
-                  //For each pred, make new ArmMOveInstr and add to it
-//                  System.out.println("Pred: ");
-//                  System.out.println(phiPair.toString());
                   Block foundBlock = findPredWithLabel(block, phiPair.getLabel());
-
                   ArmInstruction move = new ArmMoveInstruction(phiReg, phiPair.getValue());
-//                  System.out.println(("HEEEY: " + move.toString()));
                   foundBlock.addArmPhiMove(move);
                }
             }

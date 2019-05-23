@@ -4,11 +4,13 @@ import java.lang.StringBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 public class Block {
 
@@ -19,6 +21,8 @@ public class Block {
    private List<Instruction> instructions;
    private Map<String, Value> idMap;
    private List<ArmInstruction> armPhiMoves; 
+   private Set<Value> gen;
+   private set<Value> kill;
    private boolean alreadyPrinted = false;
    private boolean visited = false;
    private boolean isSealed = false;
@@ -32,6 +36,8 @@ public class Block {
       this.instructions = new ArrayList<>();
       this.idMap = new HashMap<>();
       this.armPhiMoves = new ArrayList<>();
+      this.gen = new HashSet<>();
+      this.kill = new HashSet<>();
    }
 
    public void clearInstructions() {
@@ -94,12 +100,6 @@ public class Block {
       blockString.append("." + label);
       blockString.append(":\n");
 
-      //blockString.append("\n------ Phi Moves ------\n");
-      //for (ArmInstruction i : armPhiMoves) {
-        // blockString.append(i.toString() + "\n");
-     // }
-      //blockString.append("-----------------------\n");
-      
       if (isFirst) {
          blockString.append("\t\tpush {fp, lr}\n");
          blockString.append("\t\tadd fp, sp, #4\n");
@@ -108,7 +108,6 @@ public class Block {
 
       List<ArmInstruction> armInstructions = new ArrayList<>();
 
-      System.out.println("Curr block: " + label);
       for (Object value : phis.values()) {
          PhiInstruction phiInstr = (PhiInstruction)value;
          for (ValueLabelPair phis : phiInstr.getPhis()) {
@@ -117,13 +116,28 @@ public class Block {
          armInstructions.addAll(phiInstr.toArm());
       }
 
-      //TODO: Need to add the arm phi moves before the last instruction (Branch)
+
       Instruction lastInstr = instructions.remove(instructions.size() -1);
       for (Instruction instr : instructions) {
          armInstructions.addAll(instr.toArm());
       }
       armInstructions.addAll(armPhiMoves);
       armInstructions.addAll(lastInstr.toArm());
+
+      for (ArmInstruction armInstr : armInstructions) {
+         for (Value source : armInstr.getSources()) {
+            if (!kill.contains(source) && !(source instanceof ImmediateValue)) {
+               gen.add(source);
+            }
+         }
+         Value target = armInstr.getTarget();
+         if (!target instanceof ImmediateValue) {
+            kill.add(armInstr.getTarget());
+         }
+      }
+      System.out.println("Block: " + label);
+      System.out.println("Gen set: " + gen.toString());
+      System.out.println("Kill set: " + kill.toString());
 
       for (ArmInstruction instr : armInstructions) {
          String instrString = instr.toString();

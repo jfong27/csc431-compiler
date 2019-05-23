@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.Objects;
+
 public class RegisterValue implements Value {
 
    private final String name;
@@ -29,6 +31,20 @@ public class RegisterValue implements Value {
 
    public Type getType() {
       return type;
+   }
+
+   @Override
+   public boolean equals(Object o) {
+      if (o == this) { return true; }
+      if (!(o instanceof Value)) {
+         return false;
+      }
+      return ((Value)o).toStringArm().equals(toStringArm());
+   }
+
+   @Override
+   public int hashCode {
+      return Objects.hash(toStringArm());
    }
 
 }
