@@ -19,8 +19,9 @@ public class ReadInstruction implements Instruction {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
 
       ArmRegister r0 = new ArmRegister(0);
-      ImmediateValue zero = new ImmediateValue(0, new IntType());
-      armInstrucs.add(new ArmMoveWInstruction(r0, zero));
+
+      armInstrucs.add(new ArmBranchLInstruction("read"));
+      armInstrucs.add(new ArmMoveWInstruction(result, r0));
       return armInstrucs;
    }
 }

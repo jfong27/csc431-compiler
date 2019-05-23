@@ -17,6 +17,9 @@ public class PrintlnInstruction implements Instruction {
    
    public List<ArmInstruction> toArm() {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
+      RegisterValue r0 = new ArmRegister(0);
+      armInstrucs.add(new ArmMoveInstruction(r0, x));
+      armInstrucs.add(new ArmBranchLInstruction("printf_newline"));
       return armInstrucs;
    }
 
