@@ -4,14 +4,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-//TODO: Accept list of vals to pop multiple values
-public class ArmPopInstruction implements ArmInstruction {
+//TODO: Accept list of vals to push multiple values
+public class ArmPushInstruction implements ArmInstruction {
 
-   public ArmPopInstruction(List<Value> vals) {
+   public ArmPushInstruction(List<Value> vals) {
    }
 
    public String toString() {
-      return "pop {fp, pc}";
+      return "push {fp, lr}";
    }
 
    public Set<Value> getSources() {

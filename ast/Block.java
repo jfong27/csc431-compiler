@@ -100,6 +100,7 @@ public class Block {
       blockString.append("." + label);
       blockString.append(":\n");
 
+      //TODO: Use ArmPushInstruction instead
       if (isFirst) {
          blockString.append("\t\tpush {fp, lr}\n");
          blockString.append("\t\tadd fp, sp, #4\n");
