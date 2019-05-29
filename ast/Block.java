@@ -19,13 +19,16 @@ public class Block {
    private List<Block> successors;
    private Map<String, PhiInstruction> phis;
    private List<Instruction> instructions;
+   private List<ArmInstruction> armInstructions;
    private Map<String, Value> idMap;
    private List<ArmInstruction> armPhiMoves; 
    private Set<Value> gen;
    private Set<Value> kill;
+   private Set<Value> liveOut;
    private boolean alreadyPrinted = false;
    private boolean visited = false;
    private boolean isSealed = false;
+   private boolean seen = false;
 
 
    public Block(String label) {
@@ -34,10 +37,12 @@ public class Block {
       this.successors = new ArrayList<>();
       this.phis = new HashMap<>();
       this.instructions = new ArrayList<>();
+      this.armInstructions = new ArrayList<>();
       this.idMap = new HashMap<>();
       this.armPhiMoves = new ArrayList<>();
       this.gen = new HashSet<>();
       this.kill = new HashSet<>();
+      this.liveOut = new HashSet<>();
    }
 
    public void clearInstructions() {
@@ -59,6 +64,11 @@ public class Block {
       return qu;
    }
 
+   public Set<Value> getGenSet() { return gen; }
+
+   public Set<Value> getKillSet() { return kill; }
+
+   public Set<Value> getLiveOut() { return liveOut; }
 
    public Queue<Block> moveExitBlock(Queue<Block> qu) {
       Block exitBlock = (Block)qu.remove();
@@ -88,10 +98,40 @@ public class Block {
       armPhiMoves.add(move);
    }
 
+   public void toArmInstructions(boolean isFirst, Function func) {
+      if (isFirst) {
+         ArmRegister fp = new ArmRegister("fp");
+         ArmRegister lr = new ArmRegister("lr");
+         ArmRegister sp = new ArmRegister("sp");
+         ImmediateValue four = new ImmediateValue(4, new IntType());
+         List<Value> pushVals = new ArrayList<>();
+         pushVals.add(fp);
+         pushVals.add(lr);
+         armInstructions.add(new ArmPushInstruction(pushVals));
+         armInstructions.add(new ArmBinaryInstruction(fp, "add", sp, four));
+         armInstructions.addAll(moveArgs(func));
+      }
+
+      for (Object value : phis.values()) {
+         PhiInstruction phiInstr = (PhiInstruction)value;
+         armInstructions.addAll(phiInstr.toArm());
+      }
+
+      Instruction lastInstr = instructions.remove(instructions.size() - 1);
+      for (Instruction instr : instructions) {
+         armInstructions.addAll(instr.toArm());
+      }
+
+      armInstructions.addAll(armPhiMoves);
+      armInstructions.addAll(lastInstr.toArm());
+
+   }
+
+
    
    //Instructions are LLVM. Need to convert each instruction to
    //list of ARM instructions, then call toString for each.  
-   public String toStringArm(boolean isFirst, Function func) {
+   public String toStringArm() {
       if (alreadyPrinted) { return "" ; }
       alreadyPrinted = true;
 
@@ -99,46 +139,6 @@ public class Block {
 
       blockString.append("." + label);
       blockString.append(":\n");
-
-      //TODO: Use ArmPushInstruction instead
-      if (isFirst) {
-         blockString.append("\t\tpush {fp, lr}\n");
-         blockString.append("\t\tadd fp, sp, #4\n");
-         blockString.append(moveArgs(func));
-      }
-
-      List<ArmInstruction> armInstructions = new ArrayList<>();
-
-      for (Object value : phis.values()) {
-         PhiInstruction phiInstr = (PhiInstruction)value;
-         for (ValueLabelPair phis : phiInstr.getPhis()) {
-            System.out.println(phis.getLabel() + phis.getValue().toString());
-         }
-         armInstructions.addAll(phiInstr.toArm());
-      }
-
-
-      Instruction lastInstr = instructions.remove(instructions.size() -1);
-      for (Instruction instr : instructions) {
-         armInstructions.addAll(instr.toArm());
-      }
-      armInstructions.addAll(armPhiMoves);
-      armInstructions.addAll(lastInstr.toArm());
-
-      for (ArmInstruction armInstr : armInstructions) {
-         for (Value source : armInstr.getSources()) {
-            if (!kill.contains(source) && !(source instanceof ImmediateValue)) {
-               gen.add(source);
-            }
-         }
-         Value target = armInstr.getTarget();
-         if (target != null && !(target instanceof ImmediateValue)) {
-            kill.add(armInstr.getTarget());
-         }
-      }
-      System.out.println("Block: " + label);
-      System.out.println("Gen set: " + gen.toString());
-      System.out.println("Kill set: " + kill.toString());
 
       for (ArmInstruction instr : armInstructions) {
          String instrString = instr.toString();
@@ -150,15 +150,80 @@ public class Block {
       return blockString.toString();
    }
 
-   private String moveArgs(Function func) {
-      StringBuilder sb = new StringBuilder();
+   public void generateGenKill() {
+      for (ArmInstruction armInstr : armInstructions) {
+         System.out.println("----------------------");
+         System.out.println("Instruction: " + armInstr.toString());
+         for (Value source : armInstr.getSources()) {
+            System.out.println("Source: " + source.toString());
+            if (!kill.contains(source) && !(source instanceof ImmediateValue)) {
+               System.out.println("Adding to gen set");
+               gen.add(source);
+            } else {
+               System.out.println("Not adding to gen set");
+            }
+         }
+
+         for (Value target : armInstr.getTargets()) {
+            if (target != null && !(target instanceof ImmediateValue)) {
+               System.out.println("Target: " + target.toString());
+               System.out.println("Adding target to kill set");
+               kill.add(target);
+            }
+         }
+         System.out.println("----------------------");
+      }
+      System.out.println("Block: " + label);
+      System.out.println("Gen set: " + gen.toString());
+      System.out.println("Kill set: " + kill.toString());
+   }
+
+   public boolean createLiveOut() {
+      System.out.println("Creating live out for " + label);
+      boolean changed = false;
+      if (seen) {
+         seen = false;
+         return changed;
+      } else {
+         seen = true;
+      }
+      for (Block succ : successors) {
+         System.out.println("Successor: " + succ.getLabel());
+         Set<Value> newLiveOut = new HashSet<>(liveOut);
+         newLiveOut.addAll(succ.getGenSet());
+         Set<Value> tmp = new HashSet<>(succ.getLiveOut());
+         tmp.removeAll(succ.getKillSet());
+         newLiveOut.addAll(tmp);
+         System.out.println("New live out: " + newLiveOut.toString());
+         if (!newLiveOut.equals(liveOut)) {
+            changed = true;
+         }
+      }
+
+      for (Block pred : predecessors) {
+         System.out.println("Predecessor: " + pred.getLabel());
+         if (changed) {
+            pred.createLiveOut();
+         } else {
+            changed = pred.createLiveOut();
+         }
+      }
+
+      System.out.println("Changed? " + changed);
+      return changed;
+   }
+
+   private List<ArmInstruction> moveArgs(Function func) {
+      List<ArmInstruction> moveInstrucs = new ArrayList<>();
 
       int counter = 0;
       for (Declaration decl : func.getParams()) {
-         sb.append(String.format("\t\tmov %%%s, r%s\n",
-                                  decl.getName(), counter++));
+         ArmRegister armReg = new ArmRegister(counter);
+         RegisterValue nameReg = new RegisterValue(decl.getName());
+         moveInstrucs.add(new ArmMoveInstruction(nameReg, armReg));
       }
-      return sb.toString();
+
+      return moveInstrucs;
    }
 
    public String toString() {
@@ -271,9 +336,7 @@ public class Block {
       if (idMap.containsKey(variable)) {
          return idMap.get(variable);
       }
-      for (Block b : block.getPredecessors()) {
-         System.out.println(b.getLabel());
-      }
+
       return readVariableFromPredecessors(variable, type, block);
 
    }

@@ -24,8 +24,8 @@ public class ArmPrintInstruction implements ArmInstruction {
       return sources;
    }
 
-   public Value getTarget() {
-      return null;
+   public Set<Value> getTargets() {
+      return new HashSet<>();
    }
 
 }

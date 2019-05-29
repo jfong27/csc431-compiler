@@ -14,7 +14,7 @@ public class ArmComparisonInstruction implements ArmInstruction {
    }
 
    public String toString() {
-      return String.format("cmp %s, %s", source1.toStringArm(), source1.toStringArm());
+      return String.format("cmp %s, %s", source1.toStringArm(), source2.toStringArm());
    }
 
    public Set<Value> getSources() {
@@ -24,7 +24,7 @@ public class ArmComparisonInstruction implements ArmInstruction {
       return sources;
    }
 
-   public Value getTarget() {
-      return null;
+   public Set<Value> getTargets() {
+      return new HashSet<>();
    }
 }

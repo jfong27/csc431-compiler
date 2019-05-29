@@ -20,12 +20,15 @@ public class ArmReadInstruction implements ArmInstruction {
 
    public Set<Value> getSources() {
       Set<Value> sources = new HashSet<>();
-      sources.add(x);
+      ArmRegister r0 = new ArmRegister(0);
+      sources.add(r0);
       return sources;
    }
 
-   public Value getTarget() {
-      return null;
+   public Set<Value> getTargets() {
+      Set<Value> targets = new HashSet<>();
+      targets.add(x);
+      return targets;
    }
 
 }

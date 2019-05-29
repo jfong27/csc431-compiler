@@ -114,8 +114,9 @@ public class Program
          blockOrder = fEntry.BFS(blockOrder);
 
          for (Block block: blockOrder) {
-            sb.append(block.toStringArm(isFirst, currFunc));
+            block.toArmInstructions(isFirst, currFunc);
             isFirst = false;
+            sb.append(block.toStringArm());
          }
          isFirst = true;
          sb.append(String.format("\t\t.size %s, .-%s\n",
@@ -143,6 +144,7 @@ public class Program
          Queue<Block> blockOrder = new LinkedList<>();
          blockOrder = fEntry.BFS(blockOrder);
          blockOrder = fEntry.moveExitBlock(blockOrder);
+         Block exitBlock = (Block)((LinkedList)blockOrder).getLast();
 
          int count = 0;
          for (Block block : blockOrder) {
@@ -152,6 +154,7 @@ public class Program
                String phiRegString = "_phi" + Integer.toString(phiInstr.getPhiNum());
                RegisterValue phiReg = new RegisterValue(phiRegString, new IntType());
                for (ValueLabelPair phiPair : phiInstr.getPhis()) {
+                  System.out.println("ARM PHI MOVE");
                   Block foundBlock = findPredWithLabel(block, phiPair.getLabel());
                   ArmInstruction move = new ArmMoveInstruction(phiReg, phiPair.getValue());
                   foundBlock.addArmPhiMove(move);
@@ -159,8 +162,18 @@ public class Program
             }
          }
 
+         for (Block block : blockOrder) {
+            block.toArmInstructions(isFirst, currFunc);
+            isFirst = false;
+            block.generateGenKill();
+         }
+
+         System.out.println("Generating live out for block: " + exitBlock.getLabel());
+         while (exitBlock.createLiveOut());
+         System.out.println(exitBlock.getLiveOut());
+
          for (Block block: blockOrder) {
-            sb.append(block.toStringArm(isFirst, currFunc));
+            sb.append(block.toStringArm());
             isFirst = false;
          }
          isFirst = true;

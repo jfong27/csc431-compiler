@@ -17,6 +17,11 @@ public class RegisterValue implements Value {
       this.type = type;
    }
 
+   public RegisterValue(String name) {
+      this.name = name;
+      this.type = new IntType();
+   }
+
    public String toString() {
       return "%" + name;
    }

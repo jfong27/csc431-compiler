@@ -36,7 +36,6 @@ public class ComparisonInstruction implements Instruction {
       ImmediateValue one = new ImmediateValue(1, new IntType());
 
       armInstrucs.add(new ArmMoveInstruction(result, zero));
-
       armInstrucs.add(new ArmComparisonInstruction(op1, op2));
       armInstrucs.add(new ArmMoveInstruction(result, one, cond));
 

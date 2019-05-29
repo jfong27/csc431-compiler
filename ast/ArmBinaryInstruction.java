@@ -32,8 +32,10 @@ public class ArmBinaryInstruction implements ArmInstruction {
       return sources;
    }
 
-   public Value getTarget() {
-      return target;
+   public Set<Value> getTargets() {
+      Set<Value> targets = new HashSet<>();
+      targets.add(target);
+      return targets;
    }
 
 }

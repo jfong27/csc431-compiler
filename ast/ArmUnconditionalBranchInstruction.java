@@ -19,7 +19,7 @@ public class ArmUnconditionalBranchInstruction implements ArmInstruction {
       return new HashSet<>();
    }
 
-   public Value getTarget() {
-      return null;
+   public Set<Value> getTargets() {
+      return new HashSet<Value>();
    }
 }
