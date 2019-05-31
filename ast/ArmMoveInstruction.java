@@ -23,13 +23,17 @@ public class ArmMoveInstruction implements ArmInstruction {
 
    public Set<Value> getTargets() {
       Set<Value> targets = new HashSet<>();
-      targets.add(target);
+      if (!(target instanceof ImmediateValue)) {
+         targets.add(target);
+      }
       return targets;
    }
 
    public Set<Value> getSources() {
       Set<Value> sources = new HashSet<>();
-      sources.add(source);
+      if (!(source instanceof ImmediateValue)) {
+         sources.add(source);
+      }
       return sources;
    }
 

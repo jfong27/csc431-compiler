@@ -33,6 +33,18 @@ public class InterferenceNode {
       edges += 1;
    }
 
+   public String toString() {
+      StringBuilder sb = new StringBuilder("[");
+      for (InterferenceNode neighbor : neighbors) {
+         sb.append(neighbor.getName() + ", ");
+      }
+      if (sb.length() > 1) {
+         sb.delete(sb.length() - 2, sb.length());
+         sb.append("]");
+      }
+      return sb.toString();
+   }
+
    @Override
    public boolean equals(Object o) {
       if (o == this) { return true; }

@@ -3,6 +3,7 @@ package ast;
 import java.util.HashSet;
 import java.util.Set;
 
+//TODO: After register allocation, still must use r0
 public class ArmReadInstruction implements ArmInstruction {
 
    Value x;
@@ -27,7 +28,9 @@ public class ArmReadInstruction implements ArmInstruction {
 
    public Set<Value> getTargets() {
       Set<Value> targets = new HashSet<>();
-      targets.add(x);
+      if (!(x instanceof ImmediateValue)) {
+         targets.add(x);
+      }
       return targets;
    }
 

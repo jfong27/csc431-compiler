@@ -25,7 +25,14 @@ public class ArmPushInstruction implements ArmInstruction {
    }
 
    public Set<Value> getSources() {
-      return new HashSet<>(vals);
+      Set<Value> sources = new HashSet<>();
+
+      for (Value val : vals) {
+         if (!(val instanceof ImmediateValue)) {
+            sources.add(val);
+         }
+      }
+      return sources;
    }
 
    public Set<Value> getTargets() {

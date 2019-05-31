@@ -20,7 +20,9 @@ public class ArmPrintLnInstruction implements ArmInstruction {
 
    public Set<Value> getSources() {
       Set<Value> sources = new HashSet<>();
-      sources.add(x);
+      if (!(x instanceof ImmediateValue)) {
+         sources.add(x);
+      }
       return sources;
    }
 

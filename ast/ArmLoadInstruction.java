@@ -22,13 +22,17 @@ public class ArmLoadInstruction implements ArmInstruction {
 
    public Set<Value> getSources() {
       Set<Value> sources = new HashSet<>();
-      sources.add(source);
+      if (!(source instanceof ImmediateValue)) {
+         sources.add(source);
+      }
       return sources;
    }
 
    public Set<Value> getTargets() {
       Set<Value> targets = new HashSet<>();
-      targets.add(target);
+      if (!(target instanceof ImmediateValue)) {
+         targets.add(target);
+      }
       return targets;
    }
 }

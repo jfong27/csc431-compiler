@@ -5,10 +5,10 @@ import java.util.Set;
 
 public class ArmNotInstruction implements ArmInstruction {
 
-   private final RegisterValue target;
+   private final Value target;
    private final Value opnd;
 
-   public ArmNotInstruction(RegisterValue target, Value opnd) {
+   public ArmNotInstruction(Value target, Value opnd) {
       this.target = target;
       this.opnd = opnd;
    }
@@ -19,13 +19,17 @@ public class ArmNotInstruction implements ArmInstruction {
 
    public Set<Value> getSources() {
       Set<Value> sources = new HashSet<>();
-      sources.add(opnd);
+      if (!(opnd instanceof ImmediateValue)) {
+         sources.add(opnd);
+      }
       return sources;
    }
 
    public Set<Value> getTargets() {
       Set<Value> targets = new HashSet<>();
-      targets.add(target);
+      if (!(target instanceof ImmediateValue)) {
+         targets.add(target);
+      }
       return targets;
    }
 

@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-//TODO: Accept list of vals to pop multiple values
 public class ArmPopInstruction implements ArmInstruction {
 
    private final List<Value> vals;
@@ -30,7 +29,13 @@ public class ArmPopInstruction implements ArmInstruction {
    }
 
    public Set<Value> getTargets() {
-      return new HashSet<>(vals);
+      Set<Value> targets = new HashSet<>();
+      for (Value val : vals) {
+         if (!(val instanceof ImmediateValue)) {
+            targets.add(val);
+         }
+      }
+      return targets;
    }
 
 

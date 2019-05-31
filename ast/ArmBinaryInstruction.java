@@ -27,14 +27,20 @@ public class ArmBinaryInstruction implements ArmInstruction {
 
    public Set<Value> getSources() {
       Set<Value> sources = new HashSet<>();
-      sources.add(source1);
-      sources.add(source2);
+      if (!(source1 instanceof ImmediateValue)) {
+         sources.add(source1);
+      }
+      if (!(source2 instanceof ImmediateValue)) {
+         sources.add(source2);
+      }
       return sources;
    }
 
    public Set<Value> getTargets() {
       Set<Value> targets = new HashSet<>();
-      targets.add(target);
+      if (!(source2 instanceof ImmediateValue)) {
+         targets.add(target);
+      }
       return targets;
    }
 
