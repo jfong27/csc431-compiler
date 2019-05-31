@@ -43,11 +43,11 @@ public class Block {
       this.gen = new HashSet<>();
       this.kill = new HashSet<>();
       this.liveOut = new HashSet<>();
-   }
+  }
 
    public void clearInstructions() {
       instructions.clear();
-   }
+  }
 
    public Queue BFS(Queue qu) {
       if (visited) {
@@ -62,13 +62,13 @@ public class Block {
       }
 
       return qu;
-   }
+  }
 
-   public Set<Value> getGenSet() { return gen; }
+   public Set<Value> getGenSet() { return gen;}
 
-   public Set<Value> getKillSet() { return kill; }
+   public Set<Value> getKillSet() { return kill;}
 
-   public Set<Value> getLiveOut() { return liveOut; }
+   public Set<Value> getLiveOut() { return liveOut;}
 
    public Queue<Block> moveExitBlock(Queue<Block> qu) {
       Block exitBlock = (Block)qu.remove();
@@ -92,11 +92,11 @@ public class Block {
       tmp.add(exitBlock);
 
       return tmp;
-   } 
+  } 
 
    public void addArmPhiMove(ArmInstruction move) {
       armPhiMoves.add(move);
-   }
+  }
 
    public void addPop() {
       ArmRegister fp = new ArmRegister("fp");
@@ -105,9 +105,8 @@ public class Block {
       vals.add(fp);
       vals.add(pc);
       armInstructions.add(new ArmPopInstruction(vals));
-   }
+  }
 
-   //TODO: Use ArmPopInstruction for last block
    public void toArmInstructions(boolean isFirst, Function func) {
       if (isFirst) {
          ArmRegister fp = new ArmRegister("fp");
@@ -137,7 +136,7 @@ public class Block {
          armInstructions.addAll(lastInstr.toArm());
       }
 
-   }
+  }
 
 
    
@@ -160,7 +159,7 @@ public class Block {
       }
 
       return blockString.toString();
-   }
+  }
 
    public void generateGenKill() {
       for (ArmInstruction armInstr : armInstructions) {
@@ -188,7 +187,7 @@ public class Block {
       System.out.println("Block: " + label);
       System.out.println("Gen set: " + gen.toString());
       System.out.println("Kill set: " + kill.toString());
-   }
+  }
 
    public boolean createLiveOut() {
       System.out.println("Creating live out for " + label);
@@ -213,7 +212,7 @@ public class Block {
 
       System.out.println("Changed? " + changed);
       return changed;
-   }
+  }
 
    private List<ArmInstruction> moveArgs(Function func) {
       List<ArmInstruction> moveInstrucs = new ArrayList<>();
@@ -226,7 +225,7 @@ public class Block {
       }
 
       return moveInstrucs;
-   }
+  }
 
    public String toString() {
       if (alreadyPrinted) { return "" ; }
@@ -272,6 +271,10 @@ public class Block {
 
    public List<Instruction> getInstructions() {
       return instructions;
+   }
+
+   public List<ArmInstruction> getArmInstructions() {
+      return armInstructions;
    }
 
    public Map<String, PhiInstruction> getPhis() {

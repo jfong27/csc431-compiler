@@ -3,12 +3,15 @@ package ast;
 import java.lang.StringBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Queue;
+import java.util.Set;
 
 
 public class Program
@@ -178,8 +181,9 @@ public class Program
          generateLiveOuts(blockOrder);
          System.out.println("Entry block live out: " + blockOrder.peek().getLiveOut().toString());
 
+         Set<InterferenceNode> interferenceGraph = new HashSet<>();
          for (Block block : blockOrder) {
-            //Create interference graph
+            interferenceGraph = addToGraph(block, interferenceGraph);
          }
 
          for (Block block: blockOrder) {
@@ -194,6 +198,26 @@ public class Program
       sb.append("\t\t.section\t\t\t.rodata\n");
       sb.append("\t\t.align   2\n");
       return sb.toString();
+   }
+
+   private Set<InterferenceNode> addToGraph(Block block, Set<InterferenceNode> graph) {
+      
+      List<ArmInstruction> armInstrucs = block.getArmInstructions();
+      ListIterator instructions = armInstrucs.listIterator(armInstrucs.size());
+      Set<Value> live = block.getLiveOut().clone();
+      ArmInstruction currInstruc;
+
+      while (instructions.hasPrevious()) {
+         currInstruc = (ArmInstruction)instructions.previous();
+         for (Value target : currInstruc.getTargets()) {
+            live.remove(target);
+         }
+
+
+      }
+
+
+      return graph;
    }
 
    private void generateLiveOuts(Queue<Block> blockOrder) {
