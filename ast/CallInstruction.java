@@ -5,13 +5,13 @@ import java.util.List;
 
 public class CallInstruction implements Instruction {
 
-   private final RegisterValue result;
+   private final Value result;
    private final Type ty;
    private final String funName;
    private final List<Value> args;
    private final List<Declaration> params;
    
-   public CallInstruction(RegisterValue result, Type ty, 
+   public CallInstruction(Value result, Type ty, 
                           String funName, List<Value> args,
                           List<Declaration> params) {
       this.result = result;
@@ -37,7 +37,9 @@ public class CallInstruction implements Instruction {
 
       armInstrucs.add(new ArmMoveInstruction(r0, args.get(0), "w"));
       armInstrucs.add(new ArmBranchLInstruction(funName));
-      armInstrucs.add(new ArmMoveInstruction(result, r0));
+      if (result != null) {
+         armInstrucs.add(new ArmMoveInstruction(result, r0));
+      }
 
       return armInstrucs;
 

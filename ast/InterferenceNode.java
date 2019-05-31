@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ public class InterferenceNode {
 
    public InterferenceNode(String regName) {
       this.regName = regName;
+      this.neighbors = new HashSet<>();
    }
 
    public String getName() {

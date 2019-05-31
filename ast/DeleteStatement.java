@@ -37,7 +37,7 @@ public class DeleteStatement
                                                                resultVal, new StructPointerType());
       args.add(bitcastResult);
       List<Declaration> decls = new ArrayList<>();
-      CallInstruction callInstr = new CallInstruction(new VoidType(), "free", args, decls);
+      CallInstruction callInstr = new CallInstruction(resultVal, new VoidType(), "free", args, decls);
                                                        
       entryNode.addInstruction(bitcastInstr);
       entryNode.addInstruction(callInstr);

@@ -35,11 +35,6 @@ public class ArmMoveInstruction implements ArmInstruction {
 
    public String toString() {
 
-      if (target == null) {
-         return null;
-         //return "NULL RESULT ARM MOVE";
-      }
-
       if (cond != null) {
          if (cond.equals("eq")) {
             return String.format("moveq %s, %s", 

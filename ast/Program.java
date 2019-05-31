@@ -5,6 +5,7 @@ import java.lang.StringBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -181,8 +182,10 @@ public class Program
          generateLiveOuts(blockOrder);
          System.out.println("Entry block live out: " + blockOrder.peek().getLiveOut().toString());
 
-         Set<InterferenceNode> interferenceGraph = new HashSet<>();
+         System.out.println("Generating interference graph");
+         Hashtable<String, InterferenceNode> interferenceGraph = new Hashtable<>();
          for (Block block : blockOrder) {
+            System.out.println("Adding to intfrnc graph block " + block.getLabel());
             interferenceGraph = addToGraph(block, interferenceGraph);
          }
 
@@ -200,22 +203,51 @@ public class Program
       return sb.toString();
    }
 
-   private Set<InterferenceNode> addToGraph(Block block, Set<InterferenceNode> graph) {
+   private Hashtable<String, InterferenceNode> addToGraph(Block block, Hashtable<String, InterferenceNode> graph) {
       
       List<ArmInstruction> armInstrucs = block.getArmInstructions();
       ListIterator instructions = armInstrucs.listIterator(armInstrucs.size());
-      Set<Value> live = block.getLiveOut().clone();
+      Set<Value> live = (Set<Value>)((HashSet)block.getLiveOut()).clone();
       ArmInstruction currInstruc;
+      InterferenceNode sourceNode;
+      String targetName;
+      String liveName;
+      
+      System.out.println("GRAPH: " + graph.toString());
 
       while (instructions.hasPrevious()) {
          currInstruc = (ArmInstruction)instructions.previous();
-         for (Value target : currInstruc.getTargets()) {
+         if (currInstruc == null) {continue;}
+         System.out.println(currInstruc.getClass());
+         if (currInstruc.toString().equals("null")) { continue; }
+         System.out.println("INSTRUC: " + currInstruc.toString());
+         Set<Value> currTargets = currInstruc.getTargets();
+         for (Value target : currTargets) {
+            //Remove all targets
             live.remove(target);
          }
-
-
+         for (Value target : currTargets) {
+            //For each target, add edge from target to each elem of live
+            System.out.println(target);
+            targetName = target.toStringArm();
+            if (!graph.containsKey(targetName)) {
+               graph.put(targetName, new InterferenceNode(targetName));
+            } 
+            InterferenceNode targetNode = graph.get(targetName);
+            for (Value val : live) {
+               liveName = val.toStringArm();
+               if (!graph.containsKey(liveName)) {
+                  graph.put(liveName, new InterferenceNode(liveName));
+               }
+               sourceNode = graph.get(liveName);
+               targetNode.addNeighbor(sourceNode);
+               sourceNode.addNeighbor(targetNode);
+            }
+         }
+         live.addAll(currInstruc.getSources());
       }
 
+      System.out.println("GRAPH: " + graph.toString());
 
       return graph;
    }
