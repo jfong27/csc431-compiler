@@ -3,6 +3,7 @@ package ast;
 import java.lang.StringBuilder;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -126,6 +127,20 @@ public class Program
       return sb.toString();
    }
 
+   private void addPhiInstructions(Block block) {
+      Map<String, PhiInstruction> phis = block.getPhis();
+      for (Map.Entry<String, PhiInstruction> entry : phis.entrySet()) {
+         PhiInstruction phiInstr = entry.getValue();
+         String phiRegString = "_phi" + Integer.toString(phiInstr.getPhiNum());
+         RegisterValue phiReg = new RegisterValue(phiRegString, new IntType());
+         for (ValueLabelPair phiPair : phiInstr.getPhis()) {
+            Block foundBlock = findPredWithLabel(block, phiPair.getLabel());
+            ArmInstruction move = new ArmMoveInstruction(phiReg, phiPair.getValue());
+            foundBlock.addArmPhiMove(move);
+         }
+      }
+   }
+
    public String toStringSSAArm(Map<String, StructProperties> structTable) {
       StringBuilder sb = new StringBuilder();
       List<Block> functionCFGs = createCFGsSSA(structTable);
@@ -148,36 +163,30 @@ public class Program
 
          int count = 0;
          for (Block block : blockOrder) {
-            Map<String, PhiInstruction> phis = block.getPhis();
-            for (Map.Entry<String, PhiInstruction> entry : phis.entrySet()) {
-               PhiInstruction phiInstr = entry.getValue();
-               String phiRegString = "_phi" + Integer.toString(phiInstr.getPhiNum());
-               RegisterValue phiReg = new RegisterValue(phiRegString, new IntType());
-               for (ValueLabelPair phiPair : phiInstr.getPhis()) {
-                  System.out.println("ARM PHI MOVE");
-                  Block foundBlock = findPredWithLabel(block, phiPair.getLabel());
-                  ArmInstruction move = new ArmMoveInstruction(phiReg, phiPair.getValue());
-                  foundBlock.addArmPhiMove(move);
-               }
-            }
+            addPhiInstructions(block);
          }
 
+         exitBlock.addPop();
          for (Block block : blockOrder) {
             block.toArmInstructions(isFirst, currFunc);
             isFirst = false;
+            System.out.println("Generating gen kill for " + block.getLabel());
             block.generateGenKill();
          }
 
          System.out.println("Generating live out for block: " + exitBlock.getLabel());
-         while (exitBlock.createLiveOut());
-         System.out.println(exitBlock.getLiveOut());
+         generateLiveOuts(blockOrder);
+         System.out.println("Entry block live out: " + blockOrder.peek().getLiveOut().toString());
+
+         for (Block block : blockOrder) {
+            //Create interference graph
+         }
 
          for (Block block: blockOrder) {
             sb.append(block.toStringArm());
             isFirst = false;
          }
          isFirst = true;
-         sb.append("\t\tpop {fp, pc}\n");
          sb.append(String.format("\t\t.size %s, .-%s\n",
                                   currFunc.getName(),
                                   currFunc.getName()));
@@ -185,6 +194,27 @@ public class Program
       sb.append("\t\t.section\t\t\t.rodata\n");
       sb.append("\t\t.align   2\n");
       return sb.toString();
+   }
+
+   private void generateLiveOuts(Queue<Block> blockOrder) {
+      Iterator it = ((LinkedList)blockOrder).descendingIterator();
+
+      boolean changed = false;
+      while (it.hasNext()) {
+         Block currBlock = (Block)it.next();
+         System.out.println(currBlock.getLabel());
+         //Gen live out for this block and set changed/not
+         if (!changed) {
+            changed = currBlock.createLiveOut();
+         } else {
+            currBlock.createLiveOut();
+         }
+         if ((!it.hasNext()) && changed) {
+            it = ((LinkedList)blockOrder).descendingIterator();
+            changed = false;
+         }
+      }
+
    }
 
    private Block findPredWithLabel(Block block, String targetLabel) {

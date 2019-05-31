@@ -98,6 +98,16 @@ public class Block {
       armPhiMoves.add(move);
    }
 
+   public void addPop() {
+      ArmRegister fp = new ArmRegister("fp");
+      ArmRegister pc = new ArmRegister("pc");
+      List<Value> vals = new ArrayList<>();
+      vals.add(fp);
+      vals.add(pc);
+      armInstructions.add(new ArmPopInstruction(vals));
+   }
+
+   //TODO: Use ArmPopInstruction for last block
    public void toArmInstructions(boolean isFirst, Function func) {
       if (isFirst) {
          ArmRegister fp = new ArmRegister("fp");
@@ -117,13 +127,15 @@ public class Block {
          armInstructions.addAll(phiInstr.toArm());
       }
 
-      Instruction lastInstr = instructions.remove(instructions.size() - 1);
-      for (Instruction instr : instructions) {
-         armInstructions.addAll(instr.toArm());
-      }
+      if (instructions.size() > 0) {
+         Instruction lastInstr = instructions.remove(instructions.size() - 1);
+         for (Instruction instr : instructions) {
+            armInstructions.addAll(instr.toArm());
+         }
 
-      armInstructions.addAll(armPhiMoves);
-      armInstructions.addAll(lastInstr.toArm());
+         armInstructions.addAll(armPhiMoves);
+         armInstructions.addAll(lastInstr.toArm());
+      }
 
    }
 
@@ -181,12 +193,7 @@ public class Block {
    public boolean createLiveOut() {
       System.out.println("Creating live out for " + label);
       boolean changed = false;
-      if (seen) {
-         seen = false;
-         return changed;
-      } else {
-         seen = true;
-      }
+
       for (Block succ : successors) {
          System.out.println("Successor: " + succ.getLabel());
          Set<Value> newLiveOut = new HashSet<>(liveOut);
@@ -197,16 +204,11 @@ public class Block {
          System.out.println("New live out: " + newLiveOut.toString());
          if (!newLiveOut.equals(liveOut)) {
             changed = true;
-         }
-      }
-
-      for (Block pred : predecessors) {
-         System.out.println("Predecessor: " + pred.getLabel());
-         if (changed) {
-            pred.createLiveOut();
-         } else {
-            changed = pred.createLiveOut();
-         }
+            System.out.println("CHANGED");
+            System.out.println(newLiveOut.toString());
+            System.out.println(liveOut.toString());
+            liveOut = newLiveOut;
+         } 
       }
 
       System.out.println("Changed? " + changed);

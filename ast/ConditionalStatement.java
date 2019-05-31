@@ -38,7 +38,7 @@ public class ConditionalStatement
       thenEntry.seal();
       elseEntry.seal();
 
-      RegisterValue guardResult = (RegisterValue)guard.addInstructionsSSA(entryNode, symTable, structTable);
+      Value guardResult = guard.addInstructionsSSA(entryNode, symTable, structTable);
       Value res = new RegisterValue(new BoolType());
       entryNode.addInstruction(new TruncInstruction(res, guardResult));
       entryNode.addInstruction(new BranchInstruction(res,
