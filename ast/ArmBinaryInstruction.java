@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class ArmBinaryInstruction implements ArmInstruction {
@@ -11,18 +12,33 @@ public class ArmBinaryInstruction implements ArmInstruction {
    private final Value source2;
 
    public ArmBinaryInstruction(Value target, String operator,
-                            Value source1, Value source2) {
+                               Value source1, Value source2) {
       this.target = target;
       this.operator = operator;
       this.source1 = source1;
       this.source2 = source2;
    }
 
-   public String toString() {
+   public String toString(Map<String, String> regMap) {
+      String targetStr;
+      String source1Str;
+      String source2Str;
+
+      targetStr = regMap.get(target.toStringArm());
+      if (source1 instanceof ImmediateValue) {
+         source1Str = source1.toStringArm();
+      } else {
+         source1Str = regMap.get(source1.toStringArm());
+      }
+      if (source2 instanceof ImmediateValue) {
+         source2Str = source2.toStringArm();
+      } else {
+         source2Str = regMap.get(source2.toStringArm());
+      }
+ 
       return String.format("%s %s, %s, %s",   
-                           operator, target.toStringArm(),
-                           source1.toStringArm(), 
-                           source2.toStringArm());
+                           operator, targetStr,
+                           source1Str, source2Str);
    }
 
    public Set<Value> getSources() {

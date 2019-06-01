@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class ArmLoadInstruction implements ArmInstruction {
@@ -13,7 +14,17 @@ public class ArmLoadInstruction implements ArmInstruction {
       this.source = source;
    }
 
-   public String toString() {
+   public String toString(Map<String, String> regMap) {
+
+      String targetStr;
+      String sourceStr;
+
+      targetStr = regMap.get(target.toStringArm());
+      if (source instanceof ImmediateValue) {
+         sourceStr = source.toStringArm();
+      } else {
+         sourceStr = regMap.get(source.toStringArm());
+      }
 
       return String.format("ldr %s, [%s]", 
                            target.toStringArm(),

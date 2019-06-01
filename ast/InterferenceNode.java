@@ -43,7 +43,7 @@ public class InterferenceNode {
       armRegister = regNum;
    }
 
-   public int getArmRegisterNum() {
+   public int getArmRegister() {
       return armRegister;
    }
 

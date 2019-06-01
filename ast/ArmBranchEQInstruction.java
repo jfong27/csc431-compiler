@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class ArmBranchEQInstruction implements ArmInstruction {
@@ -11,7 +12,7 @@ public class ArmBranchEQInstruction implements ArmInstruction {
       this.label = label;
    }
 
-   public String toString() {
+   public String toString(Map<String, String> regMap) {
       return "beq ." + label;
    } 
 

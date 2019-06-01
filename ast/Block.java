@@ -141,7 +141,7 @@ public class Block {
    
    //Instructions are LLVM. Need to convert each instruction to
    //list of ARM instructions, then call toString for each.  
-   public String toStringArm() {
+   public String toStringArm(Map<String, String> registerMap) {
       if (alreadyPrinted) { return "" ; }
       alreadyPrinted = true;
 
@@ -151,9 +151,9 @@ public class Block {
       blockString.append(":\n");
 
       for (ArmInstruction instr : armInstructions) {
-         String instrString = instr.toString();
+         String instrString = instr.toString(registerMap);
          if (instrString != null) {
-            blockString.append("\t\t" + instr.toString() + "\n");
+            blockString.append("\t\t" + instrString + "\n");
          }
       }
 

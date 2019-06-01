@@ -2,6 +2,7 @@ package ast;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ArmPopInstruction implements ArmInstruction {
@@ -12,7 +13,7 @@ public class ArmPopInstruction implements ArmInstruction {
       this.vals = vals;
    }
 
-   public String toString() {
+   public String toString(Map<String, String> regMap) {
       StringBuilder sb = new StringBuilder("pop {");
       for (Value val : vals) {
          sb.append(val.toStringArm());

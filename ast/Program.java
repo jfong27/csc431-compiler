@@ -106,7 +106,7 @@ public class Program
       int f = 0;
       declStrings = getDeclStringsArm();
       sb.append(declStrings);
-      boolean isFirst = true;
+
       for (Block fEntry : functionCFGs) {
          Function currFunc = funcs.get(f++);
          sb.append("\t\t.align 2\n");
@@ -117,13 +117,23 @@ public class Program
          }
          Queue<Block> blockOrder = new LinkedList<>();
          blockOrder = fEntry.BFS(blockOrder);
+         blockOrder = fEntry.moveExitBlock(blockOrder);
+         Block exitBlock = (Block)((LinkedList)blockOrder).getLast();
+         exitBlock.addPop();
 
-         for (Block block: blockOrder) {
-            block.toArmInstructions(isFirst, currFunc);
-            isFirst = false;
-            sb.append(block.toStringArm());
+         Map<String, InterferenceNode> interferenceGraph = createInterferenceGraph(blockOrder, currFunc);
+
+         //Convert graph into more easily used mapping of pseudoregisters to ARM registers
+         Map<String, String> registerMappings = new HashMap<>();
+         for (Entry<String, InterferenceNode> entry : interferenceGraph.entrySet()) {
+            String pseudoRegister = entry.getKey();
+            int regNum = entry.getValue().getArmRegister();
+            registerMappings.put(pseudoRegister, "r" + Integer.toString(regNum));
          }
-         isFirst = true;
+         
+         for (Block block: blockOrder) {
+            sb.append(block.toStringArm(registerMappings));
+         }
          sb.append(String.format("\t\t.size %s, .-%s\n",
                                   currFunc.getName(),
                                   currFunc.getName()));
@@ -151,7 +161,6 @@ public class Program
       int f = 0;
       declStrings = getDeclStringsArm();
       sb.append(declStrings);
-      boolean isFirst = true;
       for (Block fEntry : functionCFGs) {
          Function currFunc = funcs.get(f++);
          sb.append("\t\t.align 2\n");
@@ -171,59 +180,21 @@ public class Program
          }
 
          exitBlock.addPop();
-         for (Block block : blockOrder) {
-            block.toArmInstructions(isFirst, currFunc);
-            isFirst = false;
-            System.out.println("Generating gen kill for " + block.getLabel());
-            block.generateGenKill();
-         }
 
-         System.out.println("Generating live out for block: " + exitBlock.getLabel());
-         generateLiveOuts(blockOrder);
-         System.out.println("Entry block live out: " + blockOrder.peek().getLiveOut().toString());
+         //Create a colored graph
+         Map<String, InterferenceNode> interferenceGraph = createInterferenceGraph(blockOrder, currFunc);
 
-         System.out.println("Generating interference graph");
-         Hashtable<String, InterferenceNode> interferenceGraph = new Hashtable<>();
-         for (Block block : blockOrder) {
-            System.out.println("Adding to intfrnc graph block " + block.getLabel());
-            interferenceGraph = addToGraph(block, interferenceGraph);
-         }
-
-         Stack<InterferenceNode> nodeStack = new Stack<>();
-         InterferenceNode currNode;
+         //Convert graph into more easily used mapping of pseudoregisters to ARM registers
+         Map<String, String> registerMappings = new HashMap<>();
          for (Entry<String, InterferenceNode> entry : interferenceGraph.entrySet()) {
-            currNode = entry.getValue();
-
-            Set<InterferenceNode> neighbors = currNode.getNeighbors();
-            for (InterferenceNode neighbor : neighbors) {
-               neighbor.removeNeighbor(currNode);
-            }
-            nodeStack.push(currNode);
+            String pseudoRegister = entry.getKey();
+            int regNum = entry.getValue().getArmRegister();
+            registerMappings.put(pseudoRegister, "r" + Integer.toString(regNum));
          }
-         System.out.println("NODE STACK: " + nodeStack.toString());
-         interferenceGraph.clear();
-
-         while (!nodeStack.empty()) {
-            currNode = nodeStack.pop();
-            // Get colors of all neighbors. Ask Counter class for new color.
-            boolean[] neighborColors = new boolean[11];
-            System.out.println("Popped: " + currNode.getName());
-            System.out.println("Neighbors: "+ currNode.getNeighbors().size());
-            for (InterferenceNode neighbor : currNode.getNeighbors()) {
-               neighborColors[neighbor.getArmRegisterNum()] = true;
-            }
-            currNode.setArmRegister(getColor(neighborColors));
-            interferenceGraph.put(currNode.getName(), currNode);
-         }
-
-         System.out.println("COLORED GRAPH: " + interferenceGraph.toString());
-
 
          for (Block block: blockOrder) {
-            sb.append(block.toStringArm());
-            isFirst = false;
+            sb.append(block.toStringArm(registerMappings));
          }
-         isFirst = true;
          sb.append(String.format("\t\t.size %s, .-%s\n",
                                   currFunc.getName(),
                                   currFunc.getName()));
@@ -231,6 +202,57 @@ public class Program
       sb.append("\t\t.section\t\t\t.rodata\n");
       sb.append("\t\t.align   2\n");
       return sb.toString();
+   }
+
+   private Hashtable<String, InterferenceNode> createInterferenceGraph(Queue<Block> blockOrder, Function currFunc) {
+      System.out.println("Generating interference graph");
+      Hashtable<String, InterferenceNode> interferenceGraph = new Hashtable<>();
+      boolean isFirst = true;
+      for (Block block : blockOrder) {
+         block.toArmInstructions(isFirst, currFunc);
+         isFirst = false;
+         System.out.println("Generating gen kill for " + block.getLabel());
+         block.generateGenKill();
+      }
+
+      generateLiveOuts(blockOrder);
+      System.out.println("Entry block live out: " + blockOrder.peek().getLiveOut().toString());
+
+      for (Block block : blockOrder) {
+         System.out.println("Adding to intfrnc graph block " + block.getLabel());
+         interferenceGraph = addToGraph(block, interferenceGraph);
+      }
+
+      Stack<InterferenceNode> nodeStack = new Stack<>();
+      InterferenceNode currNode;
+      for (Entry<String, InterferenceNode> entry : interferenceGraph.entrySet()) {
+         currNode = entry.getValue();
+
+         Set<InterferenceNode> neighbors = currNode.getNeighbors();
+         for (InterferenceNode neighbor : neighbors) {
+            neighbor.removeNeighbor(currNode);
+         }
+         nodeStack.push(currNode);
+      }
+      System.out.println("NODE STACK: " + nodeStack.toString());
+      interferenceGraph.clear();
+
+      while (!nodeStack.empty()) {
+         currNode = nodeStack.pop();
+         // Get colors of all neighbors. Ask Counter class for new color.
+         boolean[] neighborColors = new boolean[11];
+         System.out.println("Popped: " + currNode.getName());
+         System.out.println("Neighbors: "+ currNode.getNeighbors().size());
+         for (InterferenceNode neighbor : currNode.getNeighbors()) {
+            neighborColors[neighbor.getArmRegister()] = true;
+         }
+         currNode.setArmRegister(getColor(neighborColors));
+         interferenceGraph.put(currNode.getName(), currNode);
+      }
+
+      System.out.println("Returning COLORED GRAPH: " + interferenceGraph.toString());
+
+      return interferenceGraph;
    }
 
    private int getColor(boolean[] neighborColors) {

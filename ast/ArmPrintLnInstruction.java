@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class ArmPrintLnInstruction implements ArmInstruction {
@@ -11,9 +12,16 @@ public class ArmPrintLnInstruction implements ArmInstruction {
       this.x = x;
    }
 
-   public String toString() {
+   public String toString(Map<String, String> regMap) {
       String str = "";
-      str += String.format("\tmov r0, %s\n", x.toString());
+      String xStr;
+
+      if (x instanceof ImmediateValue) {
+         xStr = x.toString();
+      } else {
+         xStr = regMap.get(x.toString());
+      }
+      str += String.format("\tmov r0, %s\n", xStr);
       str += "\tbl printf_newline\n";
       return str;
    }

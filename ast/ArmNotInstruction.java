@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class ArmNotInstruction implements ArmInstruction {
@@ -13,7 +14,7 @@ public class ArmNotInstruction implements ArmInstruction {
       this.opnd = opnd;
    }
 
-   public String toString() {
+   public String toString(Map<String, String> regMap) {
       return "ARM NOT";
    }
 

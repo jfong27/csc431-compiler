@@ -1,18 +1,19 @@
 package ast;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 //TODO: After register allocation, still must use r0
 public class ArmReadInstruction implements ArmInstruction {
 
-   Value x;
+   private Value x;
 
    public ArmReadInstruction(Value x) {
       this.x = x;
    }
 
-   public String toString() {
+   public String toString(Map<String, String> regMap) {
       String str = "";
       str += "\tbl printf\n";
       str += String.format("\tmov %s, r0\n", x.toString());

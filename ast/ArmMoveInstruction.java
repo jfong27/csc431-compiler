@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class ArmMoveInstruction implements ArmInstruction {
@@ -37,31 +38,36 @@ public class ArmMoveInstruction implements ArmInstruction {
       return sources;
    }
 
-   public String toString() {
+   public String toString(Map<String, String> regMap) {
+
+      String targetStr;
+      String sourceStr;
+
+      targetStr = regMap.get(target.toStringArm());
+      if (source instanceof ImmediateValue) {
+         sourceStr = source.toStringArm();
+      } else {
+         sourceStr = regMap.get(source.toStringArm());
+      }
 
       if (cond != null) {
          if (cond.equals("eq")) {
             return String.format("moveq %s, %s", 
-                                 target.toStringArm(),
-                                 source.toStringArm());
+                                 targetStr, sourceStr);
          } else if (cond.equals("ne")) {
             return String.format("movne %s, %s",
-                                 target.toString(),
-                                 source.toStringArm());
+                                 targetStr, sourceStr);
          } else if (cond.equals("w")) {
             return String.format("movw %s, %s",
-                                 target.toStringArm(),
-                                 source.toStringArm());
+                                 targetStr, sourceStr);
          } else {
             String mov = cond.substring(1);
             return String.format("mov%s %s, %s",
-                                 mov, target.toStringArm(),
-                                 source.toStringArm());
+                                 mov, targetStr, sourceStr);
          }
       }
 
       return String.format("mov %s, %s",   
-                           target.toStringArm(),
-                           source.toStringArm()); 
+                           targetStr, sourceStr);
    }
 }
