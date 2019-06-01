@@ -11,9 +11,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
-
+import java.util.Stack;
 
 public class Program
 {
@@ -35,7 +36,6 @@ public class Program
                             "declare void @printf_newline(i32 %x)\n" + 
                             "declare void @free(i8* %x)\n" +
                             "declare i32 @read()\n";
-      //this.declStrings = getDeclStrings();
       this.declStrings = "";
   }
 
@@ -189,6 +189,36 @@ public class Program
             interferenceGraph = addToGraph(block, interferenceGraph);
          }
 
+         Stack<InterferenceNode> nodeStack = new Stack<>();
+         InterferenceNode currNode;
+         for (Entry<String, InterferenceNode> entry : interferenceGraph.entrySet()) {
+            currNode = entry.getValue();
+
+            Set<InterferenceNode> neighbors = currNode.getNeighbors();
+            for (InterferenceNode neighbor : neighbors) {
+               neighbor.removeNeighbor(currNode);
+            }
+            nodeStack.push(currNode);
+         }
+         System.out.println("NODE STACK: " + nodeStack.toString());
+         interferenceGraph.clear();
+
+         while (!nodeStack.empty()) {
+            currNode = nodeStack.pop();
+            // Get colors of all neighbors. Ask Counter class for new color.
+            boolean[] neighborColors = new boolean[11];
+            System.out.println("Popped: " + currNode.getName());
+            System.out.println("Neighbors: "+ currNode.getNeighbors().size());
+            for (InterferenceNode neighbor : currNode.getNeighbors()) {
+               neighborColors[neighbor.getArmRegisterNum()] = true;
+            }
+            currNode.setArmRegister(getColor(neighborColors));
+            interferenceGraph.put(currNode.getName(), currNode);
+         }
+
+         System.out.println("COLORED GRAPH: " + interferenceGraph.toString());
+
+
          for (Block block: blockOrder) {
             sb.append(block.toStringArm());
             isFirst = false;
@@ -201,6 +231,18 @@ public class Program
       sb.append("\t\t.section\t\t\t.rodata\n");
       sb.append("\t\t.align   2\n");
       return sb.toString();
+   }
+
+   private int getColor(boolean[] neighborColors) {
+
+      for (int i = 0; i < 12; i++) {
+         if (!neighborColors[i]) {
+            return i;
+         }
+      }
+      System.out.println("UH OH SPILL!!!!!!");
+
+      return -1;
    }
 
    private Hashtable<String, InterferenceNode> addToGraph(Block block, Hashtable<String, InterferenceNode> graph) {

@@ -138,7 +138,6 @@ public class Block {
 
   }
 
-
    
    //Instructions are LLVM. Need to convert each instruction to
    //list of ARM instructions, then call toString for each.  
@@ -163,26 +162,17 @@ public class Block {
 
    public void generateGenKill() {
       for (ArmInstruction armInstr : armInstructions) {
-         System.out.println("----------------------");
-         System.out.println("Instruction: " + armInstr.toString());
          for (Value source : armInstr.getSources()) {
-            System.out.println("Source: " + source.toString());
             if (!kill.contains(source) && !(source instanceof ImmediateValue)) {
-               System.out.println("Adding to gen set");
                gen.add(source);
-            } else {
-               System.out.println("Not adding to gen set");
-            }
+            } 
          }
 
          for (Value target : armInstr.getTargets()) {
             if (target != null && !(target instanceof ImmediateValue)) {
-               System.out.println("Target: " + target.toString());
-               System.out.println("Adding target to kill set");
                kill.add(target);
             }
          }
-         System.out.println("----------------------");
       }
       System.out.println("Block: " + label);
       System.out.println("Gen set: " + gen.toString());
@@ -194,18 +184,13 @@ public class Block {
       boolean changed = false;
 
       for (Block succ : successors) {
-         System.out.println("Successor: " + succ.getLabel());
          Set<Value> newLiveOut = new HashSet<>(liveOut);
          newLiveOut.addAll(succ.getGenSet());
          Set<Value> tmp = new HashSet<>(succ.getLiveOut());
          tmp.removeAll(succ.getKillSet());
          newLiveOut.addAll(tmp);
-         System.out.println("New live out: " + newLiveOut.toString());
          if (!newLiveOut.equals(liveOut)) {
             changed = true;
-            System.out.println("CHANGED");
-            System.out.println(newLiveOut.toString());
-            System.out.println(liveOut.toString());
             liveOut = newLiveOut;
          } 
       }

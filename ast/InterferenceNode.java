@@ -7,12 +7,20 @@ import java.util.Set;
 public class InterferenceNode {
 
    private int edges;
+   private int armRegister;
    private String regName;
    private Set<InterferenceNode> neighbors;
+   private boolean spilled;
 
    public InterferenceNode(String regName) {
       this.regName = regName;
       this.neighbors = new HashSet<>();
+      this.armRegister = -1;
+      this.spilled = false;
+   }
+
+   public Set<InterferenceNode> getNeighbors() {
+      return neighbors;
    }
 
    public String getName() {
@@ -21,6 +29,22 @@ public class InterferenceNode {
 
    public int numEdges() {
       return edges;
+   }
+
+   public boolean isSpilled() {
+      return spilled;
+   }
+
+   public void spill() {
+      spilled = true;
+   }
+
+   public void setArmRegister(int regNum) {
+      armRegister = regNum;
+   }
+
+   public int getArmRegisterNum() {
+      return armRegister;
    }
 
    public void removeNeighbor(InterferenceNode neighbor) {
@@ -34,14 +58,17 @@ public class InterferenceNode {
    }
 
    public String toString() {
-      StringBuilder sb = new StringBuilder("[");
+      StringBuilder sb = new StringBuilder(regName);
+      sb.append("(");
+      sb.append(armRegister);
+      sb.append(") : [");
       for (InterferenceNode neighbor : neighbors) {
          sb.append(neighbor.getName() + ", ");
       }
-      if (sb.length() > 1) {
+      if (sb.length() > 5) {
          sb.delete(sb.length() - 2, sb.length());
-         sb.append("]");
       }
+      sb.append("]");
       return sb.toString();
    }
 
