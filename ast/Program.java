@@ -174,12 +174,12 @@ public class Program
          blockOrder = fEntry.moveExitBlock(blockOrder);
          Block exitBlock = (Block)((LinkedList)blockOrder).getLast();
 
+         //exitBlock.addPop();
          int count = 0;
          for (Block block : blockOrder) {
             addPhiInstructions(block);
          }
 
-         exitBlock.addPop();
 
          //Create a colored graph
          Map<String, InterferenceNode> interferenceGraph = createInterferenceGraph(blockOrder, currFunc);
@@ -194,7 +194,9 @@ public class Program
 
          for (Block block: blockOrder) {
             sb.append(block.toStringArm(registerMappings));
+            //sb.append(block.toStringArm());
          }
+         sb.append("\t\tpop {fp, pc}\n");
          sb.append(String.format("\t\t.size %s, .-%s\n",
                                   currFunc.getName(),
                                   currFunc.getName()));
@@ -240,7 +242,7 @@ public class Program
       while (!nodeStack.empty()) {
          currNode = nodeStack.pop();
          // Get colors of all neighbors. Ask Counter class for new color.
-         boolean[] neighborColors = new boolean[11];
+         boolean[] neighborColors = new boolean[12];
          System.out.println("Popped: " + currNode.getName());
          System.out.println("Neighbors: "+ currNode.getNeighbors().size());
          for (InterferenceNode neighbor : currNode.getNeighbors()) {
@@ -257,7 +259,7 @@ public class Program
 
    private int getColor(boolean[] neighborColors) {
 
-      for (int i = 0; i < 12; i++) {
+      for (int i = 4; i < 12; i++) {
          if (!neighborColors[i]) {
             return i;
          }

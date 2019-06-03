@@ -12,6 +12,11 @@ public class ArmUnconditionalBranchInstruction implements ArmInstruction {
       this.blockLabel = blockLabel;
    }
 
+   public String toString() {
+      return "b ." + blockLabel;
+   }
+
+
    public String toString(Map<String, String> regMap) {
       return "b ." + blockLabel;
    }

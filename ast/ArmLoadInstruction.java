@@ -14,8 +14,13 @@ public class ArmLoadInstruction implements ArmInstruction {
       this.source = source;
    }
 
-   public String toString(Map<String, String> regMap) {
+   public String toString() {
 
+      return String.format("ldr %s, [%s]", 
+                           target.toStringArm(), source.toStringArm());
+   }
+
+   public String toString(Map<String, String> regMap) {
       String targetStr;
       String sourceStr;
 
@@ -27,8 +32,7 @@ public class ArmLoadInstruction implements ArmInstruction {
       }
 
       return String.format("ldr %s, [%s]", 
-                           target.toStringArm(),
-                           source.toStringArm());
+                           targetStr, sourceStr);
    }
 
    public Set<Value> getSources() {

@@ -12,6 +12,10 @@ public class ArmBranchEQInstruction implements ArmInstruction {
       this.label = label;
    }
 
+   public String toString() {
+      return "beq ." + label;
+   } 
+
    public String toString(Map<String, String> regMap) {
       return "beq ." + label;
    } 

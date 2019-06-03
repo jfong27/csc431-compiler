@@ -14,6 +14,17 @@ public class ArmPushInstruction implements ArmInstruction {
       this.vals = vals;
    }
 
+   public String toString() {
+      StringBuilder sb = new StringBuilder("push {");
+      for (Value val : vals) {
+         sb.append(val.toStringArm());
+         sb.append(", ");
+      }
+      sb.delete(sb.length() - 2, sb.length());
+      sb.append("}");
+      return sb.toString();
+   }
+ 
    public String toString(Map<String, String> regMap) {
       StringBuilder sb = new StringBuilder("push {");
       for (Value val : vals) {

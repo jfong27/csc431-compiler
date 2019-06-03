@@ -6,15 +6,22 @@ public class ArmRegister implements Value {
 
    private final int reg;
    private final String name;
+   private final boolean numbered;
 
    public ArmRegister(int reg) {
       this.reg = reg;
       this.name = null;
+      this.numbered = true;
    }
 
    public ArmRegister(String name) {
       this.reg = 0;
       this.name = name;
+      this.numbered = false;
+   }
+
+   public boolean isNumbered() {
+      return numbered;
    }
 
    public String toString() {

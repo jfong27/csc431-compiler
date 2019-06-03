@@ -38,6 +38,7 @@ public class ComparisonInstruction implements Instruction {
       armInstrucs.add(new ArmMoveInstruction(result, zero));
       armInstrucs.add(new ArmComparisonInstruction(op1, op2));
       armInstrucs.add(new ArmMoveInstruction(result, one, cond));
+      armInstrucs.add(new ArmComparisonInstruction(result, one));
 
       return armInstrucs;
 

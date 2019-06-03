@@ -12,6 +12,17 @@ public class ArmPrintLnInstruction implements ArmInstruction {
       this.x = x;
    }
 
+   public String toString() {
+      String str = "";
+      String xStr;
+
+      xStr = x.toString();
+      str += String.format("\tmov r0, %s\n", xStr);
+      str += "\tbl printf_newline\n";
+      return str;
+   }
+
+ 
    public String toString(Map<String, String> regMap) {
       String str = "";
       String xStr;

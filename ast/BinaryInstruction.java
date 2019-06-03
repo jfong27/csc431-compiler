@@ -40,7 +40,12 @@ public class BinaryInstruction implements Instruction {
             armInstrucs.add(new ArmMoveInstruction(t0, lower, "w"));
             armInstrucs.add(new ArmMoveInstruction(t0, lower, "t"));
             op1 = t0;
+         } else {
+            RegisterValue t0 = new RegisterValue("t0", new IntType());
+            armInstrucs.add(new ArmMoveInstruction(t0, op1, "w"));
+            op1 = t0;
          }
+
       }
 
       if (op2 instanceof ImmediateValue) {
@@ -51,6 +56,10 @@ public class BinaryInstruction implements Instruction {
             LowerValue lower = new LowerValue(op2Val.getVal());
             armInstrucs.add(new ArmMoveInstruction(t1, lower, "w"));
             armInstrucs.add(new ArmMoveInstruction(t1, lower, "t"));
+            op2 = t1;
+         } else {
+            RegisterValue t1 = new RegisterValue("t1", new IntType());
+            armInstrucs.add(new ArmMoveInstruction(t1, op2, "w"));
             op2 = t1;
          }
       }

@@ -13,6 +13,13 @@ public class ArmReadInstruction implements ArmInstruction {
       this.x = x;
    }
 
+   public String toString() {
+      String str = "";
+      str += "\tbl printf\n";
+      str += String.format("\tmov %s, r0\n", x.toString());
+      return str;
+   }
+
    public String toString(Map<String, String> regMap) {
       String str = "";
       str += "\tbl printf\n";

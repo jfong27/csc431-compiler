@@ -12,6 +12,10 @@ public class ArmBranchInstruction implements ArmInstruction {
       this.label = label;
    }
 
+   public String toString() {
+      return "b ." + label;
+   } 
+
    public String toString(Map<String, String> regMap) {
       return "b ." + label;
    } 

@@ -21,7 +21,7 @@ public class ReadInstruction implements Instruction {
       ArmRegister r0 = new ArmRegister(0);
 
       armInstrucs.add(new ArmBranchLInstruction("read"));
-      armInstrucs.add(new ArmMoveInstruction(result, r0, "w"));
+      armInstrucs.add(new ArmMoveInstruction(result, r0));
       return armInstrucs;
    }
 }

@@ -14,6 +14,18 @@ public class ArmStoreInstruction implements ArmInstruction {
       this.source = source;
    }
 
+   public String toString() {
+
+      String targetStr;
+      String sourceStr;
+
+      targetStr = target.toStringArm();
+      sourceStr = source.toStringArm();
+      return String.format("str %s, [%s]", 
+                           targetStr, sourceStr);
+   }
+
+ 
    public String toString(Map<String, String> regMap) {
 
       String targetStr;

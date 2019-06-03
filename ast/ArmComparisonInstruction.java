@@ -14,6 +14,10 @@ public class ArmComparisonInstruction implements ArmInstruction {
       this.source2 = source2;
    }
 
+   public String toString() {
+      return String.format("cmp %s, %s", source1.toStringArm(), 
+                                         source2.toStringArm());
+   }
    public String toString(Map<String, String> regMap) {
       String source1Str;
       String source2Str;

@@ -27,7 +27,7 @@ public class BranchInstruction implements Instruction {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
 
       ImmediateValue t = new ImmediateValue(1, new IntType());
-      armInstrucs.add(new ArmComparisonInstruction(cond, t));
+      //armInstrucs.add(new ArmComparisonInstruction(cond, t));
       armInstrucs.add(new ArmBranchEQInstruction(thenBlockLabel));
       armInstrucs.add(new ArmBranchInstruction(elseBlockLabel));
 

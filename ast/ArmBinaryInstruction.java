@@ -19,16 +19,31 @@ public class ArmBinaryInstruction implements ArmInstruction {
       this.source2 = source2;
    }
 
+   public String toString() {
+      return String.format("%s %s, %s, %s",   
+                           operator, target.toStringArm(),
+                           source1.toStringArm(), 
+                           source2.toStringArm());
+
+   }
+
    public String toString(Map<String, String> regMap) {
       String targetStr;
       String source1Str;
       String source2Str;
 
-      targetStr = regMap.get(target.toStringArm());
+      targetStr = target.toStringArm();
+      if (!targetStr.equals("fp")) {
+         targetStr = regMap.get(target.toStringArm());
+      }
       if (source1 instanceof ImmediateValue) {
          source1Str = source1.toStringArm();
       } else {
-         source1Str = regMap.get(source1.toStringArm());
+         if (!regMap.containsKey(source1.toStringArm())) {
+            source1Str = source1.toStringArm();
+         } else {
+            source1Str = regMap.get(source1.toStringArm());
+         }
       }
       if (source2 instanceof ImmediateValue) {
          source2Str = source2.toStringArm();
@@ -54,8 +69,13 @@ public class ArmBinaryInstruction implements ArmInstruction {
 
    public Set<Value> getTargets() {
       Set<Value> targets = new HashSet<>();
-      if (!(source2 instanceof ImmediateValue)) {
+      System.out.println("TARGETTTT: " + target.toStringArm());
+      if (!(target instanceof ImmediateValue) &&
+          !(target.toStringArm().equals("fp"))) {
          targets.add(target);
+         System.out.println("It's a target");
+      } else {
+         System.out.println("NOT TARGET");
       }
       return targets;
    }

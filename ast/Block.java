@@ -43,17 +43,17 @@ public class Block {
       this.gen = new HashSet<>();
       this.kill = new HashSet<>();
       this.liveOut = new HashSet<>();
-  }
+   }
 
    public void clearInstructions() {
       instructions.clear();
-  }
+   }
 
    public Queue BFS(Queue qu) {
       if (visited) {
          return qu;
       } else {
-        visited = true;
+         visited = true;
       } 
       qu.add(this);
 
@@ -62,7 +62,7 @@ public class Block {
       }
 
       return qu;
-  }
+   }
 
    public Set<Value> getGenSet() { return gen;}
 
@@ -92,11 +92,11 @@ public class Block {
       tmp.add(exitBlock);
 
       return tmp;
-  } 
+   } 
 
    public void addArmPhiMove(ArmInstruction move) {
       armPhiMoves.add(move);
-  }
+   }
 
    public void addPop() {
       ArmRegister fp = new ArmRegister("fp");
@@ -105,7 +105,7 @@ public class Block {
       vals.add(fp);
       vals.add(pc);
       armInstructions.add(new ArmPopInstruction(vals));
-  }
+   }
 
    public void toArmInstructions(boolean isFirst, Function func) {
       if (isFirst) {
@@ -136,9 +136,9 @@ public class Block {
          armInstructions.addAll(lastInstr.toArm());
       }
 
-  }
+   }
 
-   
+
    //Instructions are LLVM. Need to convert each instruction to
    //list of ARM instructions, then call toString for each.  
    public String toStringArm(Map<String, String> registerMap) {
@@ -158,7 +158,27 @@ public class Block {
       }
 
       return blockString.toString();
-  }
+   }
+
+   // Without register allocation for debugging
+   public String toStringArm() {
+      if (alreadyPrinted) { return "" ; }
+      alreadyPrinted = true;
+
+      StringBuilder blockString = new StringBuilder();
+
+      blockString.append("." + label);
+      blockString.append(":\n");
+
+      for (ArmInstruction instr : armInstructions) {
+         String instrString = instr.toString();
+         if (instrString != null) {
+            blockString.append("\t\t" + instrString + "\n");
+         }
+      }
+
+      return blockString.toString();
+   }
 
    public void generateGenKill() {
       for (ArmInstruction armInstr : armInstructions) {
@@ -177,7 +197,7 @@ public class Block {
       System.out.println("Block: " + label);
       System.out.println("Gen set: " + gen.toString());
       System.out.println("Kill set: " + kill.toString());
-  }
+   }
 
    public boolean createLiveOut() {
       System.out.println("Creating live out for " + label);
@@ -197,20 +217,24 @@ public class Block {
 
       System.out.println("Changed? " + changed);
       return changed;
-  }
+   }
 
    private List<ArmInstruction> moveArgs(Function func) {
       List<ArmInstruction> moveInstrucs = new ArrayList<>();
 
       int counter = 0;
       for (Declaration decl : func.getParams()) {
-         ArmRegister armReg = new ArmRegister(counter);
+         if (counter > 3) {
+            System.out.println("TOO MANY ARGS FOR REG");
+            break;
+         }
+         ArmRegister armReg = new ArmRegister(counter++);
          RegisterValue nameReg = new RegisterValue(decl.getName());
          moveInstrucs.add(new ArmMoveInstruction(nameReg, armReg));
       }
 
       return moveInstrucs;
-  }
+   }
 
    public String toString() {
       if (alreadyPrinted) { return "" ; }
@@ -310,9 +334,9 @@ public class Block {
 
       Instruction lastInstruction = instructions.get(instrSize - 1);
       return (lastInstruction instanceof UnconditionalBranchInstruction ||
-              lastInstruction instanceof BranchInstruction || 
-              lastInstruction instanceof ReturnEmptyInstruction ||
-              lastInstruction instanceof ReturnInstruction);
+            lastInstruction instanceof BranchInstruction || 
+            lastInstruction instanceof ReturnEmptyInstruction ||
+            lastInstruction instanceof ReturnInstruction);
 
    }
 
