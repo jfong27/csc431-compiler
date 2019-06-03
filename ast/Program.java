@@ -196,6 +196,7 @@ public class Program
             sb.append(block.toStringArm(registerMappings));
             //sb.append(block.toStringArm());
          }
+         sb.append("\t\tpop {r4-r10}\n");
          sb.append("\t\tpop {fp, pc}\n");
          sb.append(String.format("\t\t.size %s, .-%s\n",
                                   currFunc.getName(),

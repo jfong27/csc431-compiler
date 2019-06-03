@@ -14,7 +14,14 @@ public class ArmPushInstruction implements ArmInstruction {
       this.vals = vals;
    }
 
+   public ArmPushInstruction() {
+      this.vals = null;
+   }
+
    public String toString() {
+      if (vals == null) {
+         return "push {r4-r10}";
+      }
       StringBuilder sb = new StringBuilder("push {");
       for (Value val : vals) {
          sb.append(val.toStringArm());
@@ -27,6 +34,10 @@ public class ArmPushInstruction implements ArmInstruction {
  
    public String toString(Map<String, String> regMap) {
       StringBuilder sb = new StringBuilder("push {");
+
+      if (vals == null) {
+         return "push {r4-r10}";
+      }
       for (Value val : vals) {
          sb.append(val.toStringArm());
          sb.append(", ");
@@ -39,6 +50,9 @@ public class ArmPushInstruction implements ArmInstruction {
    public Set<Value> getSources() {
       Set<Value> sources = new HashSet<>();
 
+      if (vals == null) {
+         return sources;
+      }
       for (Value val : vals) {
          if (!(val instanceof ImmediateValue)) {
             sources.add(val);

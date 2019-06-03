@@ -118,6 +118,7 @@ public class Block {
          pushVals.add(lr);
          armInstructions.add(new ArmPushInstruction(pushVals));
          armInstructions.add(new ArmBinaryInstruction(fp, "add", sp, four));
+         armInstructions.add(new ArmPushInstruction());
          armInstructions.addAll(moveArgs(func));
       }
 
