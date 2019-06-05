@@ -102,4 +102,8 @@ public class IdentifierExpression
       return symTable.get(id).getType();
    }
 
+   public String toString() {
+      return id;
+   }
+
 }

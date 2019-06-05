@@ -15,6 +15,11 @@ public class ArmComparisonInstruction implements ArmInstruction {
    }
 
    public String toString() {
+      if (source1 instanceof ImmediateValue) {
+         return String.format("cmp %s, %s", source2.toStringArm(), 
+                                            source1.toStringArm());
+      }
+
       return String.format("cmp %s, %s", source1.toStringArm(), 
                                          source2.toStringArm());
    }
@@ -33,7 +38,11 @@ public class ArmComparisonInstruction implements ArmInstruction {
          source2Str = regMap.get(source2.toStringArm());
       }
  
-      return String.format("cmp %s, %s", source1Str, source2Str);
+      if (source2 instanceof ImmediateValue) {
+         return String.format("cmp %s, %s", source1Str, source2Str);
+      }
+      return String.format("cmp %s, %s", source2Str, source1Str);
+
    }
 
    public Set<Value> getSources() {

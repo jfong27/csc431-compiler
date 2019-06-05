@@ -35,16 +35,16 @@ public class CallInstruction implements Instruction {
       int counter = 0;
       ArmRegister r0 = new ArmRegister(0);
 
-      if (funName.equals("malloc")) {
-         armInstrucs.add(new ArmMoveInstruction(r0, args.get(0), "w"));
-      } else {
-         //armInstrucs.add(new ArmMoveInstruction(r0, args.get(0)));
-         for (Value arg : args) {
-            if (counter > 3) { break; }
-            ArmRegister r = new ArmRegister(counter);
+      for (Value arg : args) {
+         if (counter > 3) { break; }
+         ArmRegister r = new ArmRegister(counter);
+         if (args.get(counter).getType() instanceof ImmediateValue) {
+            armInstrucs.add(new ArmMoveInstruction(r, args.get(counter++), "w"));
+         } else {
             armInstrucs.add(new ArmMoveInstruction(r, args.get(counter++)));
          }
       }
+
       armInstrucs.add(new ArmBranchLInstruction(funName));
       if (result != null) {
          armInstrucs.add(new ArmMoveInstruction(result, r0));
