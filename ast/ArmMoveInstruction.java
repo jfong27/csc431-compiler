@@ -49,9 +49,6 @@ public class ArmMoveInstruction implements ArmInstruction {
             return String.format("movne %s, %s",
                                  targetStr, sourceStr);
          } else if (cond.equals("w")) {
-            System.out.println("MOVE W");
-            System.out.println("TARGET: " + target.toStringArm());
-            System.out.println("SOURCE: " + source.toStringArm());
             return String.format("movw %s, %s",
                                  targetStr, sourceStr);
          } else {
@@ -71,14 +68,16 @@ public class ArmMoveInstruction implements ArmInstruction {
       String targetStr;
       String sourceStr;
 
-      if (target.toStringArm().equals("r0")) {
+      if (target.toStringArm().equals("r0") || 
+          target.toStringArm().equals("r1")) {
          targetStr = target.toStringArm();
       } else {
          targetStr = regMap.get(target.toStringArm());
       }
       
       if (source instanceof ImmediateValue ||
-          source.toStringArm().equals("r0")) {
+          source.toStringArm().equals("r0") ||
+          source.toStringArm().equals("r1")) {
          sourceStr = source.toStringArm();
       } else {
          sourceStr = regMap.get(source.toStringArm());
@@ -92,9 +91,6 @@ public class ArmMoveInstruction implements ArmInstruction {
             return String.format("movne %s, %s",
                                  targetStr, sourceStr);
          } else if (cond.equals("w")) {
-            System.out.println("MOVE W");
-            System.out.println("TARGET: " + target.toStringArm());
-            System.out.println("SOURCE: " + source.toStringArm());
             return String.format("movw %s, %s",
                                  targetStr, sourceStr);
          } else {

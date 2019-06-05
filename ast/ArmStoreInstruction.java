@@ -51,9 +51,11 @@ public class ArmStoreInstruction implements ArmInstruction {
 
    public Set<Value> getTargets() {
       Set<Value> targets = new HashSet<>();
+      /*
       if (!(target instanceof ImmediateValue)) {
          targets.add(target);
       }
+      */
       return targets;
    }
 

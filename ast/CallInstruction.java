@@ -32,13 +32,18 @@ public class CallInstruction implements Instruction {
    public List<ArmInstruction> toArm() {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
 
+      int counter = 0;
       ArmRegister r0 = new ArmRegister(0);
-      RegisterValue r1 = new RegisterValue("r1", new IntType());
 
       if (funName.equals("malloc")) {
          armInstrucs.add(new ArmMoveInstruction(r0, args.get(0), "w"));
       } else {
-         armInstrucs.add(new ArmMoveInstruction(r0, args.get(0)));
+         //armInstrucs.add(new ArmMoveInstruction(r0, args.get(0)));
+         for (Value arg : args) {
+            if (counter > 3) { break; }
+            ArmRegister r = new ArmRegister(counter);
+            armInstrucs.add(new ArmMoveInstruction(r, args.get(counter++)));
+         }
       }
       armInstrucs.add(new ArmBranchLInstruction(funName));
       if (result != null) {
@@ -51,7 +56,7 @@ public class CallInstruction implements Instruction {
 
    public String toString() {
       StringBuilder sb = new StringBuilder();
-      if (result == null) {
+      if (result == null || ty instanceof VoidType) {
          sb.append("call ");
       } else {
          sb.append(result.toString());
@@ -68,15 +73,6 @@ public class CallInstruction implements Instruction {
             sb.append(arg.toString() + ", ");
          }
       }
-      //for (Value arg : args) {
-      //   if (arg.getType().toString().equals("null")) {
-      //      sb.append(arg.getType().toString() + " ");
-      //      sb.append(arg.toString() + ", ");
-      //   } else {
-      //      sb.append(arg.getType().toString() + " ");
-      //      sb.append(arg.toString() + ", ");
-      //   }
-      //}
       if (args.size() > 0) {
          sb.delete(sb.length() - 2, sb.length());
       }

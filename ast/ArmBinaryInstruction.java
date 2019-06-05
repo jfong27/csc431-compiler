@@ -69,14 +69,14 @@ public class ArmBinaryInstruction implements ArmInstruction {
 
    public Set<Value> getTargets() {
       Set<Value> targets = new HashSet<>();
-      System.out.println("TARGETTTT: " + target.toStringArm());
+      targets.add(target);
+      /*
       if (!(target instanceof ImmediateValue) &&
           !(target.toStringArm().equals("fp"))) {
-         targets.add(target);
-         System.out.println("It's a target");
       } else {
          System.out.println("NOT TARGET");
       }
+      */
       return targets;
    }
 

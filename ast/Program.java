@@ -70,6 +70,7 @@ public class Program
       StringBuilder sb = new StringBuilder();
       List<Block> functionCFGs = createCFGsSSA(structTable);
 
+      declStrings = getDeclStrings();
       sb.append(declStrings);
 
       int f = 0;
@@ -119,7 +120,6 @@ public class Program
          blockOrder = fEntry.BFS(blockOrder);
          blockOrder = fEntry.moveExitBlock(blockOrder);
          Block exitBlock = (Block)((LinkedList)blockOrder).getLast();
-         exitBlock.addPop();
 
          Map<String, InterferenceNode> interferenceGraph = createInterferenceGraph(blockOrder, currFunc);
 
@@ -134,6 +134,8 @@ public class Program
          for (Block block: blockOrder) {
             sb.append(block.toStringArm(registerMappings));
          }
+         sb.append("\t\tpop {r4-r10}\n");
+         sb.append("\t\tpop {fp, pc}\n");
          sb.append(String.format("\t\t.size %s, .-%s\n",
                                   currFunc.getName(),
                                   currFunc.getName()));

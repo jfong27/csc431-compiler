@@ -98,15 +98,6 @@ public class Block {
       armPhiMoves.add(move);
    }
 
-   public void addPop() {
-      ArmRegister fp = new ArmRegister("fp");
-      ArmRegister pc = new ArmRegister("pc");
-      List<Value> vals = new ArrayList<>();
-      vals.add(fp);
-      vals.add(pc);
-      armInstructions.add(new ArmPopInstruction(vals));
-   }
-
    public void toArmInstructions(boolean isFirst, Function func) {
       if (isFirst) {
          ArmRegister fp = new ArmRegister("fp");

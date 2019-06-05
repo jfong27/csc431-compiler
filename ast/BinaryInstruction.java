@@ -70,8 +70,6 @@ public class BinaryInstruction implements Instruction {
          armInstrucs.add(new ArmMoveInstruction(r1, op2));
          armInstrucs.add(new ArmMoveInstruction(r0, op1));
          armInstrucs.add(new ArmBranchLInstruction("__aeabi_idiv"));
-         System.out.println("NEW ARM MOVE from BIN INSTR");
-         System.out.println("RESULT: " +result.toString());
          armInstrucs.add(new ArmMoveInstruction(result, r0));
 
       } else {
