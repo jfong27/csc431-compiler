@@ -22,7 +22,12 @@ public class NotInstruction implements Instruction {
    public List<ArmInstruction> toArm() {
       List<ArmInstruction> armInstrucs = new ArrayList<>();
 
-      armInstrucs.add(new ArmNotInstruction(result, opnd));
+      if (opnd instanceof ImmediateValue) {
+         armInstrucs.add(new ArmMoveInstruction(result, opnd, "w"));
+         armInstrucs.add(new ArmNotInstruction(result, result));
+      } else {
+         armInstrucs.add(new ArmNotInstruction(result, opnd));
+      }
 
       return armInstrucs;
 

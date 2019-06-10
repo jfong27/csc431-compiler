@@ -54,7 +54,7 @@ public class BinaryExpression
             break;
          case OR:
             resultReg = new RegisterValue(new BoolType());
-            node.addInstruction(new BinaryInstruction(resultReg, "orr",
+            node.addInstruction(new BinaryInstruction(resultReg, "or",
                                                       new IntType(), leftVal, rightVal));
             break;
          case LT:

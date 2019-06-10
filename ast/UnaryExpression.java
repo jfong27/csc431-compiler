@@ -44,7 +44,28 @@ public class UnaryExpression
    public Value addInstructionsSSA(Block node, 
                                    Map<String, IdProperties> symTable,
                                    Map<String, StructProperties> structTable) {
-      return addInstructions(node, symTable, structTable);
+      RegisterValue resultReg;
+      Value oprndVal = operand.addInstructionsSSA(node, symTable, structTable);
+
+      switch (operator) {
+         case NOT:
+            resultReg = new RegisterValue(new BoolType());
+            node.addInstruction(new NotInstruction(resultReg, oprndVal));
+            break;
+         case MINUS:
+            resultReg = new RegisterValue(new IntType());
+            Value negValue = new ImmediateValue(-1, new IntType());
+            node.addInstruction(new BinaryInstruction(resultReg, "mul",
+                                                      new IntType(), oprndVal,
+                                                      negValue));
+            break;
+         default:
+            resultReg = new RegisterValue(new BoolType());
+            break;
+      }
+
+      return resultReg;
+
    }
 
    public Value addInstructions(Block node, 

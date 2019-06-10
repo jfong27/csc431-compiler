@@ -32,14 +32,9 @@ public class AssignmentStatement
 
    }
 
-   //TODO: IF left is a struct dot, we need to STORE, if it's just
-   //an id, we update teh map. 
    public Block createCFGSSA(Block entryNode, Block exitNode,
                              Map<String, IdProperties> symTable,
                              Map<String, StructProperties> structTable) {
-      System.out.println("ASSIGN STMNT: ");
-      System.out.println("TARGET: " +target.toString());
-      System.out.println("SOURCE: " + source.toString());
       Value sourceReg = source.addInstructionsSSA(entryNode, symTable, structTable);
 
       if (target instanceof LvalueId) {

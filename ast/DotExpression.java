@@ -20,6 +20,9 @@ public class DotExpression
                                    Map<String, StructProperties> structTable) {
 
       Value leftVal = left.addInstructionsSSA(node, symTable, structTable);
+      System.out.println("LEFT: " + left.toString());
+      System.out.println("ID: " + id);
+      System.out.println(("LEFT VAL: " + leftVal.toString()));
       StructType leftStruct = (StructType)leftVal.getType();
       Map<String, Type> structDef = structTable.get(leftStruct.getName()).getFieldMap();
       int fieldOffset = structTable.get(leftStruct.getName()).getFieldOrder().indexOf(id);

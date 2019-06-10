@@ -26,22 +26,28 @@ public class ArmComparisonInstruction implements ArmInstruction {
    public String toString(Map<String, String> regMap) {
       String source1Str;
       String source2Str;
+      String compare = "cmp";
 
       if (source1 instanceof ImmediateValue) {
+         ImmediateValue src1 = (ImmediateValue)source1;
+         if (src1.getVal() < 0) {
+            compare = "cmn";
+         }
          source1Str = source1.toStringArm();
       } else {
          source1Str = regMap.get(source1.toStringArm());
       }
       if (source2 instanceof ImmediateValue) {
+         ImmediateValue src2 = (ImmediateValue)source2;
+         if (src2.getVal() < 0) {
+            compare = "cmn";
+         }
          source2Str = source2.toStringArm();
-      } else {
-         source2Str = regMap.get(source2.toStringArm());
+         return String.format("%s %s, %s", compare, source1Str, source2Str);
       }
- 
-      if (source2 instanceof ImmediateValue) {
-         return String.format("cmp %s, %s", source1Str, source2Str);
-      }
-      return String.format("cmp %s, %s", source2Str, source1Str);
+
+      source2Str = regMap.get(source2.toStringArm());
+      return String.format("%s %s, %s", compare, source2Str, source1Str);
 
    }
 

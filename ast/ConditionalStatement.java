@@ -57,12 +57,13 @@ public class ConditionalStatement
             thenExit.addSuccessor(joinEntry);
          }
       }
-      /*
+//
       if (!elseExit.isFinished() && elseExit != exitNode) {
          elseExit.addInstruction(new UnconditionalBranchInstruction(joinEntry.getLabel()));
-         joinEntry.addPredecessor(elseExit);
-         elseExit.addSuccessor(joinEntry);
-      }*/
+ //        joinEntry.addPredecessor(elseExit);
+ //        elseExit.addSuccessor(joinEntry);
+      }
+//
 
       if (joinEntry != elseEntry) {
          joinEntry.seal();

@@ -24,6 +24,9 @@ public class ImmediateValue implements Value {
 
 
    public String toStringArm() {
+      if (val < 0) {
+         return "#" + Integer.toString(val * -1);
+      }
       return "#" + Integer.toString(val);
    }
 

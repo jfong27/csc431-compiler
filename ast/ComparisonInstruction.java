@@ -35,10 +35,19 @@ public class ComparisonInstruction implements Instruction {
       ImmediateValue zero = new ImmediateValue(0, new IntType());
       ImmediateValue one = new ImmediateValue(1, new IntType());
 
-      armInstrucs.add(new ArmMoveInstruction(result, zero));
-      armInstrucs.add(new ArmComparisonInstruction(op1, op2));
-      armInstrucs.add(new ArmMoveInstruction(result, one, cond));
-      armInstrucs.add(new ArmComparisonInstruction(result, one));
+      if (op1 instanceof ImmediateValue &&
+          op2 instanceof ImmediateValue) {
+         armInstrucs.add(new ArmMoveInstruction(result, op1, "w"));
+         armInstrucs.add(new ArmComparisonInstruction(result, op2));
+         armInstrucs.add(new ArmMoveInstruction(result, zero));
+         armInstrucs.add(new ArmMoveInstruction(result, one, cond));
+         armInstrucs.add(new ArmComparisonInstruction(result, one));
+      } else {
+         armInstrucs.add(new ArmMoveInstruction(result, zero));
+         armInstrucs.add(new ArmComparisonInstruction(op1, op2));
+         armInstrucs.add(new ArmMoveInstruction(result, one, cond));
+         armInstrucs.add(new ArmComparisonInstruction(result, one));
+      }
 
       return armInstrucs;
 
