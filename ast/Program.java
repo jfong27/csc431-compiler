@@ -176,7 +176,6 @@ public class Program
          blockOrder = fEntry.moveExitBlock(blockOrder);
          Block exitBlock = (Block)((LinkedList)blockOrder).getLast();
 
-         //exitBlock.addPop();
          int count = 0;
          for (Block block : blockOrder) {
             addPhiInstructions(block);
