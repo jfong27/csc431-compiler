@@ -17,6 +17,9 @@ public class IdentifierExpression
    public Value addInstructionsSSA(Block node, 
                                    Map<String, IdProperties> symTable,
                                    Map<String, StructProperties> structTable) {
+      if (symTable.get(id).isGlobal()) {
+         return new RegisterValue("@" + id, symTable.get(id).getType());
+      }
       Type idType = symTable.get(id).getType();
       Value idVal = readVariable(id, idType, node);
       node.updateMap(id, idVal);

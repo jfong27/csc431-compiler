@@ -23,6 +23,9 @@ public class RegisterValue implements Value {
    }
 
    public String toString() {
+      if (name.charAt(0) == '@') {
+         return name;
+      }
       return "%" + name;
    }
 

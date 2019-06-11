@@ -74,6 +74,7 @@ public class Program
       sb.append(declStrings);
 
       int f = 0;
+      int numInstructions = 0;
       for (Block functionEntry : functionCFGs) {
          Function currFunc = funcs.get(f++);
          sb.append(String.format("define %s @%s(", 
@@ -92,9 +93,11 @@ public class Program
          blockOrder = functionEntry.BFS(blockOrder);
          for (Block block : blockOrder) {
             sb.append(block.toString());
+            numInstructions += block.getNumInstructions();
          }
          sb.append("}\n\n");
       }
+      System.out.println("Num Instructions: " + numInstructions);
 
       sb.append(utilFuncString);
 
@@ -134,6 +137,7 @@ public class Program
          for (Block block: blockOrder) {
             sb.append(block.toStringArm(registerMappings));
          }
+
          sb.append("\t\tpop {r4-r10}\n");
          sb.append("\t\tpop {fp, pc}\n");
          sb.append(String.format("\t\t.size %s, .-%s\n",
@@ -359,6 +363,7 @@ public class Program
       sb.append(declStrings);
 
       int f = 0;
+      int numInstructions = 0;
       for (Block functionEntry : functionCFGs) {
          Function currFunc = funcs.get(f++);
          sb.append(String.format("define %s @%s(", 
@@ -377,9 +382,11 @@ public class Program
          blockOrder = functionEntry.BFS(blockOrder);
          for (Block block : blockOrder) {
             sb.append(block.toString());
+            numInstructions += block.getNumInstructions();
          }
          sb.append("}\n\n");
       }
+      System.out.println("Num Instructions: " + numInstructions);
       sb.append(utilFuncString);
 
       return sb.toString();

@@ -25,6 +25,7 @@ public class Block {
    private Set<Value> gen;
    private Set<Value> kill;
    private Set<Value> liveOut;
+   private int numInstructions = 0;
    private boolean alreadyPrinted = false;
    private boolean visited = false;
    private boolean isSealed = false;
@@ -69,6 +70,10 @@ public class Block {
    public Set<Value> getKillSet() { return kill;}
 
    public Set<Value> getLiveOut() { return liveOut;}
+
+   public int getNumInstructions() {
+      return phis.size() + instructions.size();
+   }
 
    public Queue<Block> moveExitBlock(Queue<Block> qu) {
       Block exitBlock = (Block)qu.remove();
